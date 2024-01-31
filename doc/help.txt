@@ -1,0 +1,138 @@
+
+encode2mpeg  v. 0.6.4  Copyright (C) 2004-2007 Giacomo Comes
+
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE,
+to the extent permitted by law.
+
+Usage: encode2mpeg options source
+Options:
+        -h|-help
+        -l|-longhelp
+        -doc|-documentation [[<browser>:][<html page>]]
+        -noshowlog
+        -o|-output <filename>
+        -a <n>						[DIRECT,MPEG]
+        -mpegfixaspect [pad|crop]			[DIRECT,MPEG]
+        -rotate <0-3>					[AVI,MPEG]
+        -overscan <n>
+        -abr <n>
+        -asr <n>					[DIRECT]
+        -vbr|-vbitrate <n>
+        -vfr <n>
+        -n|-video-norm <n|p|s>				[DIRECT,MPEG]
+        -p|-pulldown|-telecine 				[DIRECT,MPEG]
+        -res <1-7> 					[DIRECT,MPEG]
+        -gop <n>
+        -kvcd <1-4> 					[DIRECT,MPEG]
+        -vcd  						[DIRECT,MPEG]
+        -svcd [1-2] 					[DIRECT,Npeg]
+        -svcdht 					[DIRECT,MPEG]
+        -dvd [1-5] 					[DIRECT,MPEG]
+        -dvdaudiolang <code,code,...>			[DIRECT,MPEG]
+        -dvdvideoattr <nopanscan|noletterbox|crop>	[DIRECT,MPEG]
+        -addchapter <time,time,...|step-total|copy>	[DIRECT,MPEG]
+        -nochapter 					[DIRECT,MPEG]
+        -addsub <sid0,sid1,...|copy>			[DIRECT,MPEG]
+        -addsdx <sid0,sid1,...>				[DIRECT,MPEG]
+        -addsla <sla0,sla1,...>				[DIRECT,MPEG]
+        -vobsubsrc <vobsub file>			[DIRECT,MPEG]
+        -txtsub <text subtitle file>
+        -txtsubopts <opt1:opt2:...>
+        -dvdsdx <mode,id,mode,id,...+mode,id,...+...>	[DIRECT,MPEG]
+        -ocr 						[AVI]
+        -ocropts <opt1:opt2:...>			[AVI]
+        -menu 						[DIRECT,MPEG]
+        -menuopts <opt1:opt2:...>			[DIRECT,MPEG]
+        -menuadvopts <opt1:opt2:...>			[DIRECT,MPEG]
+        -menuextra "txt" [@:op1:..] <file1> [<file2>..]	[DIRECT,MPEG]
+        -menuthumboffset <time,time,....>		[DIRECT,MPEG]
+        -menubg <bgimage> [@:opt]			[DIRECT,MPEG]
+        -menuvtsbg <vtsbgimage>				[DIRECT,MPEG]
+        -menuchaptertext "text 1" "text 2" ...		[DIRECT,MPEG]
+        -menuaudiotext "text 1" "text 2" ...		[DIRECT,MPEG]
+        -menusubtext "text 1" "text 2" ...		[DIRECT,MPEG]
+        -menufix 					[DIRECT,MPEG]
+        -cdburndevice <dev>				[DIRECT,MPEG]
+        -dvdburndevice <dev>				[DIRECT,MPEG]
+        -cdi <path to CD-i application files> 		[DIRECT,MPEG]
+        -avi 						[AVI]
+        -dvd2dvd 					[MPEG]
+        -stdvid <n>					[DIRECT,MPEG]
+        -replex 					[MPEG]
+        -vcodec <mpeg1|mpeg2|mpeg4|xvid>		[AVI,MPEG]
+        -qmatrix <kvcd|tmpgenc|default|hi-res>
+        -mpeg1vbr 					[DIRECT,MPEG]
+        -cbr
+        -mpegmbr <n>					[MPEG]
+        -mp1 [mp2enc|encode|copy]			[DIRECT,MPEG]
+        -mp2 [mp2enc|toolame|mencoder|copy|musicin|mctoolame]	[DIRECT,MPEG]
+        -mp3 [lame|mencoder|copy]			[DIRECT,MPEG]
+        -ac3 [mencoder|copy]				[DIRECT,MPEG]
+        -dts [copy]					[DIRECT,MPEG]
+        -lpcm 						[DIRECT,MPEG]
+        -acopy 						[DIRECT,MPEG]
+        -mpegchannels <1-6>				[DIRECT,MPEG]
+        -normalize
+        -volume <n>
+        -multiaudio <aid0,aid1,...>
+        -noscale 					[DIRECT,MPEG]
+        -monochrome
+        -sync-offset <n>				[DIRECT,MPEG]
+        -auto-sync-offset 				[DIRECT,MPEG]
+        -toolopts <yuvdenoise|y4mdenoise|yuvscaler|mpeg2enc|mplex|mplayer|
+        -split <n>					[DIRECT,MPEG]
+        -nosplit 					[DIRECT,MPEG]
+        -avisplit <n>					[AVI]
+        -resume
+        -keep
+        -blank 						[DIRECT,MPEG]
+        -nowait 					[DIRECT,MPEG]
+        -cacheonly
+        -avionly 					[AVI]
+        -streamonly 					[DIRECT,MPEG]
+        -mpegonly 					[DIRECT,MPEG]
+        -imageonly 					[DIRECT,MPEG]
+        -isoonly 					[DIRECT,MPEG]
+        -burniso|-burnudf
+        -verify
+        -encode <n:m:i> 				[AVI,MPEG] 
+        -telecinesrc 					[MPEG]
+        -turbo <0-1>					[AVI,MPEG]
+        -hispeed 					[AVI,MPEG]
+        -bframes <0-4>					[AVI,MPEG]
+        -vcustom <libavcodec options>			[AVI,MPEG]
+        -acustom <mp3lame/faac options>			[AVI,MPEG]
+        -encsid <sid0,sid1,...>
+        -encsdx <sid0,sid1,...>
+        -encsla <sla0,sla1,...>
+        -usespeed 					[DIRECT,MPEG]
+        -usesbr [1-6|>100]				[AVI,MPEG]
+        -setaspect <n>					[AVI,MPEG]
+        -ofps <n>					[AVI]
+        -profile <profile name>				[AVI]
+        -crop <w:h:x:y>					[AVI,MPEG]
+        -autocrop 					[AVI,MPEG]
+        -cpu <n>
+        -interlaced
+        -cartoon [1-2]					[AVI,MPEG]
+        -fixavi 					[AVI]
+        -fixasync 					[AVI]
+        -title 						[DIRECT,MPEG]
+        -titleset "title 1" "title 2" ...		[DIRECT,MPEG]
+        -video|-videos 					[DIRECT,MPEG]
+        -cachedvd <dir> <mount point>
+        -savecache [iso] [raid]
+        -removecache
+        -audioonly <audio file> [["@:opt:txt"] [bg image]] [--]
+        -slidefps <n>
+        -slideaudio <audio file>
+        -norc
+        -debug
+        -allow-unsupported 
+
+Options can be uses for DIRECT, MPEG and AVI Mode as specified,
+if nothing is specified the option is valid for every Mode
+Arguments enclosed in [ ] are optional
+
+Quickstart: encode2mpeg -doc stdvid.html

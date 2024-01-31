@@ -1,0 +1,28 @@
+diff -Nraub MPlayer-1.0pre7.ori/libmpdemux/demux_mpg.c MPlayer-1.0pre7/libmpdemux/demux_mpg.c
+--- MPlayer-1.0pre7.ori/libmpdemux/demux_mpg.c	2005-04-03 10:08:26.000000000 -0400
++++ MPlayer-1.0pre7/libmpdemux/demux_mpg.c	2006-06-05 13:36:56.000000000 -0400
+@@ -267,10 +267,23 @@
+       
+       // AID:
+       // 0x20..0x3F  subtitle
++      // 0x70        svcd subtitle
+       // 0x80..0x9F  AC3 audio
+       // 0xA0..0xBF  PCM audio
+       
+-      if((aid & 0xE0) == 0x20){
++      if(aid == 0x70) {
++        off_t tmppos ;
++        // svcd subtitle:
++        tmppos = stream_tell(demux->stream);
++        aid = stream_read_char(demux->stream);
++        stream_seek(demux->stream, tmppos);
++
++        if(!demux->s_streams[aid]){
++            mp_msg(MSGT_DEMUX,MSGL_V,"==> Found (currently unsupported) svcd subtitle: %d\n",aid);
++            demux->s_streams[aid]=1;
++        }
++
++      } else if((aid & 0xE0) == 0x20){
+         // subtitle:
+         aid&=0x1F;
+ 

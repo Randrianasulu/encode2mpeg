@@ -1,0 +1,21 @@
+diff -Nraub mplayer.ori/libavcodec/mpeg12.c mplayer/libavcodec/mpeg12.c
+--- mplayer.ori/libavcodec/mpeg12.c	2006-07-21 12:41:41.000000000 -0400
++++ mplayer/libavcodec/mpeg12.c	2006-08-23 10:59:50.000000000 -0400
+@@ -270,6 +270,9 @@
+             put_bits(&s->pb, 12, s->width);
+             put_bits(&s->pb, 12, s->height);
+ 
++            if(s->codec_id == CODEC_ID_MPEG1VIDEO && FFABS(aspect_ratio-16.0/11) < 1E-5 ){
++                s->aspect_ratio_info = 3;
++            } else {
+             for(i=1; i<15; i++){
+                 float error= aspect_ratio;
+                 if(s->codec_id == CODEC_ID_MPEG1VIDEO || i <=1)
+@@ -284,6 +287,7 @@
+                     s->aspect_ratio_info= i;
+                 }
+             }
++            }
+ 
+             put_bits(&s->pb, 4, s->aspect_ratio_info);
+             put_bits(&s->pb, 4, s->frame_rate_index);

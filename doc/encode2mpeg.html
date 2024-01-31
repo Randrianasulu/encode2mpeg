@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>encode2mpeg</title>
+</head>
+<body style="color: rgb(0, 0, 0);" alink="#ee0000" link="#0000ee"
+ vlink="#551a8b">
+<div style="text-align: center;"><img
+ style="width: 300px; height: 131px;" alt=""
+ src="images/encode2mpeg.jpg"><br>
+<h3 style="text-align: center;">the mpeg frontend</h3>
+<br>
+</div>
+encode2mpeg is a front end to <a href="http://www.mplayerhq.hu/">MPlayer/MEncoder</a>
+and <a href="http://mjpeg.sourceforge.net/">mjpegtools</a>. It is able
+to convert any kind of video that mplayer can play in a format suitable
+for VCD/SVCD/DVD, plus it can create avi containing mpeg video.<br>
+The program has the following capabilities:<br>
+<ul>
+  <li>VCD</li>
+  <ul>
+    <li>mpeg1 video with constant or variable bit rate</li>
+    <li>mp1, mp2 or mp3 audio stream</li>
+    <li>CD-i compatibility<br>
+    </li>
+  </ul>
+  <li>SVCD</li>
+  <ul>
+    <li>multiple audio streams (mp1,mp2,mp3,ac3,dts or lpcm)</li>
+    <li>subtitles (from SPU streams, Vobsub and text subtitles)</li>
+  </ul>
+  <li>DVD</li>
+  <ul>
+    <li>multiple audio streams (mp1,mp2,mp3,ac3,dts or lpcm)</li>
+    <li>subtitles (from SPU streams, Vobsub and text subtitles)</li>
+  </ul>
+  <li>VCD/SVCD/DVD<br>
+  </li>
+  <ul>
+    <li>Mpeg Multichannel Audio (mp2 5.1)</li>
+    <li>aac single stream audio<br>
+    </li>
+    <li>custom quantization matrices (kvcd, tmpgenc)<br>
+    </li>
+    <li>mpeg video encoding with mpeg2enc or mencoder (1/2/3 pass)<br>
+    </li>
+    <li>copy of audio and/or video stream from a mpeg source</li>
+    <li>predictable file size</li>
+    <li>chapters</li>
+    <li>menu<br>
+    </li>
+  </ul>
+  <li>Avi</li>
+  <ul>
+    <li>fast 1/2 pass mode</li>
+    <li>high compression 2/3 pass mode</li>
+    <li>high quality 2/3 pass mode</li>
+    <li>single audio mp2, mp3, aac, ac3, pcm stream<br>
+    </li>
+    <li>multiple audio mp3, ac3 streams<br>
+    </li>
+    <li>copy of audio and/or video stream from the source</li>
+    <li>custom lame/libavcodec options</li>
+    <li>predictable file size</li>
+    <li>automatic scaling</li>
+    <li>vobsub extraction (from a dvd source)</li>
+    <li>subviewer (srt) subtitle extraction (from DVD, SVCD, Vobsub
+source)<br>
+    </li>
+    <li>custom quantization matrices (kvcd, tmpgenc)</li>
+    <li>DivX/MPEG-4 profiles</li>
+    <li>MPEG-4 encoding with libavcodec or xvid<br>
+    </li>
+  </ul>
+</ul>
+<h2>Documentation</h2>
+The <a href="README">README</a> is the first document to read. The <a
+ href="help.txt">online help</a> lists all the options, the <a
+ href="longhelp.txt">long online help</a> describes
+all the options. The rest of the documentation is in these html pages.
+Read them
+carefully.<br>
+<br>
+In any moment you can read the html documentation running:<br>
+<pre>encode2mpeg -doc<br></pre>
+Online help specific to a particular option can be showed giving <span
+ style="font-weight: bold;">help</span> as option argument:<br>
+<pre>encode2mpeg -addchapter help<br></pre>
+The html page describing a particular option can be viewed giving <span
+ style="font-weight: bold;">doc</span> as option argument:<br>
+<pre>encode2mpeg -addchapter doc</pre>
+<h2>Usage<br>
+</h2>
+encode2mpeg has different working mode. Click on the links below to see
+how to choose and select the appropriate mode.<br>
+<ul>
+  <li><a href="html/Avi.html">Avi Mode</a></li>
+  <li><a href="html/direct.html">Direct Mode</a></li>
+  <li><a href="html/mpeg.html">Mpeg Mode</a></li>
+</ul>
+Other features:<br>
+<ul>
+  <li>add <a href="html/chapters.html">Chapters and
+Subtitles</a> (from SPU streams, Vobsub and text
+subtitles) to VCD/SVCD/DVD<br>
+  </li>
+  <li>add <a href="html/menu.html">Menu</a> to VCD/SVCD/DVD</li>
+  <li>set the correct <a href="html/aspect.html">aspect ratio</a>,
+rotate the image and avoid TV overscan zone for
+VCD/SVCD/DVD<br>
+  </li>
+  <li>dump <a href="html/subtitle.html">Vobsub subtitles</a> <br>
+  </li>
+  <li><a href="html/cache.html">cache</a> the source DVD (and save it
+on two disks)<br>
+  </li>
+  <li>create <a href="html/stdvid.html">VCD/SVCD/DVD</a> easily</li>
+  <li>put <a href="html/videos.html">different videos</a> in a single
+VCD/SVCD/DVD</li>
+  <li><a href="html/verify.html">verify</a> the stream burned on a DVD
+disk and burn a ISO/UDF dvd disk with your encoded stream</li>
+  <li>make a standard SVCD with <a href="html/multichannel.html">5.1
+audio</a></li>
+  <li>select an Avi <a href="html/profile.html">profile</a> and
+convert text subtitles</li>
+  <li>encoding from <a href="html/images.html">multiple input
+image</a> files</li>
+  <li>set defaults in the <a href="html/rc.html">configuration file</a></li>
+  <li><a href="html/telecine.html">telecine</a> usage explained</li>
+  <li>convert SPU and Vobsub subtitles to <a href="html/ocr.html">text
+subtitles</a><br>
+  </li>
+</ul>
+<br>
+Options Check<br>
+<dl>
+  <dd>encode2mpeg will detect
+an incorrect option on the command line. If you are using a valid
+MPlayer option and encode2mpeg does not recognize it, you can disable
+options checking by adding '-toolopts mplayer'. Everything after
+'-toolopts' is assumed to be a valid option/argument and passed to the
+specified tool.</dd>
+</dl>
+Disk Space<br>
+<dl>
+  <dd>Temporary disk space usage is about 2 times the size of the
+final stream. When using the option -addsub, temporary disk space usage
+is 2 times the size of the final stream plus the size of the input
+stream. Be sure to have enough free space on your disk. encode2mpeg
+does
+not
+check for sufficient free disk space. <br>
+  </dd>
+</dl>
+Input audio stream<br>
+<dl>
+  <dd>If the input stream contains more than one audio stream, it is
+always better to select explicitely the audio stream you want with the
+option -aid. If you do not do it, it may happen that MPlayer will chose
+one audio stream, but MEncoder will pick another one for the encoding. </dd>
+</dl>
+A/V sync problems<br>
+<dl>
+  <dd>Sometimes the mpeg stream created with encode2mpeg has a/v sync
+problems. This can happen with some input streams (like Real and WMV)
+but not with all of them. In general it is possible to solve the
+problem in this way: use Mpeg Mode and add one of <span
+ style="font-weight: bold;">-mc 0/-mc 0.1/-mc 10</span> to your command
+line.<br>
+  </dd>
+</dl>
+<h2><a href="http://sourceforge.net/projects/encode2mpeg/">Download</a></h2>
+The last version is <span style="font-weight: bold;">0.6.4</span>,
+released <span style="font-weight: bold;">2007-10-18</span>. RPM can
+be found <a href="http://packman.links2linux.de/package/encode2mpeg">here</a>.<br>
+<h2>What's new</h2>
+Since version 0.6.1 encode2mpeg has been developed with MPlayer 1.0rc1.
+Next relase
+will be 0.7.0 and will support MPlayer 1.0rc2.<br>
+<br>
+<span style="font-weight: bold;">0.6.4</span><br>
+<div style="margin-left: 40px;"><a href="html/menu.html">Default menu</a>
+are in 16/9 noletterbox now<br>
+Buxfixes, code cleanup, several small improvements<br>
+</div>
+<span style="font-weight: bold;">0.6.3</span><br>
+<div style="margin-left: 40px;">Subtitles conversion from <a
+ href="html/ocr.html">graphic to text</a><br>
+Menu bugfixes/<a href="html/menu.html">new features</a><br>
+</div>
+<span style="font-weight: bold;">0.6.2</span><br>
+<div style="margin-left: 40px;">Anime/Cartoon optimization<br>
+More avi <a href="html/profile.html">profiles</a><br>
+xvid encoding support (-vcodec xvid)<br>
+</div>
+<span style="font-weight: bold;">0.6.1</span><br>
+<div style="margin-left: 40px;">Bugfixes, MPlayer 1.0rc1 support<br>
+</div>
+<span style="font-weight: bold;">0.6.0</span>
+<div style="margin-left: 40px;">Extended <a href="html/telecine.html">telecine
+encoding</a> support<br>
+aac audio<br>
+Bugfixes, MPlayer 1.0pre8 support<br>
+</div>
+<span style="font-weight: bold;">0.5.7</span>
+<div style="margin-left: 40px;">SVCD/DVD <a href="html/chapters.html">subtitles</a>
+from Vobsub source<br>
+SPU <a href="html/chapters.html">subtitle</a>
+speedup<br>
+</div>
+<span style="font-weight: bold;">0.5.6</span>
+<div style="margin-left: 40px;">Bugfixes<br>
+</div>
+<span style="font-weight: bold;">0.5.5</span>
+<div style="margin-left: 40px;"><a href="html/rc.html">Configuration</a>
+file<br>
+Encoding from <a href="html/images.html">multiple input
+image files</a>
+</div>
+<span style="font-weight: bold;">0.5.4</span>
+<div style="margin-left: 40px;">Text <a href="html/profile.html">subtitles
+conversion</a><br>
+Burning of the output stream to a<a href="html/verify.html"> ISO/UDF
+dvd disk</a><br>
+Avi <a href="html/profile.html">profiles</a><br>
+Usage of the option -setaspect has
+partially changed<br>
+Video rotation and TV overscan removing work in Avi Mode
+</div>
+<span style="font-weight: bold;">0.5.3</span>
+<div style="margin-left: 40px;"><img alt="mpeg"
+ src="images/logo_mpeg_multichannels.jpg"
+ style="width: 79px; height: 28px;" align="middle"><a
+ href="html/multichannel.html">Multichannel Audio</a><br>
+</div>
+<span style="font-weight: bold;">0.5.2</span>
+<div style="margin-left: 40px;">Code cleanup, no new features<br>
+</div>
+<span style="font-weight: bold;">0.5.1</span>
+<div style="margin-left: 40px;">SVCD/DVD subtitles from text sources<br>
+Bugfix<br>
+Fully supporting <a href="http://www.kvcd.net/">KVCD</a> specifications<br>
+</div>
+<span style="font-weight: bold;">0.5.0</span>
+<div style="margin-left: 40px;">Created the mailing list:
+encode2mpeg-users<br>
+Burning of the output stream to a ISO dvd disk<br>
+Easy creation of standard VCD/SVCD/DVD (-stdvid)<br>
+Verify of the burned disk<br>
+User selectable video codec (-vcodec) <br>
+Faster encoding in Mpeg Mode (using the MEncoder muxer)<br>
+</div>
+<span style="font-weight: bold;">0.4.x</span>
+<div style="margin-left: 40px;">Video rotation and TV overscan removing<br>
+Menu<br>
+Encoding different source video in one
+disk<br>
+Cache support<br>
+Copy of audio streams of different type
+to SVCD/DVD<br>
+dts and mp1 audio<br>
+Turbo mode for 2/3 pass encoding in Avi
+Mode and Mpeg Mode<br>
+</div>
+<span style="font-weight: bold;">0.3.x</span><br>
+<div style="margin-left: 40px;">VCD/SVCD/DVD chapters, subtitles and
+aspect ratio fix<br>
+Mpeg Mode<br>
+Interlace support<br>
+html documentation<br>
+</div>
+<br>
+See the Changelog for a more detailed list.<br>
+<h2>Support</h2>
+The main way to get support or ask questions is through the <a
+ href="http://lists.sourceforge.net/lists/listinfo/encode2mpeg-users">mailing
+list</a><br>
+<h2>Bugreport<br>
+</h2>
+in order to fix bugs as quick as possible, please follow these simple
+rules before submitting a bugreport.<br>
+<ul>
+  <li>Always be sure to use the last release. A bug you have found may
+have already been fixed.</li>
+  <li>Check if you have enough free disk space. If disk space is
+insufficient unpredictable behavior may happen. </li>
+  <li>Add to encode2mpeg the option -debug.</li>
+  <li>Compress and send me, togheter with your bugreport, the log file
+and the debug file.</li>
+</ul>
+send your bugreport to the addresses: <span style="font-weight: bold;">encode2mpeg
+at users.sourceforge.net</span> , <span style="font-weight: bold;">encode2mpeg
+at email.it</span>
+<h2>Feedback</h2>
+Users' comments about encode2mpeg can be read <a
+ href="html/feedback.html">here</a>. I am looking for some <a
+ href="html/euro.html">euro coins</a>, can you help me?<br>
+<h2>Help</h2>
+Although I try to keep the documentation as much as possible accurate,
+I do not have the time to extend/improve it. If somebody wants to
+help me with this task, I will gladly accept the help.<br>
+<br>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Avi</title>
+</head>
+<body>
+<h2 style="text-align: center;">Avi Mode<br>
+</h2>
+<div style="text-align: center;"><img
+ style="width: 291px; height: 58px;" alt="divx" src="../images/DivX.jpg"><br>
+<br>
+</div>
+in this mode encode2mpeg creates an avi file with MEncoder. The output
+video
+stream is mpeg4
+or a copy of the input video stream, the output audio stream can be
+mp2, mp3,
+ac3, pcm&nbsp; or a copy of the input audio stream.&nbsp; This mode is
+selected with the options: -avionly -encode.<br>
+The argument of -encode selects the different audio/video encode
+options. It has the form n:m:i[,b]<br>
+<br>
+n can be:<br>
+<div style="margin-left: 40px;">0 - copy of the input audio stream
+(-oac copy)<br>
+1 - pcm audio stream (-oac pcm)<br>
+2 - mp3lame fast (-oac mp3lame -lameopts fast)<br>
+3 - mp3lame standard (-oac mp3lame -lameopts preset=standard)<br>
+4 - mp2/libavcodec (-oac lavc -lavcopts acodec=mp2:abitrate=224)<br>
+5 - mp3/libavcodec,cbr (-oac lavc -lavcopts acodec=mp3:abitrate=128)<br>
+6 - ac3/libavcodec (-oac lavc -lavcopts acodec=ac3:abitrate=192)<br>
+7 - mp2/toolame (-oac toolame -toolameopts br=224)<br>
+8 - aac/libfaac (-oac faac -faacopts br=96)<br>
+Note: the audio bit rate can be specified in two ways: with the options
+-abr or with a comma and the bitrate as part of the -encode argument.<br>
+<pre>-encode 5:1:1,128</pre>
+&nbsp;or <br>
+<pre>-encode 5:1:1 -abr 128<br></pre>
+are equivalent in Avi Mode<br>
+</div>
+<br>
+m can be:<br>
+<div style="margin-left: 40px;">0 - copy of the input video stream
+(-ovc copy)<br>
+1 - libavcodec/mpeg4 (-ovc lavc -lavcopts
+vcodec=mpeg4:autoaspect:vbitrate=16000:psnr)<br>
+2 - as 1 + mbd=2 (mbd=2:keyint=300)<br>
+3 - as 1 + compression options
+(mbd=1:vmax_b_frames=2:last_pred=5:aic:mv0:vlelim=-4:vcelim=7:v4mv:preme=2:keyint=300)<br>
+4 - as 1 + quality options
+(mbd=2:trell:v4mv:mv0:aic:last_pred=5:precmp=3:cmp=3:subcmp=3)<br>
+</div>
+<br>
+i can be 1, 2 or 3 and select the number of encoding pass.<br>
+<br>
+Other options useful in Avi Mode:<br>
+-vfr or -ofps (output frame rate)<br>
+-multiaudio (avi with more than one audio stream, you need <a
+ href="http://www.theorie.physik.uni-goettingen.de/%7Eostreich/transcode/">avimerge</a>)<br>
+-monochrome<br>
+-avisplit (split the avi in chunk of fixed size, you need <a
+ href="http://www.theorie.physik.uni-goettingen.de/%7Eostreich/transcode/">avisplit</a>)<br>
+-bframes (number of B frames)<br>
+-vbr (video bit rate)<br>
+-cbr (force the use of constant bit rate video encoding)<br>
+-vcustom (custom video lavc options, used if m = 1)<br>
+-acustom (custom audio options: used if n = 2, mp3lame, or n = 8,
+libfaac)<br>
+-usesbr (set the size of the avi file)<br>
+-setaspect (scale the video and keep the correct aspect ratio)<br>
+-overscan &lt;n&gt; (add n% black border)<br>
+-rotate &lt;n&gt; (rotate the video)<br>
+-crop &lt;w:h:x:y&gt; (crop window)<br>
+-autocrop (autodetect the crop window)<br>
+-interlaced (use it if your source video is interlaced)<br>
+-cartoon (use it if your source video is a cartoon/anime)<br>
+-fixavi (fix seek or fast forward)<br>
+-fixasync (use a different encoding sequence that should avoid a/v sync
+problems with vbr mp3)<br>
+-cpu &lt;1-8&gt;<br>
+-channels &lt;1-6&gt; (select the number of channels in the avi audio
+stream, mp2/mp3 can have 1-2 channels, ac3/lpcm 1-6
+channels)<br>
+-qmatrix (select kvcd or tmpgenc quantization matrices)<br>
+-turbo &lt;0|1&gt; (disable or force turbo mode)<br>
+-hispeed (increase the encoding speed of 25-50%, the final file will be
+bigger and will have lower quality)<br>
+-vcodec &lt;mpeg1|mpeg2|mpeg4|xvid&gt; (force the selected video codec)<br>
+-normalize (normalize to the audio stream using MPlayer's audio filter
+volnorm)<br>
+-burniso/-burnudf (put the avi stream on a DVD disk in a iso/udf
+filesystem)<br>
+-verify (verify the content of the burned DVD disk)<br>
+-profile &lt;profile name&gt; (select a DivX or MPEG-4 profile)<br>
+-txtsub &lt;file name&gt; (convert a text subtitle)<br>
+-txtsubopts &lt;options&gt; (subtitle conversion options)<br>
+<h3>Hint</h3>
+Avi Mode is meant to be used for storage purpose. For example you have
+a DVD movie and you want to reduce the disk space required. You can
+have different goals: speed, high compression, high quality. In
+all cases I wanted to preserve in the avi video as much as possible
+the
+quality of the source video and then I set the video bitrate of the
+mpeg4 stream very high: 16000. As you will see later, putting a
+limitation on the video bit rate has a bad impact on the PSNR more than
+using other libavcodec options. So it is always better to leave it very
+high, unless your have no other choises and you have to reduce it
+(for example for a fixed size file or if the video bit rate exceed the
+capability of your hardware player).<br>
+<h3>Comparison</h3>
+See <a href="table1_Avi.html">TABLE 1</a> for a comparison of some
+-encode combinations.<br>
+See <a href="table2_Avi.html">TABLE 2</a> for a comparison between
+different number of B frames with -encode 3:3:2.<br>
+See <a href="table3_Avi.html">TABLE 3</a> for a comparison between
+different -encode and -setaspect optiond with -usesbr 2 (1 CD file
+size).<br>
+See <a href="table4_Avi.html">TABLE 4</a> for a comparison between
+different -encode and -setaspect optiond with -usesbr 5 (2 CD file
+size).<br>
+<h3>Threads<br>
+</h3>
+encode2mpeg takes advantage of systems with multiple cpu. It uses as
+many threads as the number of cpu present. See <a
+ href="table5_Avi.html">TABLE 5</a> for a comparison. You can specify
+explicitely the number of threads (up to 8) with -cpu &lt;n&gt;. Linux
+2.4.x has poor support for hyperthreading cpu. Because of that, on
+systems with kernel 2.4.x, one physical cpu and hyperthreading turnded
+on, the default is to use only one thread. You can override it with
+-cpu 2.
+<h3>Examples<br>
+</h3>
+<pre>encode2mpeg -o fastonecd dvd://1 -aid 128 -avi -encode 3:2:2 -usesbr 2 -setaspect 4</pre>
+encode a dvd to a 700MB avi with fast 2 pass mode with resolution
+384x224. <a href="../logs/fastonecd.log">Log file</a>.<br>
+<br>
+<pre>encode2mpeg -o divx dvd://1 -multiaudio 128,129 -avi -encode 0:4:2 -encsid 0,2,4 -encsdx 0,1,2 -encsla en,fr,es</pre>
+encode a dvd with the best quality keeping two ac3 audio streams and
+dumping three subtitles. <a href="../logs/divx.log">Log file</a>.<br>
+<br>
+<a href="../encode2mpeg.html">Top</a><br>
+</body>
+</html>

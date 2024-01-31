@@ -1,0 +1,157 @@
+--- LOG: clip [2004-10-19 17:14:59]   
+   INFO: [encode2mpeg] version 0.3.0
+   INFO: [encode2mpeg] command line: '-o clip -n p  dvd://1 -aid 129 -ss 10:00 -frames 500 -mpegonly -wide2std'
+   MPEG: frameformat:VCD split:800 vfr:3 vbr:1152 abr:224 asr:44100 audioformat:mp2 mp2:mp2enc mpegencoder:mpeg2enc
+   INFO: [input] ID_FILENAME=dvd://1
+   INFO: [input] ID_VIDEO_FORMAT=0x10000002
+   INFO: [input] ID_VIDEO_BITRATE=9000000
+   INFO: [input] ID_VIDEO_WIDTH=720
+   INFO: [input] ID_VIDEO_HEIGHT=576
+   INFO: [input] ID_VIDEO_FPS=25.000
+   INFO: [input] ID_VIDEO_ASPECT=1.7778
+   INFO: [input] ID_AUDIO_CODEC=a52
+   INFO: [input] ID_AUDIO_FORMAT=8192
+   INFO: [input] ID_AUDIO_BITRATE=128000
+   INFO: [input] ID_AUDIO_RATE=48000
+   INFO: [input] ID_AUDIO_NCH=2
+   INFO: [input] ID_LENGTH=5589
+   INFO: [MPLAYEROPT]   dvd://1 -aid 129 -ss 10:00 -frames 500  -noframedrop -v -osdlevel 0 -vo yuv4mpeg -ao pcm -waveheader
+   INFO: [YUVSCALEROPT] -v 1 -n p -O VCD  -M WIDE2STD
+   INFO: [MPEG2ENCOPT] -f 2 -b 1152 -V 46 -B 257 -v 1 -S 800 -n p -F 3 -o clip.mpv -s -g 6 -G 15 -r 16  -4 2 -2 1
+   INFO: [MPLEXOPT] -f 2 -b 46 
+   INFO: [VCDIMAGEROPT] -t vcd2 
+   INFO: [CDRDAOOPT]  --driver generic-mmc --device 0,0,0
+   INFO: [GROWISOFSOPT] -dvd-compat -Z /dev/cdrecorder -dvd-video
+   INFO: [mplayer] MPlayer 1.0pre5-3.3.1 (C) 2000-2004 MPlayer Team
+   INFO: [mplayer] There are 4 titles on this DVD.
+   INFO: [mplayer] There are 21 chapters in this DVD title.
+   INFO: [mplayer] There are 1 angles in this DVD title.
+   INFO: [mplayer] [open] audio stream: 0 audio format: ac3 (5.1) language: it aid: 128
+   INFO: [mplayer] [open] audio stream: 1 audio format: ac3 (stereo) language: it aid: 129
+   INFO: [mplayer] [open] number of audio channels on disk: 2.
+   INFO: [mplayer] [open] subtitle ( sid ): 0 language: it
+   INFO: [mplayer] [open] number of subtitles on disk: 1
+   INFO: [mplayer] ==> Found video stream: 0
+   INFO: [mplayer] ==> Found subtitle: 0
+   INFO: [mplayer] ==> Found audio stream: 128
+   INFO: [mplayer] ==> Found audio stream: 129
+   INFO: [yuvscaler] yuvscaler 1.6.2 (31-12-2003) is a general scaling utility for yuv frames
+   INFO: [yuvscaler] (C) 2001-2003 Xavier Biquard <xbiquard@free.fr>, yuvscaler -h for help, or man yuvscaler
+   INFO: [yuvscaler] VCD output format requested in PAL/SECAM norm
+   INFO: [yuvscaler] input:   frame size:  720x576 pixels (622080 bytes)
+   INFO: [yuvscaler] input:   frame rate:  25/1 fps (~25.000000)
+   INFO: [yuvscaler] input:    interlace:  none/progressive
+   INFO: [yuvscaler] input: sample aspect ratio:  ?:?
+   INFO: [yuvscaler] from 720x576, take 720x576+0+0, NOT_INTERLACED/PROGRESSIVE
+   INFO: [yuvscaler] scale to 352x216, 352x288 being displayed
+   INFO: [yuvscaler] Scaling uses the RESAMPLE algorithm, 
+   INFO: [yuvscaler] black lines: 36 above and 36 under
+   INFO: [yuvscaler] black columns: 0 left and 0 right
+   INFO: [yuvscaler] frame rate: 25.000 fps
+   INFO: [yuvscaler] Scaling ratio for width is 45 to 22
+   INFO: [yuvscaler] and is 8 to 3 for height
+   INFO: [yuvscaler] Specific downscaling routing number 9
+   INFO: [yuvscaler] output:   frame size:  352x288 pixels (152064 bytes)
+   INFO: [yuvscaler] output:   frame rate:  25/1 fps (~25.000000)
+   INFO: [yuvscaler] output:    interlace:  none/progressive
+   INFO: [yuvscaler] output: sample aspect ratio:  ?:?
+   INFO: [yuvscaler] Frame number 0
+   INFO: [mpeg2enc] SETTING EXTENDED MMX for MOTION!
+   INFO: [mpeg2enc] SETTING MMX for TRANSFORM!
+   INFO: [mpeg2enc] SETTING EXTENDED MMX for PREDICTION!
+   INFO: [mpeg2enc] Selecting VCD output profile
+++ WARN: [mpeg2enc] No aspect ratio specifed and no guess possible: assuming 4:3 display aspect!
+   INFO: [mpeg2enc] Progressive input - selecting progressive encoding.
+   INFO: [mpeg2enc] Encoding MPEG-1 video to clip.mpv
+   INFO: [mpeg2enc] Horizontal size: 352 pel
+   INFO: [mpeg2enc] Vertical size: 288 pel
+   INFO: [mpeg2enc] Aspect ratio code: 8 = 1:0.9375 (4:3 PAL/SECAM for 720x578/352x288 images)
+   INFO: [mpeg2enc] Frame rate code:   3 = 25.0 (PAL/SECAM VIDEO / converted FILM)
+   INFO: [mpeg2enc] Bitrate: 1152 KBit/s
+   INFO: [mpeg2enc] Field order for input: none/progressive
+   INFO: [mpeg2enc] New Sequence every 800 Mbytes
+   INFO: [mpeg2enc] Assuming non-video stream of 257 Kbps
+   INFO: [mpeg2enc] Search radius: 16
+   INFO: [mpeg2enc] GOP SIZE RANGE 6 TO 15 
+   INFO: [mpeg2enc] Setting colour/gamma parameters to "PAL B/G"
+   INFO: [mpeg2enc] Progressive format frames = 1
+   INFO: [mpeg2enc] mpeg1 - setting intra_dc_precision = 0
+   INFO: [mpeg2enc] Using default unmodified quantization matrices
+   INFO: [mpeg2enc] Buffering 33 frames
+   INFO: [mpeg2enc] SETTING SSE and EXTENDED MMX for QUANTIZER!
+   INFO: [mpeg2enc] GOP start (15 frames)
+   INFO: [encode2mpeg] encoding to mp2 audio with mp2enc
+   INFO: [mp2enc] Opened WAV file, freq = 48000 Hz, channels = 2, bits = 16
+   INFO: [mp2enc] format = 0x1, audio length = 3735552 bytes
+   INFO: [mp2enc] slots/frame = 731
+   INFO: [mp2enc] frac SpF=0.429, tot bitrate=224 kbps, s freq=44.1 kHz
+   INFO: [mp2enc] Fractional number of slots, padding required
+   INFO: [mp2enc] System is little endian
+   INFO: [mp2enc] Avg slots/frame = inf; b/smp = inf; br = inf kbps
+   INFO: [mp2enc] Encoding with psychoacoustic model 2 is finished
+   INFO: [mp2enc] The MPEG encoded output file name is "clip.mpa"
+   INFO: [mplex] mplex version 1.6.2 (2.2.3 $Date: 2004/01/13 20:45:26 $)
+   INFO: [mplex] File clip.mpv looks like an MPEG Video stream.
+   INFO: [mplex] File clip.mpa looks like an MPEG Audio stream.
+   INFO: [mplex] Found 1 audio streams and 1 video streams
+   INFO: [mplex] Selecting VCD output profile
+   INFO: [mplex] Multiplexing video program stream!
+   INFO: [mplex] Scanning for header info: Video stream e0 (clip.mpv) 
+   INFO: [mplex] VIDEO STREAM: e0
+   INFO: [mplex] Frame width     : 352
+   INFO: [mplex] Frame height    : 288
+   INFO: [mplex] Aspect ratio    : 1:0.9375 (4:3 PAL/SECAM for 720x578/352x288 images)
+   INFO: [mplex] Picture rate    : 25.000 frames/sec
+   INFO: [mplex] Bit rate        : 1152000 bits/sec
+   INFO: [mplex] Vbv buffer size : 40960 bytes
+   INFO: [mplex] CSPF            : 1
+   INFO: [mplex] Scanning for header info: Audio stream c0 (clip.mpa)
+   INFO: [mplex] MPEG AUDIO STREAM: c0
+   INFO: [mplex] Audio version  : 1.0
+   INFO: [mplex] Layer          :        2
+   INFO: [mplex] CRC checksums  :       no
+   INFO: [mplex] Bit rate       :    28672 bytes/sec (224 kbit/sec)
+   INFO: [mplex] Frequency      :     44100 Hz
+   INFO: [mplex] Mode           :        0 stereo
+   INFO: [mplex] Mode extension :        0
+   INFO: [mplex] Copyright bit  :        0 no copyright
+   INFO: [mplex] Original/Copy  :        0 copy
+   INFO: [mplex] Emphasis       :        0 none
+   INFO: [mplex] SYSTEMS/PROGRAM stream:
+   INFO: [mplex] rough-guess multiplexed stream data rate    : 1410896
+   INFO: [mplex] Setting best-guess data rate.
+   INFO: [mplex] Run-in Sectors = 18 Video delay = 21604 Audio delay = 25204
+   INFO: [mplex] New sequence commences...
+   INFO: [mplex] Video e0: buf=  47104 frame=000000 sector=00000000
+   INFO: [mplex] Audio c0: buf=   4096 frame=000000 sector=00000000
+   INFO: [mplex] Padding : sector=00000000
+   INFO: [mplex] Scanned to end AU 480
+   INFO: [mplex] STREAM e0 completed @ frame 480.
+   INFO: [mplex] STREAM c0 completed @ frame 743.
+   INFO: [mplex] Multiplex completion at SCR=1802788.
+   INFO: [mplex] Video e0: buf=  47104 frame=000480 sector=00001205
+   INFO: [mplex] Audio c0: buf=   1170 frame=000743 sector=00000239
+   INFO: [mplex] Padding : sector=00000026
+   INFO: [mplex] VIDEO_STATISTICS: e0
+   INFO: [mplex] Video Stream length:     2771847 bytes
+   INFO: [mplex] Sequence headers:       34
+   INFO: [mplex] Sequence ends   :        1
+   INFO: [mplex] No. Pictures    :      480
+   INFO: [mplex] No. Groups      :       34
+   INFO: [mplex] No. I Frames    :       34 avg. size 14354 bytes
+   INFO: [mplex] No. P Frames    :      447 avg. size  5109 bytes
+   INFO: [mplex] No. B Frames    :        0 avg. size     0 bytes
+   INFO: [mplex] Average bit-rate :  1152400 bits/sec
+   INFO: [mplex] Peak bit-rate    :  1253600  bits/sec
+   INFO: [mplex] BUFFERING min 386 Buf max 26378
+   INFO: [mplex] AUDIO_STATISTICS: c0
+   INFO: [mplex] Audio stream length 544183 bytes.
+   INFO: [mplex] Syncwords      :      744
+   INFO: [mplex] Frames         :      425 padded
+   INFO: [mplex] Frames         :      319 unpadded
+   INFO: [mplex] BUFFERING min 19 Buf max 745
+   INFO: [mplex] MUX STATUS: no under-runs detected.
+   MPEG: VIDEO:  MPEG1  352x288  (aspect 8)  25.000 fps  1152.0 kbps (144.0 kbyte/s)
+   MPEG: AUDIO[0]: MPEG 1.0, Layer II, 44100 Hz 224 kbit Stereo, BPF: 732
+   MPEG: clip1.mpg is 3423252 bytes, 3.3 MB
+ JOBEND: clip [2004-10-19 17:15:17] (0h0m18s)

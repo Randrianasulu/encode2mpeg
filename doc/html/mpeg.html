@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>mpeg</title>
+</head>
+<body>
+<h2 style="text-align: center;">Mpeg Mode</h2>
+<div style="text-align: center;"><img
+ style="width: 660px; height: 58px;" alt="mpeg" src="../images/mpeg.jpg"><br>
+</div>
+<br>
+this mode is very similar to Avi Mode, but
+the output is an mpeg stream instead of an avi stream. The output video
+stream can be mpeg1 (VCD), mpeg2 (SVCD/DVD), mpeg4 or a copy of the
+input mpeg
+video stream. The output audio stream can be mp1, mp2,
+mp3,
+ac3, aac, dts, lpcm or a copy of the input audio stream.&nbsp; This
+mode is
+selected with the options: -encode.<br>
+<br>
+If possible, only MEncoder is used to create the output mpeg stream.
+This is the case if you select a single mp2/mp3/ac3/aac audio track.<br>
+<br>
+If you select dts or lpcm audio or more than one audio track, the first
+block diagram looks like:<br>
+<br>
+<img style="width: 689px; height: 77px;" alt=""
+ src="../images/mpeg3.jpg"><br>
+<br>
+Here is a detailed explanation of the block diagram:<br>
+<ul>
+  <li>MEncoder, using the argument of -encode option, creates an mpeg
+stream with mpeg1 or mpeg2 video.</li>
+  <li>The
+audio track(s) is
+encoded
+separately in an avi stream as specified with the option -encode.<br>
+  </li>
+  <li>The audio stream(s) is processed again as in Direct Mode. The
+options -mp1/-mp2/-mp3/-ac3/-dts/-lpcm select the final type of the
+audio stream(s).<br>
+  </li>
+  <li>mplex multiplexes the video stream and the audio stream(s).<br>
+  </li>
+</ul>
+<br>
+<h3>Options<br>
+</h3>
+In Mpeg Mode you can use all the options of Avi
+Mode and Direct Mode, except that the following options are meanless in
+Mpeg Mode:<br>
+-avisplit<br>
+-fixavi<br>
+-fixasync<br>
+The following options are only available in Mpeg Mode:<br>
+-mpegmbr (change or unset the maximum video bit rate)<br>
+-telecinesrc (tell encode2mpeg that the source video is soft telecined)<br>
+<h3>Usage</h3>
+Here are some results with different encoding options:<br>
+<a href="table1_Mpeg.html">TABLE 1</a> shows the results with different
+1 PASS encoding options.<br>
+<a href="table2_Mpeg.html">TABLE 2</a> shows the results with different
+2 PASS encoding options.<br>
+<a href="table3_Mpeg.html">TABLE 3</a> shows the results with different
+3 PASS encoding options.<br>
+<br>
+With the option -encode you can select the different audio/video encode
+options as you do in Avi Mode. The argument of -encode has the form
+n:m:i[,b]<br>
+<br>
+n can be:<br>
+<div style="margin-left: 40px;">0 - copy of the input audio stream
+(-oac copy)<br>
+1 - pcm audio stream (-oac pcm)<br>
+2 - mp3lame fast (-oac mp3lame -lameopts fast)<br>
+3 - mp3lame standard (-oac mp3lame -lameopts preset=standard)<br>
+4 - mp2/libavcodec (-oac lavc -lavcopts acodec=mp2:abitrate=224)<br>
+5 - mp3/libavcodec,cbr (-oac lavc -lavcopts acodec=mp3:abitrate=128)<br>
+6 - ac3/libavcodec (-oac lavc -lavcopts acodec=ac3:abitrate=192)<br>
+7 - mp2/toolame (-oac toolame -toolameopts br=224)<br>
+8 - aac/libfaac (-oac faac -faacopts br=96)<br>
+</div>
+<br>
+m can be:<br>
+<div style="margin-left: 40px;">0 - copy of the input video stream
+(-ovc copy)<br>
+1 - libavcodec/mpeg[124]video (-ovc lavc -lavcopts
+vcodec=mpeg[124]video:psnr)<br>
+2 - as 1 + mbd=2 (mbd=2)<br>
+3 - as 1 + compression options
+(mbd=1:loop:mv0:vlelim=-4:vcelim=7:trell:precmp=1:cmp=1:subcmp=1)<br>
+4 - as 1 + quality options
+(mbd=2:mv0:dc=9:precmp=6:cmp=6:subcmp=6)<br>
+</div>
+<br>
+i can be 1, 2 or 3 and select the number of encoding pass.<br>
+<br>
+<span style="font-weight: bold;"></span><span style="font-weight: bold;"></span>
+<h3>Warning</h3>
+In Mpeg Mode MEncoder can show the following messages:<br>
+<pre>WARNING, SCR: 11.966, DTS: 12.160, PTS: 12.160<br>[mpeg2video @ 0x87b61a0]rc buffer underflow<br>[mpeg1video @ 0x876b140]warning, cliping 1 dct coefficents to -255..255<br></pre>
+Usually the mpeg stream created will
+play fine with your player. Just ignore them.<br>
+<span style="font-weight: bold;"></span>
+<h3>Bugs</h3>
+There exist hardware VCD (not DVD) players that fail to play mpegs
+created with mencoder. If you have such player you must use the option
+-replex.<br>
+<br>
+In Mpeg Mode, usually the multiplexing is done by MEncoder, but on some
+occasions mplex is used. In such cases sometime mplex
+could abort, usually if you are using the options "-dvd -encode
+0:0:1", with this error message:<br>
+<pre>**ERROR: [mplex] Need to split output but there appears to be no %d<br></pre>
+If this happens, add the option "-split &lt;some big value&gt;". The
+value has to be bigger than the size of the final mpeg. mplex will
+create two mpeg files; the first one
+containing almost the whole movie and the second one of only few kB.
+This will not make any difference if you are making a DVD.<br>
+<span style="font-weight: bold;"></span>
+<h3>Examples</h3>
+<pre>encode2mpeg -o DVD dvd://1 -dvd -mpeg -imageonly -encode 0:0:1 -ac3 copy -n n -multiaudio 128,129,130 -addchapter copy -addsub copy<br>encode2mpeg -o DVD dvd://1 -dvd2dvd -imageonly -n n -multiaudio 128,129,130<br></pre>
+Copy the video and three audio streams from a DVD to a DVD. Usefull if
+the original DVD doesn't fit on a DVD5 and the copyed stream does. <a
+ href="../logs/DVD.log">Log file</a>.<br>
+<br>
+<pre>encode2mpeg -o DVD5 dvd://1 -dvd -mpeg -encode 0:2:1 -ac3 copy -n n -mpegmbr -a 3 -usesbr 4480 -aid 128</pre>
+Encode a DVD (with copy of one audio stream) to a DVD5. <a
+ href="../logs/DVD5.log">Log file</a>.<br>
+<br>
+<a href="../encode2mpeg.html">Top</a><br>
+</body>
+</html>

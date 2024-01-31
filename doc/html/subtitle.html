@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Vobsub</title>
+</head>
+<body>
+<h2 style="text-align: center;">Vobsub subtitles extraction<br>
+</h2>
+encode2mpeg uses MEncoder to extract vobsub subtitles from a dvd. There
+are 3 options about vobsub dumping: -encsid -encsdx -encsla.<br>
+Look at this output of mplayer when accessing a dvd:<br>
+<pre>&nbsp;&nbsp; INFO: [mplayer] [open] audio stream: 0 audio format: ac3 (5.1) language: en aid: 128</pre>
+<pre>&nbsp;&nbsp; INFO: [mplayer] [open] audio stream: 1 audio format: ac3 (5.1) language: fr aid: 129</pre>
+<pre>&nbsp;&nbsp; INFO: [mplayer] [open] number of audio channels on disk: 2.</pre>
+<pre>&nbsp;&nbsp; INFO: [mplayer] [open] subtitle ( sid ): 0 language: en</pre>
+<pre>&nbsp;&nbsp; INFO: [mplayer] [open] subtitle ( sid ): 1 language: fr</pre>
+<pre>&nbsp;&nbsp; INFO: [mplayer] [open] subtitle ( sid ): 2 language: es</pre>
+<pre>&nbsp;&nbsp; INFO: [mplayer] [open] number of subtitles on disk: 3</pre>
+<pre>&nbsp;&nbsp; INFO: [mplayer] ==&gt; Found video stream: 0</pre>
+<pre>&nbsp;&nbsp; INFO: [mplayer] ==&gt; Found audio stream: 129</pre>
+<pre>&nbsp;&nbsp; INFO: [mplayer] ==&gt; Found audio stream: 128</pre>
+<pre>&nbsp;&nbsp; INFO: [mplayer] ==&gt; Found subtitle: 5</pre>
+<pre>&nbsp;&nbsp; INFO: [mplayer] ==&gt; Found subtitle: 4</pre>
+<pre>&nbsp;&nbsp; INFO: [mplayer] ==&gt; Found subtitle: 3</pre>
+<pre>&nbsp;&nbsp; INFO: [mplayer] ==&gt; Found subtitle: 2</pre>
+<pre>&nbsp;&nbsp; INFO: [mplayer] ==&gt; Found subtitle: 1</pre>
+<pre>&nbsp;&nbsp; INFO: [mplayer] ==&gt; Found subtitle: 0</pre>
+As you can see the dvd says it has 3 subtitles 0 (en) 1 (fr) 2 (es),
+but when mplayer access the mpeg stream it sees 6 subtitles (0 to 5);
+further
+investigation shows that subtitles 0 and 1 are English, subtitles 2 and
+3 are French, subtitles 4 and 5 are Spanish. The subtitles of the same
+language are identical. In this case you do not need to dump all the
+six subtitles, only three. If you
+want to dump the english, french, spanish subtitles you can't use <br>
+-ecnsid 0,1,2<br>
+&nbsp;because it will dump two times the English subtitles plus the
+French one. <br>
+-encsid 0,2,4 <br>
+will dump all the three different subtitles, but now they will have sid
+0 2 4 and you want 0 1 2. In this case use:<br>
+-encsid 0,2,4 -encsdx 0,1,2<br>
+The subtitles will have the correct sid but the wrong slang: instead of
+"en fr es" it will be "en es xx"; in order to correct this use:<br>
+-encsid 0,2,4 -encsdx 0,1,2 -encsla en,fr,es<br>
+<br>
+Note: you don't need to encode a movie in order to dump the subtitles:<br>
+<pre>encode2mpeg -o MyDump dvd://1 -avionly -encsid 0,1</pre>
+will do the work. -encode is missing, so no encoding is done.<br>
+<br>
+<a href="../encode2mpeg.html">Top</a><br>
+</body>
+</html>

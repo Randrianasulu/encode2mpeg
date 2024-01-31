@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Mpeg Multichannel Audio</title>
+</head>
+<body>
+<h2 style="text-align: center;"><img alt="Mpeg"
+ src="../images/logo_mpeg_multichannels.jpg"
+ style="width: 136px; height: 49px;" align="middle">Multichannel Audio</h2>
+Since release 0.5.3 encode2mpeg supports Mpeg Multichannel Audio
+format.
+This means that
+you can have a standard SVCD with more than 2 audio channels per audio
+stream. You can therefore convert a DVD with AC3 5.1 audio to SVCD and
+keep all the 5.1 audio channels. If your audio equipment is not MPEG
+Multichannel compliant, you will hear a normal stereo sound.<br>
+In order to select MPEG Multichannel audio add the options: <span
+ style="font-weight: bold;">-mp2
+musicin -mpegchannels 6</span> to your encode2mpeg command line. In
+Mpeg Mode
+you need also to add <span style="font-weight: bold;">-replex</span>
+and use <span style="font-weight: bold;">-encode 0:m:i</span>.
+Remember, it makes
+sense to use these options only if your source video has more than 2
+audio channels in the audio stream. In order to mantain a reasonable
+audio quality you
+should keep the abr to 384 (it is the default for multichannel audio).
+You may also need to reduce the vbr to a lower value (2355) in order to
+keep the total bitrate within the SVCD specifications.<br>
+<br>
+Example Direct Mode:<br>
+<pre>encode2mpeg -o SVCD5.1 dvd://1 -svcd -n p -aid 128 -mp2 musicin -mpegchannels 6<br></pre>
+Example Mpeg Mode:<br>
+<pre>encode2mpeg -o SVCD5.1 dvd://1 -svcd -n p -aid 128 -mp2 musicin -mpegchannels 6 -mpeg -encode 0:3:2 -replex<br></pre>
+If you use Mpeg Multichannel Audio encoding on regular basis, please
+contact me.
+There may be still some adjustement that can be done.
+<h2 align="left">How to test your audio equipment</h2>
+You can easily test if your audio equipment is MPEG Multichannel
+compliant:<br>
+<ul>
+  <li>Make a Multichannel Audio SVCD<br>
+Download this <a href="http://hypercubemx.free.fr/SVCDTest.mp2">MPEG
+Multichannel audio track</a> called SVCDTest.mp2 and make a SVCD with
+encode2mpeg:<br>
+    <pre>encode2mpeg -o TEST -testmca SVCDTest.mp2 -svcd -n &lt;NORM&gt;</pre>
+  </li>
+</ul>
+<ul>
+  <li>Put the SVCD in your hardware player.<br>
+    <ul>
+      <li>If your equipment is MPEG
+Multichannel compliant, the voice annoucement and the accompanying
+noise test tone for each channel should come out of the corresponding
+speaker. Depending on your setup, the deep-bass LFE test tone
+may emerge from your subwoofer (if
+any) and/or from one or more of the front speakers. The voice
+annoucement for the LFE channel will come out of the left speaker
+only.
+If you hear no deep-bass test tone at all when your hear &#8220;LFE&#8221;
+annoucement, the bass-management controls may need adjustment or your
+speakers are not capable&nbsp; of producing sounds below 70Hz. Do not
+forget to disable your dolby surround decoder (and any DSP effects) if
+you want a real MPEG multichannel compliance test.<br>
+      </li>
+      <li>If your equipment is not MPEG
+Multichannel compliant, you will hear the audio only from the left and
+right speakers.</li>
+      <li>If your equipment is not MPEG
+Multichannel compliant, but it supports Dolby Surround Prologic, then,
+after enabling the dolby surround decoder, you should be
+able to listen the sound from the left, center and right speakers. The
+surround speakers may also work acting as if they were a single
+speaker (the same sound will came from the left and right surround
+speakers). The LFE speaker should not work.<br>
+      </li>
+    </ul>
+  </li>
+</ul>
+<h2>Software requirements</h2>
+In order to make MPEG Multichannel Audio you need to install the MPEG-2
+Audio Simulation Software Distribution 10. The <a href="../README">README</a>
+contains step by step instructions about its installation.
+<h2>Reference</h2>
+<a href="http://hypercubemx.free.fr/html/how_to_make_5_1__svcd.html">How
+to make 5.1 SVCD</a>. Good general explanation of MPEG Multichannel
+Audio, windows oriented.<br>
+<a href="http://www.sven-koelsch.de/mpeg2mc/">How to make a
+multichannel MPEG-2 Audiostream</a>. Linux oriented.<br>
+<a href="http://lea.hamradio.si/%7Es51kq/V-SVCD-AU.HTM">Creating a
+Multichannel Audio
+SVCD</a>. Same information as the previous web site, but windows
+oriented.<br>
+<a href="http://www.pxh.de/fs/svcd/mpegmulti/">HOWTO Create a SVCD
+with MPEG
+Multichannel Sound</a>. Focused on conversion from DVB recordings,
+linux oriented.<br>
+<br>
+<a href="../encode2mpeg.html">Top</a><br>
+<br>
+</body>
+</html>

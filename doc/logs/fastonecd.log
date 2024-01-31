@@ -1,0 +1,60 @@
+--- LOG: fastonecd [2004-10-16 12:20:09]   
+   INFO: [encode2mpeg] version 0.3.0
+   INFO: [encode2mpeg] command line: ' dvd://1 -aid 128 -avi -cpu 1 -o fastonecd -encode 2 -usesbr 2 -setaspect 4'
+   MPEG: frameformat:VCD split:800 vfr:2 vbr:1152 abr:224 asr:44100 audioformat:mp2 mp2:mp2enc mpegencoder:mpeg2enc
+    AVI: encode:3:2:2 usesbr:2 AUDIOPASS:-oac mp3lame -lameopts preset=standard VIDEOPASS:-ovc lavc -lavcopts vcodec=mpeg4:autoaspect:vbitrate=16000:psnr:mbd=2:keyint=300 PASS:2 
+   INFO: [input] ID_FILENAME=dvd://1
+   INFO: [input] ID_VIDEO_FORMAT=0x10000002
+   INFO: [input] ID_VIDEO_BITRATE=7000000
+   INFO: [input] ID_VIDEO_WIDTH=720
+   INFO: [input] ID_VIDEO_HEIGHT=480
+   INFO: [input] ID_VIDEO_FPS=29.970
+   INFO: [input] ID_VIDEO_ASPECT=1.7778
+   INFO: [input] ID_AUDIO_CODEC=a52
+   INFO: [input] ID_AUDIO_FORMAT=8192
+   INFO: [input] ID_AUDIO_BITRATE=448000
+   INFO: [input] ID_AUDIO_RATE=48000
+   INFO: [input] ID_AUDIO_NCH=2
+   INFO: [input] ID_LENGTH=4705
+   INFO: [MENCODERARG]   dvd://1 -aid 128  -ofps 24 
+   INFO: [MPLAYEROPT] fastonecd.avi  -noframedrop -v -osdlevel 0 -vo yuv4mpeg -ao pcm -waveheader
+   INFO: [YUVSCALEROPT] -v 1  -O VCD 
+   INFO: [MPEG2ENCOPT] -f 2 -b 1152 -V 46 -B 257 -v 1 -S 800  -F 2 -o fastonecd.mpv -s -g 6 -G 15 -r 16  -4 2 -2 1
+   INFO: [MPLEXOPT] -f 2 -b 46 
+   INFO: [VCDIMAGEROPT] -t vcd2 
+   INFO: [CDRDAOOPT]  --driver generic-mmc --device 0,0,0
+   INFO: [GROWISOFSOPT] -dvd-compat -Z /dev/cdrecorder -dvd-video
+   INFO: [scaling] resolution: 384x224 aspect: 1.777778
+   INFO: [scaling] -vf scale=384:216,expand=0:-8
+   INFO: [mencoder] Recommended video bitrate for 650MB CD: 769
+   INFO: [mencoder] Recommended video bitrate for 700MB CD: 843
+   INFO: [mencoder] Recommended video bitrate for 800MB CD: 990
+   INFO: [mencoder] Recommended video bitrate for 2 x 650MB CD: 1728
+   INFO: [mencoder] Recommended video bitrate for 2 x 700MB CD: 1875
+   INFO: [mencoder] Recommended video bitrate for 2 x 800MB CD: 2170
+   INFO: [mencoder] using vbitrate=843
+   INFO: [mencoder] MEncoder 1.0pre5-3.3.1 (C) 2000-2004 MPlayer Team
+   INFO: [mencoder] There are 12 titles on this DVD.
+   INFO: [mencoder] There are 27 chapters in this DVD title.
+   INFO: [mencoder] There are 1 angles in this DVD title.
+   INFO: [mencoder] [open] audio stream: 0 audio format: ac3 (5.1) language: en aid: 128
+   INFO: [mencoder] [open] audio stream: 1 audio format: ac3 (5.1) language: fr aid: 129
+   INFO: [mencoder] [open] number of audio channels on disk: 2.
+   INFO: [mencoder] [open] subtitle ( sid ): 0 language: en
+   INFO: [mencoder] [open] subtitle ( sid ): 1 language: fr
+   INFO: [mencoder] [open] subtitle ( sid ): 2 language: es
+   INFO: [mencoder] [open] number of subtitles on disk: 3
+   INFO: [mencoder] ==> Found video stream: 0
+   INFO: [mencoder] ==> Found audio stream: 129
+   INFO: [mencoder] ==> Found audio stream: 128
+   INFO: [mencoder] ==> Found subtitle: 5
+   INFO: [mencoder] ==> Found subtitle: 4
+   INFO: [mencoder] ==> Found subtitle: 3
+   INFO: [mencoder] ==> Found subtitle: 2
+   INFO: [mencoder] ==> Found subtitle: 1
+   INFO: [mencoder] ==> Found subtitle: 0
+   INFO: [mencoder] PSNR: Y:42.64, Cb:45.21, Cr:45.58, All:43.37
+    AVI: VIDEO:  [DIVX]  384x224  24bpp  24.000 fps  842.1 kbps (102.8 kbyte/s)
+    AVI: AUDIO[1]: MPEG 1.0, Layer III, 48000 Hz 32 kbit Joint-Stereo, BPF: 96
+    AVI: fastonecd.avi is 732564406 bytes, 698.6 MB
+ JOBEND: fastonecd [2004-10-16 13:59:18] (1h39m9s)

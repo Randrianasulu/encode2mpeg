@@ -1,0 +1,15 @@
+This program is able to extract text subtitles embedded in quicktime files and
+dump them to stdout in srt format.
+
+Usage is simple:
+    qtsub2srt file.mov >file.srt
+
+If the source file has more than one subtitles (do such files exist?) you need 
+to specify the subtitle track to dump:
+    qtsub2srt file.mov 1 >file.srt
+
+The program looks for subtitles in 'Apple Text Media Handler' atoms. If you 
+have a quicktime file with subtitles that this program is not able to extract, 
+provide me a sample and I can try to add support for it.
+
+Feedback is welcome.

@@ -1,0 +1,1160 @@
+diff -Nraub dvdauthor-0.6.14.ori/README.rawsubtitles dvdauthor-0.6.14/README.rawsubtitles
+--- dvdauthor-0.6.14.ori/README.rawsubtitles	1969-12-31 20:00:00.000000000 -0400
++++ dvdauthor-0.6.14/README.rawsubtitles	2007-03-13 18:02:25.000000000 -0400
+@@ -0,0 +1,48 @@
++          How to demux/mux raw subtitles with spuunmux/spumux.
++
++If you are extracting subtitles from a mpeg stream and you are multiplexing them
++unchanged in another mpeg stream, you can do it, much faster, in raw mode.
++
++Example:
++
++$ spuunmux -o mysub -r -s 2 -p palette.rgb stream.mpg
++
++The previous command will create a file called mysub.spu containing the raw 
++subtitle with id=2. It is usually necessary to provide a palette file, otherwise
++the subtitle colors will be incorrect.
++
++$ spumux -m dvd -r -s 1 mysub.spu <input.mpg >output.mpg
++
++Mux the raw subtitle in the (dvd) mpeg stream with id=1
++
++
++
++Special case.
++Even in raw mode, subtitle extraction can be quite slow if the source mpeg is
++big (4-7 GB) and it is necessary to extract many subtitles. In raw mode
++spuunmux will work differently if given the option -s 32.
++
++Example:
++
++$ spuunmux -o allsub -r -s 32 stream.mpg
++
++$ spuunmux -o sub0 [-r] -s 0 -p palette.rgb allsub.spu
++$ spuunmux -o sub1 [-r] -s 1 -p palette.rgb allsub.spu
++....
++
++The file allsub.spu is just a stripped version of the source file stream.mpg, 
++containing only the necessary information for the extraction of the subtitles.
++It cannot be used as input file to spumux. It must be processed again with 
++spuunmux in order to extract the specific subtitle.
++
++
++Pseudo resize of raw subtitles.
++The proper way to convert a subtitle from NTSC to PAL or viceversa is to 
++extract the subtitles, scale the images and multiplex the scaled subtitles.
++In raw mode it is not possible to scale the subtitles, instead it is easy
++to shift them. With a correct shift it is possible to make a quite good 
++NTSC <-> PAL conversion.
++spuunmux with the option -f in raw mode will do a NTSC -> PAL conversion,
++the option -n will do a PAL -> NTSC conversion.
++PAL -> NTSC conversion is not 100% correct if the PAL subtitle contains an 
++image with height bigger than 480 pixel.
+diff -Nraub dvdauthor-0.6.14.ori/src/spuunmux.c dvdauthor-0.6.14/src/spuunmux.c
+--- dvdauthor-0.6.14.ori/src/spuunmux.c	2007-01-26 22:00:15.000000000 -0400
++++ dvdauthor-0.6.14/src/spuunmux.c	2007-03-13 18:02:25.000000000 -0400
+@@ -15,6 +15,8 @@
+  *
+  * With many changes by Scott Smith (trckjunky@users.sourceforge.net)
+  *
++ * Svcd and raw subtitles by Giacomo Comes <encode2mpeg@users.sourceforge.net>
++ *
+  * This program is distributed in the hope that it will be useful, but
+  * WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+@@ -58,6 +60,9 @@
+ static int have_bits;
+ static FILE *fdo;
+ 
++static unsigned char svcd;
++
++
+ typedef struct {
+     unsigned char r, g, b, t;
+ } palt;
+@@ -127,6 +132,28 @@
+     return next_bits & 15;
+ }
+ 
++static unsigned char get_next_svcdbits()
++{
++    switch (have_bits) {
++        case 0:
++            ++have_bits;
++	    return (sub[++ofs] >> 6);
++	    break;
++        case 1:
++            ++have_bits;
++	    return ( (sub[ofs]&0x30) >> 4);
++	    break;
++        case 2:
++            ++have_bits;
++	    return ( (sub[ofs]&0x0c) >> 2);
++	    break;
++        default:
++	    have_bits = FALSE;
++	    return (sub[ofs]&0x03);
++	    break;
++    }
++}
++
+ static unsigned int getpts(unsigned char *buf)
+ {
+     if (!(buf[1] & 0xc0) ||
+@@ -160,7 +187,7 @@
+ static int dvddecode()
+ {
+     unsigned int io;
+-    uint16_t size, dsize, i, x, y, t;
++    uint16_t size, dsize, i, x, y, t, cmdpointer, nextcmdp;
+     unsigned char c;
+     struct spu *s;
+ 
+@@ -185,6 +212,16 @@
+     s->map[0].x2=0x7fffffff;
+     s->map[0].y2=0x7fffffff;
+     i = dsize + 4;
++    cmdpointer = dsize ;
++    nextcmdp = read2(sub+cmdpointer+2);
++    if (nextcmdp<dsize) {
++	if (debug > 0) {
++	    fprintf(stderr,
++		    "invalid control header nextcommand=%d dsize=%d!\n",
++		    nextcmdp, dsize);
++	}
++        nextcmdp = cmdpointer;
++    }
+ 
+     t = read2(sub+dsize);
+ 
+@@ -254,35 +291,49 @@
+ 	    i += 5;
+ 	    break;
+ 
+-	case 0xff:
+-	    if (i + 5 > size) {
+-		if (debug > 4)
+-		    fprintf(stderr,"\tcmd(%5d): end cmd\n",i);
++	case 0x07:
++	    fprintf(stderr, "\tcmd(%5d): changing color/contrast\n",i);
++	    fprintf(stderr, "command not implemented, please write to dvdauthor-users@lists.sourceforge.net\n");
++	    return -1;
++	    break;
+ 
++	case 0xff:
++	    if (cmdpointer == nextcmdp) {
++	        if (debug > 4) {
++		    fprintf(stderr, "cmd: last end command\n");
++	            if (i+1 < size)
++		        fprintf(stderr, "data present after last command (%d bytes, size=%d)\n",size-(i+1),size);
++		}
+ 		i = size;
+ 		break;
+ 	    }
+ 
+-	    t = read2(sub + i + 1);
+-	    if (debug > 4) {
++	    if (debug > 4)
+ 		fprintf(stderr, "\tcmd(%5d): end cmd\n",i);
+-                fprintf(stderr, "\tBLK(%5d): time offset: %d; next: %d\n", i+1, t, read2(sub+i+3));
+-            }
+ 
+-	    if ((sub[i + 3] != sub[dsize + 2])
+-		|| (sub[i + 4] != sub[dsize + 3])) {
++            cmdpointer=nextcmdp;
++            nextcmdp = read2(sub+cmdpointer+2);
++	    if (nextcmdp<dsize) {
+ 		if (debug > 0) {
+ 		    fprintf(stderr,
+-			    "invalid control header (%02x%02x != %02x%02x) dsize=%d!\n",
+-			    sub[i + 3], sub[i + 4], sub[dsize + 2],
+-			    sub[dsize + 3], dsize);
++			    "invalid control header nextcommand=%d dsize=%d!\n",
++			    nextcmdp, dsize);
+ 		}
+-
++	        nextcmdp = cmdpointer;
+ 		i = size;
+ 		break;
+ 	    }
++	    t = read2(sub+cmdpointer);
+ 
+-	    i += 5;
++	    if (debug > 4) {
++		fprintf(stderr, "\tcmd(%5d): end cmd\n",i);
++                fprintf(stderr, "\tBLK(%5d): time offset: %d; next: %d\n", i+1, t, read2(sub+i+3));
++            }
++
++	    if (debug > 4 && i+1 < cmdpointer) {
++		fprintf(stderr, "next packet jump: %d bytes\n",cmdpointer-(i+1));
++		}
++            i=cmdpointer+4;
+ 	    break;
+ 
+ 	default:
+@@ -424,6 +475,7 @@
+     FILE *fp;
+     png_structp png_ptr;
+     png_infop info_ptr;
++    unsigned short subwidth;
+ 
+     temp = out_buf = malloc(s->xd * s->yd * 4);
+     nonzero=0;
+@@ -480,8 +532,12 @@
+     png_set_compression_window_bits(png_ptr, 15);
+     png_set_compression_method(png_ptr, 8);
+ 
++    if (svcd)
++        subwidth=704;
++    else
++        subwidth=720;
+     if (full_size) {
+-	png_set_IHDR(png_ptr, info_ptr, 720, 576,
++	png_set_IHDR(png_ptr, info_ptr, subwidth, full_size,
+ 		     8, PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE,
+ 		     PNG_COMPRESSION_TYPE_DEFAULT,
+ 		     PNG_FILTER_TYPE_DEFAULT);
+@@ -502,11 +558,15 @@
+ 	if (full_size) {
+ 	    char *image;
+ 	    temp = out_buf;
+-	    image = malloc(720 * 576 * 4);
+-	    memset(image, 0, 720 * 576 * 4);	// fill image full transparrent
++	    image = malloc(subwidth * full_size * 4);
++	    memset(image, 0, subwidth * full_size * 4);	// fill image full transparrent
+ 	    // insert image on the correct position
+ 	    for (y = s->y0; y < s->y0 + s->yd; y++) {
+-		char *to = &image[y * 720 * 4 + s->x0 * 4];
++                if ( y >= full_size ) {
++	            fprintf(stderr, "WARN: subtitle %s truncated\n", file_name);
++                    break;
++                }
++		char *to = &image[y * subwidth * 4 + s->x0 * 4];
+ 		for (x = 0; x < s->xd; x++) {
+ 		    *to++ = *temp++;
+ 		    *to++ = *temp++;
+@@ -517,8 +577,8 @@
+ 
+             s->y0 = 0;
+             s->x0 = 0;
+-	    s->yd = 576;
+-	    s->xd = 720;
++	    s->yd = full_size;
++	    s->xd = subwidth;
+ 	    free(out_buf);
+ 	    out_buf = image;
+ 	}
+@@ -682,6 +742,172 @@
+ 
+ #define bps(n,R,G,B) do { bpal[n].r=R; bpal[n].g=G; bpal[n].b=B; } while (0)
+ 
++static int svcddecode()
++{
++    unsigned int io;
++    unsigned short int size, i, x, y;
++    unsigned char c;
++    struct spu *s;
++    int n;
++
++    size = read2(sub);
++
++    if (debug > 1)
++	fprintf(stderr, "packet: 0x%x bytes\n", size);
++
++    s=malloc(sizeof(struct spu));
++    memset(s,0,sizeof(struct spu));
++
++    s->subno=subno++;
++
++    s->pts[0] = spts;
++    s->pts[1] = -1;
++    s->nummap=1;
++    s->map=malloc(sizeof(struct colormap));
++    memset(s->map,0,sizeof(struct colormap));
++    s->map[0].x2=0x7ffffff;
++    s->map[0].y2=0x7ffffff;
++    i = 2;
++
++    if ( sub[i]&0x08 ) {
++        s->pts[1] = spts + read4(sub+i+2);
++	i += 4;
++    }
++    i += 2 ;
++
++    s->x0 = read2(sub+i) ;
++    s->y0 = read2(sub+i+2) ;
++    s->xd = read2(sub+i+4) ;
++    s->yd = read2(sub+i+6) ;
++    i += 8 ;
++    if (debug > 4)
++	fprintf(stderr, "img ofs: %d,%d  size: %d,%d\n", s->x0, s->y0, s->xd, s->yd);
++
++    for (n=0;n<4;n++) {
++	int r,g,b;
++
++	r=sub[i+0+n*4];
++	g=sub[i+1+n*4];
++	b=sub[i+2+n*4];
++	ycrcb_to_rgb( &r, &g, &b);
++	bps(n, r, g, b);
++        if (debug > 4)
++	    fprintf(stderr, "palette: %02x%02x%02x%02x\n", sub[i+0+n*4], sub[i+1+n*4], sub[i+2+n*4], sub[i+3+n*4]);
++    }
++    s->map[0].color=0x3210;
++    s->map[0].contrast=( (sub[i+3] >>4) + (sub[i+7] & 0xf0) + ((sub[i+11] & 0xf0) <<4) + ((sub[i+15] & 0xf0) <<8) ) ;
++    // s->map[0].color=0x0123;
++    // s->map[0].contrast=((sub[i+3] & 0xf0) <<8) + ((sub[i+7] & 0xf0) <<4) + (sub[i+11] & 0xf0) + (sub[i+15] >>4) ;
++    if (debug > 4)
++        fprintf(stderr, "tpalette: %04x\n", s->map[0].contrast);
++    i += 16;
++
++    if ( sub[i++] >> 6 ) {
++        if (debug > 4)
++            fprintf(stderr, "cmd: shift (unsupported), direction=%d time=%f\n", (sub[i-1] >> 4) & 0x3, read4(sub)/90000.0);
++	i += 4;
++    }
++    ofs = i+2 - 1; // get_next_svcdbits will increment ofs by 1
++    ofs1 = ofs + read2(sub+i) ;
++    i += 2 ;
++    if (debug > 4)
++	fprintf(stderr, "cmd: image offsets 0x%x 0x%x\n", ofs, ofs1);
++
++
++    have_bits = FALSE;
++    x = y = 0;
++    io = 0;
++    s->img = malloc( s->xd*s->yd);
++    memset(s->img,0,s->xd*s->yd);
++
++
++    while ((ofs < size) && (y < s->yd)) {
++	if ( (c = get_next_svcdbits()) ) {
++	    s->img[io++] = c;
++            ++x;
++	} else {
++	    c = get_next_svcdbits() + 1;
++	    x += c;
++            io += c;
++	}
++	if (x >= s->xd) {
++	    y += 2;
++	    x = 0;
++            if ((y >= s->yd) && !(y & 1)) {
++                y = 1;
++                ofs = ofs1;
++            }
++            io = s->xd * y;
++	    have_bits = FALSE;
++	}
++    }
++    
++    s->pts[0] += add_offset;
++    if( s->pts[1] != -1 )
++        s->pts[1] += add_offset;
++    
++    addspu(s);
++
++    if (debug > 2)
++	fprintf(stderr, "ofs: 0x%x y: %d\n", ofs, y);
++
++    return 0;
++}				/* end fuction svcd_decode */
++
++void raw_save_shift(unsigned char *cbuf, unsigned short i, unsigned char b0, unsigned char b1, unsigned char b2, unsigned char n, unsigned char stuffsize)
++{
++    unsigned short y0, y1, suby1;
++    short delta;
++    unsigned char c;
++
++    if ( full_size == 480 )
++        suby1 = 575;
++    else
++        suby1 = 479;
++    if ( svcd ) {
++        y0 = read2(cbuf+i);
++        y1 = y0 + read2(cbuf+i+4) - 1;
++    } else {
++        y0 = b0 * 16 | ( b1 >> 4 );
++        y1 = ( b1 & 0xf ) * 256 + b2 ;
++    }
++    if ( y0 > suby1 - y1 )
++        delta = y1 * (full_size / (suby1+1.0) - 1);
++    else
++        delta = y0 * (full_size / (suby1+1.0) - 1);
++    if ( full_size == 480 ) {
++        if ( y1 + delta >= full_size )
++            delta = full_size - 1 - y1;
++        if ( y0 + delta < 0 )
++            delta = -y0;
++    }
++    if (debug > 3 )
++	fprintf(stderr, "raw shift: %hu -> %hu, %hu -> %hu\n", y0,y0+delta,y1,y1+delta);
++    if (debug > 0 && y1 + delta >= full_size )
++	fprintf(stderr, "WARN: raw shift: subtitle height (%d) exceed %s standard\n", y1 + delta + 1,full_size==480?"NTSC":"PAL");
++    if ( svcd ) {
++        cbuf[i] = ( y0 + delta ) >> 8 ;
++        cbuf[i+1] = y0 + delta ;
++        cbuf[i+4] = ( y1 + delta - y0 + 1 ) >> 8 ;
++        cbuf[i+5] = y1 + delta - y0 + 1;
++    } else {
++        c = ( y0 + delta ) >> 4 ;
++        if ( n ) {
++            fseek(fdo,-(n+14+stuffsize),SEEK_END);
++            fwrite(&c,1,1,fdo);
++        } else
++            cbuf[i-2] = c ;
++        c = ((( y0 + delta ) & 0xf ) << 4) | (( y1 + delta ) >> 8) ;
++        if ( n > 1 )
++            fwrite(&c,1,1,fdo);
++        else
++            cbuf[i-1] = c ;
++        if ( n )
++            fseek(fdo,0,SEEK_END);
++        cbuf[i] = y1 + delta;
++    }
++}
++
+ static void usage(void)
+ {
+     fprintf(stderr,
+@@ -693,10 +919,14 @@
+     fprintf(stderr,
+ 	    "-v <level>  verbosity level                     [0]\n");
+     fprintf(stderr,
+-	    "-f          resize images to full size          [720x576]\n");
++	    "-f          resize images to full PAL  size     [720x576]\n");
++    fprintf(stderr,
++	    "-n          resize images to full NTSC size     [720x480]\n");
+     fprintf(stderr,
+ 	    "-s <stream> number of the substream to extract  [0]\n");
+     fprintf(stderr,
++	    "-r          raw subtitle extraction\n");
++    fprintf(stderr,
+ 	    "-p <file>   name of file with dvd palette       [none]\n");
+     fprintf(stderr, "            if palette file ends with .rgb\n");
+     fprintf(stderr, "                treated as a RGB\n");
+@@ -706,6 +936,15 @@
+     fprintf(stderr, "\n");
+ }
+ 
++void write_raw_pes(unsigned int code, unsigned short length, unsigned char *buf)
++{
++    unsigned short a;
++    code=htonl(code);
++    fwrite(&code,4,1,fdo);
++    a=htons(length);
++    fwrite(&a,2,1,fdo);
++    fwrite(buf,1,length,fdo);
++}
+ 
+ int main(int argc, char **argv)
+ {
+@@ -719,6 +958,11 @@
+     unsigned char cbuf[CBUFSIZE];
+     unsigned char psbuf[PSBUFSIZE];
+     unsigned char nbuf[256], *palet_file, *iname[256];
++    char raw_stream = FALSE;
++    char issub = FALSE;
++    char haspalette = FALSE;
++    unsigned char packbuf[4+PSBUFSIZE+7]={0,0,0x1,0xba,0,0,0,0,0,0,0,0,0,0,0xff,0xff,0xff,0xff,0xff,0xff,0xff} ;
++    unsigned char sector[2048];
+ 
+     fputs(PACKAGE_HEADER("spuunmux"),stderr);
+ 
+@@ -727,7 +971,7 @@
+     palet_file = 0;
+     Inc = inc = 0;
+ 
+-    while ((option = getopt(argc, argv, "o:v:fs:p:Vh")) != -1) {
++    while ((option = getopt(argc, argv, "o:v:fnrs:p:Vh")) != -1) {
+ 	switch (option) {
+ 	case 'o':
+ 	    base_name = optarg;
+@@ -736,7 +980,13 @@
+ 	    debug = atoi(optarg);
+ 	    break;
+ 	case 'f':
+-	    full_size = TRUE;
++	    full_size = 576;
++	    break;
++	case 'n':
++	    full_size = 480;
++	    break;
++	case 'r':
++	    raw_stream = TRUE;
+ 	    break;
+ 	case 's':
+ 	    stream_number = atoi(optarg);
+@@ -806,6 +1056,7 @@
+ 
+             }
+             fclose(fdo);
++	    haspalette = TRUE;
+         } else {
+             fprintf(stderr, "unable to open %s, using defaults\n", palet_file);
+         }
+@@ -817,9 +1068,14 @@
+ 	return -1;
+     }
+ 
++    if (raw_stream) {
++    	sprintf(nbuf, "%s.spu", base_name);
++    	fdo = fopen(nbuf, "w+");
++    } else {
+     sprintf(nbuf, "%s.xml", base_name);
+     fdo = fopen(nbuf, "w+");
+     fprintf(fdo, "<subpictures>\n\t<stream>\n");
++    }
+ 
+     pts = 0;
+     subno = 0;
+@@ -828,6 +1084,7 @@
+     add_offset = 450; // for rounding purposes
+ 
+     while (inc < Inc) {
++	unsigned short lastdata = FALSE;
+ 	fd = varied_open(iname[inc], O_RDONLY);
+ 	if (fd.h == 0) {
+ 	    fprintf(stderr, "error opening file %s\n", iname[inc]);
+@@ -841,9 +1098,9 @@
+ 	inc++;
+ 
+ 	while (fread(&c, 1, 4, fd.h) == 4) {
++	    static unsigned int old_system_time = -1;
+             c=ntohl(c);
+ 	    if (c == 0x000001ba) {	// start PS (Program stream)
+-		static unsigned int old_system_time = -1;
+ 		unsigned int new_system_time;
+ 	      l_01ba:
+ 		if (debug > 5)
+@@ -875,6 +1132,23 @@
+ 		}
+ 		old_system_time = new_system_time;
+ 
++		if (raw_stream) {
++		    for (c = 0; c < PSBUFSIZE; c++)
++		        packbuf[c+4] = psbuf[c];
++		    if (stream_number == 32) {
++			fwrite(packbuf,1,PSBUFSIZE+4+(packbuf[13]&0x7),fdo);
++		    } else {
++                        unsigned int scr = old_system_time+add_offset;
++
++                        packbuf[4] = ( (scr >> 27) & 0x38 ) | ( (scr >> 28) & 0x3 ) | 0x44 ;
++                        packbuf[5] = (scr >> 20) ;
++                        packbuf[6] = ( (scr >> 12) & 0xf8 ) | ( (scr >> 13) & 0x3 ) | 0x4 ;
++                        packbuf[7] = (scr >> 5) ;
++                        packbuf[8] &= 0x7 ;
++                        packbuf[8] |= (scr << 3) ;
++		    }
++		    issub=FALSE;
++		} else
+                 flushspus(old_system_time);
+ 
+ 		if (debug > 5) {
+@@ -926,47 +1200,209 @@
+ 			if (debug > 5)
+ 			    fprintf(stderr, "tid: %d\n", pts);
+ 
+-			if ( /*(debug > 1) && */ (cbuf[next_word] == 0x70))
+-			    fprintf(stderr, "substr: %d\n",
+-				    cbuf[next_word + 1]);
++			if (cbuf[next_word] == stream_number + 32 || (cbuf[next_word] == 0x70 && cbuf[next_word+1] == stream_number) || 
++                             (raw_stream && stream_number == 32 && ( (cbuf[next_word] < 64 && cbuf[next_word] > 31) || cbuf[next_word] == 0x70 ) ) ) {
++			    if ( cbuf[next_word] == 0x70 )
++				svcd = 4 ;
++			    else
++				svcd = 0 ;
+ 
+-			if (cbuf[next_word] == stream_number + 32) {
+-			    if ((debug < 6) && (debug > 1)) {
++			    if ( /* (debug < 6) && */ (debug > 1)) {
+ 				fprintf(stderr,
+ 					"id: 0x%x 0x%x %d  tid: %d\n",
+ 					cbuf[next_word], package_length,
+ 					next_word, pts);
+ 			    }
+ 
++			    if ( raw_stream ) {
++				if ( stream_number != 32 ) {
++                                    unsigned char stuffsize;
++
++				    if (!svcd && cbuf[2]>4 && haspalette && !lastdata ) {
++                                        // write palette info
++				        unsigned char c ;
++                                        unsigned int scr = old_system_time+add_offset-147;
++
++				        memset(sector,0xff,2048);
++				        for (c=0;c<PSBUFSIZE;c++)
++					    sector[c+4]=psbuf[c];
++				        sector[0] = 0 ;
++				        sector[1] = 0 ;
++				        sector[2] = 0x1 ;
++				        sector[3] = 0xba ;
++				        sector[4] = ( (scr >> 27) & 0x38 ) | ( (scr >> 28) & 0x3 ) | 0x44 ;
++				        sector[5] = (scr >> 20) ;
++				        sector[6] = ( (scr >> 12) & 0xf8 ) | ( (scr >> 13) & 0x3 ) | 0x4 ;
++				        sector[7] = (scr >> 5) ;
++				        sector[8] &= 0x7 ;
++				        sector[8] |= (scr << 3) ;
++				        sector[13] &= 0xf8 ;
++
++				        sector[14] = 0 ;
++				        sector[15] = 0 ;
++				        sector[16] = 0x1 ;
++				        sector[17] = 0xbe ;
++				        sector[18] = ( (2048-6-10-4) >> 8) ;
++				        sector[19] = 2028%256 ;
++
++				        strcpy(sector+20,"dvdauthor-data");
++				        sector[35] = 1 ;
++				        sector[36] = 1 ;
++				        sector[37] = cbuf[next_word] ;
++				        sector[38] = ( (pts+add_offset) >> 24 ) ;
++				        sector[39] = ( (pts+add_offset) >> 16 ) ;
++				        sector[40] = ( (pts+add_offset) >> 8 ) ;
++				        sector[41] = (pts+add_offset) ;
++				        sector[42] = 0xff ;
++				        sector[43] = 0xff ;
++				        sector[44] = 0xff ;
++				        sector[45] = 0xff ;
++				        sector[46] = 1 ;
++				        sector[47] = 16 ;
++				        for (c=0;c<sector[47];c++){
++					    sector[48+3*c+0] = RGB2Y(bpal[c].r,bpal[c].g,bpal[c].b);
++					    sector[48+3*c+1] = RGB2Cr(bpal[c].r,bpal[c].g,bpal[c].b);
++					    sector[48+3*c+2] = RGB2Cb(bpal[c].r,bpal[c].g,bpal[c].b);
++				        }
++
++				        fwrite(sector,2048,1,fdo);
++				    }
++                                    stuffsize = packbuf[13]&0x7 ;
++				    fwrite(packbuf,1,PSBUFSIZE+4+stuffsize,fdo);
++				    if ( cbuf[1]&0x80 ) {
++				        cbuf[3] &= 0xf1 ;
++				        cbuf[3] |= (((pts+add_offset) >> 29) & 0xe) ;
++				        cbuf[4] = ((pts+add_offset) >> 22) ;
++				        cbuf[5] = (((pts+add_offset) >> 14) | 0x1) ;
++				        cbuf[6] = ((pts+add_offset) >> 7) ;
++				        cbuf[7] = (((pts+add_offset) << 1) | 0x1) ;
++				    }
++                                    if ( full_size ) { // raw shift
++				        static unsigned short subcmd, process;
++				        unsigned short startsub;
++                                        unsigned char c;
++                                        static unsigned char b0, b1, b2, getbyte;
++
++                                        startsub = cbuf[2] + 3 + 1 + svcd;
++                                        if ( svcd ) {
++			                    if (!subi)
++                                                raw_save_shift(cbuf, startsub + 6 + ( cbuf[startsub+2]&0x08 ) ? 4 : 0, 0, 0, 0, 0, 0);
++                                        } else {
++			                    if (!subi) {
++                                                process = 1;
++                                                subcmd = read2(cbuf + startsub + 2) + 4;
++                                            }
++                                            if ( getbyte ) {
++                                                if ( getbyte == 2 )
++                                                    b1 = cbuf[startsub+subcmd++];
++                                                b2 = cbuf[startsub+subcmd++];
++                                                raw_save_shift(cbuf, startsub+subcmd-1, b0, b1, b2, 3-getbyte, stuffsize);
++                                                getbyte = 0;
++                                            }
++                                            while ( subcmd <= package_length - startsub -1 && process ) {
++                                                if ( process == 2 ) {
++                                                    c = 5;
++                                                    subcmd -= 4;
++                                                    process = 1;
++                                                } else
++                                                    c = cbuf[startsub+subcmd] ;
++                                                switch ( c ) {
++                                                    case 0:
++                                                    case 1:
++                                                    case 2:
++                                                        ++subcmd;
++                                                        break;
++                                                    case 3:
++                                                    case 4:
++                                                        subcmd += 3;
++                                                        break;
++                                                    case 6:
++                                                        subcmd += 5;
++                                                        break;
++                                                    case 5:
++                                                        subcmd += 4;
++                                                        if ( subcmd > package_length - startsub - 1 ) {
++                                                            process = 2;
++                                                            break;
++                                                        }
++                                                        b0 = cbuf[startsub+subcmd++];
++                                                        if ( subcmd > package_length - startsub - 1 ) {
++                                                            getbyte = 2;
++                                                            break;
++                                                        }
++                                                        b1 = cbuf[startsub+subcmd++];
++                                                        if ( subcmd > package_length - startsub - 1 ) {
++                                                            getbyte = 1;
++                                                            break;
++                                                        }
++                                                        b2 = cbuf[startsub+subcmd++];
++                                                        raw_save_shift(cbuf, startsub+subcmd-1, b0, b1, b2, 0, stuffsize);
++                                                        break;
++                                                    default :
++                                                        process = 0;
++                                                        ++subcmd;
++                                                        break;
++                                                }    /* end switch */
++			                        if (debug > 4 )
++				                    fprintf(stderr, "raw shift: cmd=%u\n", c);
++                                            }    /* end while */
++                                            subcmd -= package_length - startsub;
++                                        }    /* end if svcd */
++                                    }   /* end if full_size */
++                                }   /* end if stream_number != 32 */
++                                write_raw_pes(c,package_length,cbuf);
++				if ( stream_number == 32 ) {
++                        	    package_length=0;
++				    break;
++				}
++				issub=TRUE;
++			    }   /* end if raw_stream */
++
+ 			    if (!subi) {
+ 				subs =
+-				    ((unsigned int) cbuf[next_word + 1] <<
+-				     8) + cbuf[next_word + 2];
++				    ((unsigned int) cbuf[next_word + 1 + svcd] <<
++				     8) + cbuf[next_word + 2 + svcd];
+ 
+ 				spts = pts;
+ 			    }
+ 
+-			    memcpy(sub + subi, cbuf + next_word + 1,
+-				   package_length - next_word - 1);
++			    memcpy(sub + subi, cbuf + next_word + 1 + svcd,
++				   package_length - next_word - 1 - svcd);
+ 
+ 			    if (debug > 1) {
+ 				fprintf(stderr, "found %d bytes of data\n",
+-					package_length - next_word - 1);
++					package_length - next_word - 1 - svcd);
+ 			    }
+ 
+-			    subi += package_length - next_word - 1;
++			    subi += package_length - next_word - 1 - svcd;
+ 
+ 			    if (debug > 2) {
+ 				fprintf(stderr,
+ 					"subi: %d (0x%x)  subs: %d (0x%x) b-a-1: %d (0x%x)\n",
+ 					subi, subi, subs, subs,
+-					package_length - next_word - 1,
+-					package_length - next_word - 1);
++					package_length - next_word - 1 - svcd,
++					package_length - next_word - 1 - svcd);
+ 			    }
+ 
++			    if (svcd) {
++				if ( cbuf[next_word+2] & 0x80 ) {
++				    subi = 0;
++    				    if (!raw_stream) {
++				        next_word = svcddecode();
++
++				        if (next_word) {
++				            fprintf(stderr,
++					            "found unreadable subtitle at %.2fs, skipping\n",
++					            (double) spts / 90000);
++				            continue;
++				        }
++				    }
++			        }
++			    } else {
+ 			    if (subs == subi) {
+ 				subi = 0;
+ 
++    				    if (!raw_stream) {
+ 				next_word = dvddecode();
+ 
+ 				if (next_word) {
+@@ -975,13 +1411,17 @@
+ 					    (double) spts / 90000);
+ 				    continue;
+ 				}
++				    }
+ 			    }	/* end if subs == subi */
+ 			}
++			}
+                         package_length=0;
+ 			break;
+ 		    case 0x01e0:
+                         if( firstvideo==-1 ) {
+                             fread(cbuf, 1, package_length, fd.h);
++			    if ( raw_stream && stream_number == 32 )
++                                write_raw_pes(c,package_length,cbuf);
+                             firstvideo=getpts(cbuf);
+                             add_offset-=firstvideo;
+                             package_length=0;
+@@ -1012,8 +1452,11 @@
+ 			    fprintf(stderr, "padding stream %d bytes\n",
+ 				    package_length);
+ 			fread(cbuf, 1, package_length, fd.h);
+-                        if( package_length > 30 ) {
++                        if( raw_stream && ( issub || stream_number == 32 ) ) {
++                            write_raw_pes(c,package_length,cbuf);
++                        } else if( package_length > 30 ) {
+                             int i;
++                            unsigned short int length=package_length;
+ 
+                             package_length=0;
+                             i=0;
+@@ -1022,6 +1465,12 @@
+                             i=15;
+                             if( cbuf[i]!=1 )
+                                 break;
++                            if( raw_stream && (cbuf[i+2] == stream_number + 32) ) {
++				fwrite(packbuf,1,PSBUFSIZE+4+(packbuf[13]&0x7),fdo);
++                                write_raw_pes(c,length,cbuf);
++				lastdata = 1;
++                                break;
++			    }
+                             switch(cbuf[i+1]) {
+                             case 1: // subtitle/menu color and button information
+                             {
+@@ -1152,6 +1601,12 @@
+ 			goto l_01ba;
+ 		    }		/* end switch */
+                     fread(cbuf, 1, package_length, fd.h);
++		    if (lastdata) {
++			if ( lastdata == 1 )
++			    lastdata = 2;
++			else
++			    lastdata = FALSE;
++		    }
+ 		}
+ 
+ 	    }			/* end if 0xbd010000 */
+@@ -1161,9 +1616,11 @@
+ 	varied_close(fd);
+     }				/* end while inc < Inc */
+ 
++    if (!raw_stream) {
+     flushspus(0x7fffffff);
+ 
+     fprintf(fdo, "\t</stream>\n</subpictures>\n");
++    }
+     fclose(fdo);
+ 
+     return 0;
+diff -Nraub dvdauthor-0.6.14.ori/src/subgen.c dvdauthor-0.6.14/src/subgen.c
+--- dvdauthor-0.6.14.ori/src/subgen.c	2007-01-25 21:06:09.000000000 -0400
++++ dvdauthor-0.6.14/src/subgen.c	2007-03-13 18:02:26.000000000 -0400
+@@ -1,6 +1,7 @@
+ /*
+  * Copyright (C) 2002, 2003 Jan Panteltje <panteltje@yahoo.com>
+  * With many changes by Scott Smith (trckjunky@users.sourceforge.net)
++ * Raw mux by Giacomo Comes <encode2mpeg@users.sourceforge.net>
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+@@ -77,13 +78,15 @@
+ int debug;
+ int max_sub_size;
+ 
++unsigned char raw_mode, *rawbuf;
+ 
+ 
+ // these 4 lines of variables are used by mux() and main() to communicate
+-static int subno,secsize,mode,fdo,header_size,muxrate;
++static int subno,secsize,mode,fdo,fdr,header_size,muxrate,sdfield;
+ static unsigned char substr, *sector;
+ static stinfo *newsti;
+ static uint64_t gts, nextgts;
++static int64_t rawgts;
+ 
+ 
+ /*
+@@ -331,6 +334,164 @@
+     }
+ }
+ 
++int raw_find_start(int code)
++{
++    unsigned long c, ch, b=0;
++    unsigned char nc;
++
++    if( sread(fdr, &c, 4) != 4)
++	return -1;
++    ch=ntohl(c);
++    while(ch  !=  code) {
++        if (sread(fdr, &nc, 1) < 1)
++	    return -1;
++        ch=(ch<<8)|nc;
++        b++;
++    }
++    if (b)
++        fprintf(stderr, "INFO: Skipped %lu bytes from spu stream\n", b);
++    return 0;
++}
++
++int raw_read_str(unsigned char n, unsigned short *i)
++{
++    unsigned short len;
++
++    rawbuf[(*i)++] = 0;
++    rawbuf[(*i)++] = 0;
++    rawbuf[(*i)++] = 1;
++    rawbuf[(*i)++] = n;
++    sread( fdr, rawbuf + *i, 2);
++    len = rawbuf[(*i)++]*256 ;
++    len += rawbuf[(*i)++] ;
++    if ( len + *i > secsize ) {
++        fprintf(stderr, "ERR: pack size (%d) bigger than sector size (%d)\n", len + *i,secsize);
++        return -1 ;
++    }
++    sread( fdr, rawbuf + *i, len);
++    *i += len;
++
++    return 0;
++}
++
++void setgts(unsigned char *buf, u_int64_t gts)
++{
++    u_int64_t th,tl;
++    th = gts / 300 ;
++    tl = gts % 300 ;
++    buf[0] = ((th >> 27) & 0x38) | ((th >> 28) & 0x3) | 0x44 ;
++    buf[1] = (th >> 20) ;
++    buf[2] = ((th >> 12) & 0xf8) | ((th >> 13) & 0x3) | 0x4 ;
++    buf[3] = (th >> 5) ;
++    buf[4] = (th << 3) | (tl >> 7) | 0x4 ;
++    buf[5] = (tl << 1) | 0x1 ;
++}
++
++void setpts(unsigned char *buf,unsigned long pts)
++{
++    buf[3] &= 0xf1 ;
++    buf[3] |= (pts >> 29) & 0xe ;
++    buf[4] = (pts >> 22) ;
++    buf[5] = (pts >> 14) | 0x1 ;
++    buf[6] = (pts >> 7) ;
++    buf[7] = (pts << 1) | 0x1 ;
++}
++
++int64_t raw_read_nextsub(void)
++{
++    unsigned long c, ch, pts;
++    unsigned short i, n;
++    u_int64_t gts;
++    static char flag = 1;
++
++/*  commented because the same test is done in mux()
++    if ( tofs == -1 )
++        return 0;
++*/
++
++  start:
++    if ( flag && raw_find_start(0x1ba) == -1 )
++        return -1;
++    flag = 0;
++    i=4;
++    if(sread( fdr, rawbuf+i, psbufs) != psbufs)
++        return -1 ;
++    gts = getgts(rawbuf+i);
++    if(gts != -1) {
++        if( tofs>0 ) {
++           gts += (u_int64_t)tofs * 300 ;
++           setgts(rawbuf+i, gts);
++        }
++    } else {
++        flag = 1;
++        goto start;
++    }
++    i += psbufs;
++    if ( (n = rawbuf[i-1] & 0x7) ) { // stuffing
++        if( sread(fdr, rawbuf+i, n) != n)
++            return -1 ;
++        i += n;
++    }
++    if( sread(fdr, &c, 4) != 4)
++        return -1 ;
++    ch=ntohl(c);
++    flag = 1;
++    if(ch == 0x1bd) { // private stream
++        n = i + 6;
++        if ( raw_read_str(0xbd,&i) )
++            return -1;
++        pts = getpts(rawbuf+n);
++        if( tofs>0 && pts != -1 )
++            setpts(rawbuf+n,pts+tofs);
++        if(debug > 3)
++            fprintf(stderr, "INFO: private stream 1, id=%d, len=%d\n",rawbuf[n+rawbuf[n+2]+3],rawbuf[n-2]*256+rawbuf[n-1]);
++        if ( mode == SVCD_SUB )
++            rawbuf[n+rawbuf[n+2]+4] = substr;
++        else
++            rawbuf[n+rawbuf[n+2]+3] = substr;
++        if ( rawbuf[n+2] > 4 )
++            subno++;
++        if( sread(fdr, &c, 4) == 4) {
++            ch=ntohl(c);
++            if(ch == 0x1be) {
++                n = i + 6;
++                if ( raw_read_str(0xbe,&i) )
++                    return -1;
++                if(debug > 3)
++                    fprintf(stderr, "INFO: padding stream, len=%d\n",rawbuf[n-2]*256+rawbuf[n-1]);
++            } else if (ch == 0x1ba)
++                flag = 0;
++        }
++    } else if (ch == 0x1be) { // padding stream
++        n = i + 6;
++        if ( raw_read_str(0xbe,&i) )
++            return -1;
++        if(debug > 3)
++            fprintf(stderr, "INFO: padding stream, len=%d\n",rawbuf[n-2]*256+rawbuf[n-1]);
++        if( !strcmp(rawbuf+n,"dvdauthor-data") ) {
++            rawbuf[n+17] = substr;
++            if( tofs>0 ) {
++                int a;
++                for (a=0;a<5;a+=4) {
++                    pts = rawbuf[n+18+a] * 65536 * 256 + rawbuf[n+19+a] * 65536 + rawbuf[n+20+a] * 256 + rawbuf[n+21+a];
++                    if ( pts != -1 ) {
++                        rawbuf[n+18+a] = ( pts + tofs ) >> 24;
++                        rawbuf[n+19+a] = ( pts + tofs ) >> 16;
++                        rawbuf[n+20+a] = ( pts + tofs ) >> 8;
++                        rawbuf[n+21+a] = pts + tofs ;
++                    }
++                }
++            }
++        }
++    } else if (ch == 0x1ba) {
++        flag = 0;
++        goto start;
++    } else {
++        goto start;
++    }
++    return (int64_t)gts ;
++}
++
+ static stinfo *getnextsub(void)
+ {
+ 	while(1) {
+@@ -362,6 +523,8 @@
+     fprintf(stderr, "\t-m <mode>   dvd, cvd, or svcd (only the first letter is checked).\n\t\tDefault is DVD.\n");
+     fprintf(stderr, "\t-s <stream> number of the substream to insert (default 0)\n");
+     fprintf(stderr, "\t-v <level>  verbosity level (default 0) \n");
++    fprintf(stderr, "\t-r          mux a raw subtitle \n");
++    fprintf(stderr, "\t-d          do not force a Stop Display command if the End attribute is missing\n");
+     fprintf(stderr, "\t-P          enable progress indicator\n");
+     fprintf(stderr,"\n\tSee manpage for config file format.\n");
+     exit(-1);
+@@ -372,6 +535,20 @@
+     if( gts==0 || tofs==-1 || (lps%secsize && !eoinput ))
+         return;
+ 
++    if (raw_mode) {
++        if ( rawgts != -1 ) {
++            if ( !rawgts )
++                rawgts = raw_read_nextsub();
++            while ( rawgts > 0 ) {
++                if ( rawgts > gts && !eoinput )
++                    break ;
++                swrite(fdo,rawbuf,secsize);
++                rawgts = raw_read_nextsub();
++            }
++        }
++        return ;
++    }
++
+     while( newsti ) {
+         stinfo *cursti;
+         int bytes_send, sub_size;
+@@ -418,7 +595,7 @@
+             }
+         }
+         
+-        if( (cursti->sd == -1) && newsti && ( (!svcd) || until_next_sub) )
++        if( (cursti->sd == -1) && newsti && (sdfield && ( (!svcd) || until_next_sub)) )
+         {
+             if(newsti->spts > cursti->spts + tbs) cursti->sd = newsti->spts - cursti->spts - tbs;
+             else
+@@ -706,6 +883,7 @@
+     int optch;
+ 
+     newsti=0;
++    rawgts = 0;
+     mode = 0; /* default DVD */
+     sub = malloc( SUB_BUFFER_MAX + SUB_BUFFER_HEADROOM );
+     if(! sub)
+@@ -732,8 +910,10 @@
+     debug = 0;
+     ncnt = 0;
+     substr = 0;
++    raw_mode = 0;
++    sdfield = 1;
+ 
+-    while( -1 != (optch=getopt(argc,argv,"hm:s:v:P")) ) {
++    while( -1 != (optch=getopt(argc,argv,"hrdm:s:v:P")) ) {
+         switch( optch ) {
+ 	case 'm':
+             switch(optarg[0]) {
+@@ -761,6 +941,8 @@
+ 	case 's': substr = atoi(optarg); break;
+ 	case 'v': debug  = atoi(optarg); break;
+ 	case 'P': progr  = 1;            break;
++	case 'r': raw_mode= 1 ;          break;
++	case 'd': sdfield= 0 ;           break;
+ 
+         case 'h': usage();
+ 
+@@ -803,8 +985,26 @@
+     fdo = 1;
+     win32_setmode(fdi,O_BINARY);
+     win32_setmode(fdo,O_BINARY);
++    if (raw_mode) {
++        if ( (fdr = open(argv[optind],O_RDONLY)) == -1 ) {
++	    fprintf(stderr, "ERR: Could not open raw stream %s, aborting.\n",argv[optind]);
++            return -1;
++        }
++        if ( !(rawbuf=malloc(secsize)) ) {
++	    fprintf(stderr, "ERR: Could not allocate raw buffer, aborting.\n");
++            close(fdr);
++            return -1;
++        }
++        rawbuf[0] = rawbuf[1] = 0 ;
++        rawbuf[2] = 1 ;
++        rawbuf[3] = 0xba ;
++        if ( raw_find_start(0x1ba) == -1 )
++            return -1;
++        lseek(fdr,0,SEEK_SET);
++    } else {
+     if( spumux_parse(argv[optind]) )
+         return -1;
++    }
+     if(tofs>=0  &&  (debug > 0) )
+ 	fprintf(stderr, "INFO: Subtitles offset by %fs\n", (double)tofs / 90000);
+ 
+@@ -817,6 +1017,7 @@
+ 	exit(1);
+     }
+ 
++    if (!raw_mode)
+     newsti=getnextsub();
+     max_sub_size = 0;
+     header_size = 12;
+@@ -848,6 +1049,7 @@
+             gts = getgts(psbuf);
+             if(gts != -1) {
+                 mux(0);
++                if( !raw_mode )
+                 fixgts(&gts,&nextgts);
+                 muxrate = getmuxr(psbuf);
+             }
+@@ -933,5 +1135,10 @@
+ 
+     image_shutdown();
+ 
++    if ( raw_mode) {
++        close(fdr);
++        free(rawbuf);
++    }
++
+     return 0;
+ } /* end function main */

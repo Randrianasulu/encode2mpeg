@@ -1,0 +1,165 @@
+#!/bin/bash
+
+# mfcmdline 
+# v. 1.0   2005-12-19   Giacomo Comes
+
+
+LIST=()
+CMD=()
+AUDIO=()
+up=$'\c[[A'
+down=$'\c[[B'
+right=$'\c[[C'
+left=$'\c[[D'
+end=$'\c[[F'
+home=$'\c[[H'
+
+new_element () {
+    local IFS=,
+    CMD=( "${CMD[@]}" -video "'mf://${LIST[*]}'" )
+    LIST=()
+    ((O)) && CMD=( "${CMD[@]}" -rotate $O )
+}
+parse_key () {
+    if [[ $REPLY == $up || $REPLY == $left || $REPLY == $right ]]; then
+        case "$REPLY" in
+            $up) rot=0 ;;
+            $left) rot=2 ;;
+            $right) rot=1 ;;
+        esac
+        ((rot)) && echo rotate $rot || echo ok
+        $1
+    elif [[ $REPLY == $end ]]; then
+        echo abort
+        break
+    elif [[ $REPLY == $down ]]; then
+        echo skip
+    else
+        echo -en "\r"
+        continue
+    fi
+}
+fmov () {
+    CMD=( "${CMD[@]}" -video "'$(echo "$FILE" | sed "s/'/'\\\''/g")'" )
+    ((rot)) && CMD=( "${CMD[@]}" -rotate $rot )
+}
+fpic () {
+    if ((${#LIST[*]})); then
+        ((X==CURRX&&Y==CURRY&&O==rot&&two&&F==format)) && LIST=( "${LIST[@]}" "$(echo "$FILE" | sed "s/'/'\\\''/g")" ) NAME=${FILE%.*} || new_element
+    fi
+    ((!${#LIST[*]})) && LIST=( "$(echo "$FILE" | sed "s/'/'\\\''/g")" ) X=$CURRX Y=$CURRY O=$rot F=$format NAME=${FILE%.*}
+    ((${#AUDIO[*]})) && new_element && CMD=( "${CMD[@]}" -slideaudio "${AUDIO[0]}" ) && AUDIO=()
+}
+fwav () {
+    new_element
+    CMD=( "${CMD[@]}" -slideaudio "'$(echo "$FILE" | sed "s/'/'\\\''/g")'" )
+}
+faudio () {
+    ((${#LIST[*]})) && new_element
+    AUDIO=( "'$(echo "$FILE" | sed "s/'/'\\\''/g")'" )
+}
+fonly () {
+    ((${#LIST[*]})) && new_element
+    CMD=( "${CMD[@]}" -audioonly "'$(echo "$FILE" | sed "s/'/'\\\''/g")'" )
+}
+usage () {
+    echo "Usage: ${0##*/} <files>"
+    echo "       ${0##*/} -keytest"
+    echo "Instructions: encode2mpeg -doc images.html"
+}
+
+exec 3>&1
+exec >&2
+
+((!$#)) && usage && exit
+
+if [[ $1 = -keytest ]]; then
+    echo "Testing keyboard input..."
+    echo "press one of the following keys:"
+    echo "Arrow left, Arrow right, Arrow up, Arrow down, Home, End"
+    echo "type ^C to exit"
+    while : ; do
+        read -s -n 3
+        case "$REPLY" in
+            $up) echo up ;;
+            $left) echo left ;;
+            $right) echo right ;;
+            $down) echo down ;;
+            $home) echo Home ;;
+            $end) echo End ;;
+            *)
+                echo -n "unknown sequence:"
+                for ((a=0;a<${#REPLY};a++)); do
+                     if [[ ${REPLY:$a:1} < ' ' || ${REPLY:$a:1} > '~' ]]; then
+                         echo -n " '0x$(echo -n "${REPLY:$a:1}" | od -t x1 | sed 's/^[^ ]* *//' | tr -d '\012')'"
+                     else
+                         echo -n " '${REPLY:$a:1}'"
+                     fi
+                done
+                echo
+                ;;
+        esac
+    done
+fi
+
+while (($#)) ; do
+    REPLY=$home
+    [[ ${1%.*} == ${2%.*} ]]
+    two=$?
+    FILE=$1
+    [[ ! -f $FILE ]] && echo "file '$FILE' not found" && shift && continue
+    SUF=$(echo "${FILE##*.}" | tr '[:upper:]' '[:lower:]')
+    case $SUF in
+        avi|mov|mpg|mpeg)
+            ((${#LIST[*]})) && new_element
+            while [[ $REPLY == $home ]]; do
+                echo -en "\r"
+                mplayer -really-quiet "$FILE" &>/dev/null
+                read -s -p "$FILE " -n 3
+            done
+            parse_key fmov
+            ;;
+        png|jpg|jpeg|tga|sgi)
+            case $SUF in
+                png)      format=1 ;;
+                jpg|jpeg) format=2 ;;
+                tga)      format=3 ;;
+                sgi)      format=4 ;;
+            esac
+            SIZE=$(identify "$FILE" | sed 's/.* \([0-9]*x[0-9]*\)[+ ].*/\1/')
+            CURRX=${SIZE%x*}
+            CURRY=${SIZE#*x}
+            while [[ $REPLY == $home ]]; do
+                echo -en "\r"
+                display -sample 800x -delay 10 "$FILE"
+                read -s -p "$FILE " -n 3
+            done
+            parse_key fpic
+            ;;
+        wav|mp2|mp3)
+            while [[ $REPLY == $home ]]; do
+                echo -en "\r"
+                mplayer -really-quiet "$FILE" &>/dev/null
+                read -s -p "$FILE " -n 3
+            done
+            if [[ ${FILE%.*} == $NAME ]]; then
+                parse_key fwav
+            elif ((!two)); then
+                parse_key faudio
+            else
+                parse_key fonly
+            fi
+            ;;
+        *)
+            echo "$FILE skipping"
+            ;;
+    esac
+    shift
+done
+((${#LIST[*]})) && new_element
+
+exec >&3
+echo "${CMD[@]}"
+
+exit
+

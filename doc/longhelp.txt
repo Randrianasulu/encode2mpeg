@@ -1,0 +1,439 @@
+Usage: encode2mpeg options source
+Options:
+        -h|-help
+             list the available options
+        -l|-longhelp
+             print this help page
+        -doc|-documentation [[<browser>:][<html page>]]
+             show the html documentation
+        -noshowlog
+             do not show the log file
+        -o|-output <filename>
+             filename of the output stream
+        -a <n>						[DIRECT,MPEG]
+             aspect ratio     VCD SVCD  DVD
+                 1 -    1:1    x    *    x	x = mpeg2enc and mencoder
+                 2 -    4:3    x    x    x	* = mencoder only
+                 3 -   16:9    x    x    x
+                 4 -  2.21:1        *    x
+        -mpegfixaspect [pad|crop]			[DIRECT,MPEG]
+             force the aspect ratio of the source video to match the one
+             specified with -a; this can be done padding the video with
+             black lines or cropping the video; the default is padding
+        -rotate <0-3>					[AVI,MPEG]
+             rotate the source video by 90 degrees; set -mpegfixaspect;
+             0 rotate clockwise and flip, 1 rotate clockwise
+             2 rotate counterclockwise, 3 rotate counterclockwise and flip
+        -overscan <n>
+             shrink the video of n% and surround it with black borders,
+             n can be 1-99, using 10 should make visible on a TV the full video
+             image; if n is negative, the result is a magnification of the 
+             central part of the image; n>0 set -mpegfixaspect pad, n<0 set
+             -mpegfixaspect crop; in AVI Mode n can only be positive
+        -abr <n>
+             audio bit rate of the VCD/SVCD/DVD [MP2:224,MP3:128,AC3:448]
+        -asr <n>					[DIRECT]
+             audio sample rate of the VCD/SVCD/DVD [VCD/SVCD:44100,DVD:48000]
+             for AVI Mode and MPEG Mode use MPlayer's option -srate
+        -vbr|-vbitrate <n>
+             video bit rate [VCD:1152,SVCD:2500,DVD:7500,AVI:16000]
+        -vfr <n>
+             video frame rate of the output stream
+             [NTSC/VCD:4,NTSC/SVCD-DVD:1,PAL:3,AVI:2]
+                 1 - 24000.0/1001.0 (NTSC 3:2 pulldown converted FILM) 
+                 2 - 24.0 (NATIVE FILM) 
+                 3 - 25.0 (PAL/SECAM VIDEO / converted FILM) 
+                 4 - 30000.0/1001.0 (NTSC VIDEO) 
+                 5 - 30.0
+                 6 - 50.0 (PAL FIELD RATE) 
+                 7 - 60000.0/1001.0 (NTSC FIELD RATE) 
+                 8 - 60.0
+        -n|-video-norm <n|p|s>				[DIRECT,MPEG]
+             set the video norm of the VCD/SVCD/DVD; NTSC is USA standard,
+             PAL is European standard and SECAM is French standard; concerning
+             VCD/SVCD/DVD encoding, SECAM is equivalent to PAL
+        -p|-pulldown|-telecine 				[DIRECT,MPEG]
+             set a flag in the output stream of the SVCD/DVD that tell the
+             decoder to play the movie as NTSC video using "3:2 pull-down"
+             instead of "-vfr 4" use "-vfr 1 -p" (smaller output stream) 
+        -res <1-7> 					[DIRECT,MPEG]
+             force one of the following video resolutios:
+                                  PAL            NTSC
+            		1	352x288		352x240 (VCD) 
+            		2	352x576		352x480 (CVD) 
+            		3	480x576		480x480 (SVCD) 
+            		4	528x576		528x480 (KVCD) 
+            		5	544x576		544x480 (KVCD) 
+            		6	704x576		704x480 (DVB) 
+             		7	720x576		720x480 (DVD) 
+        -gop <n>
+             set the number of pictures per GOP; the default value is the one
+             required by the standard 
+        -kvcd <1-4> 					[DIRECT,MPEG]
+             generate KVCD (www.kvcd.net) compliant frames on output; the
+             following resolutions are possible:
+            		  PAL		  NTSC		GOP
+            	1	528x576		528x480		24
+            	2	528x576		528x480		def
+            	3	544x576		544x480		24
+             	4	544x576		544x480		def
+        -vcd  						[DIRECT,MPEG]
+             generate VCD compliant frames on output (default) 
+        -svcd [1-2] 					[DIRECT,Npeg]
+             generate SVCD compliant frames on output; the following resolutions
+             are possible:        PAL            NTSC
+            		1	480x576		480x480
+            		2	352x288		352x240
+             default is 1
+        -svcdht 					[DIRECT,MPEG]
+             enable the VCD header trick; this trick could allow to play SVCD on
+             DVD player that does not support SVCD. For more details see:
+             http://www.videohelp.com/svcd
+        -dvd [1-5] 					[DIRECT,MPEG]
+             generate DVD compliant frames on output; the following resolutions
+             are possible:        PAL            NTSC
+            		1	720x576		720x480
+            		2	704x576		704x480
+            		3	480x576		480x480 (non standard DVD-SVCD) 
+            		4	352x576		352x480
+            		5	352x288		352x240
+             default is 1
+        -dvdaudiolang <code,code,...>			[DIRECT,MPEG]
+             ISO 639 langauges codes to be associated with each audio
+             stream of the DVD
+        -dvdvideoattr <nopanscan|noletterbox|crop>	[DIRECT,MPEG]
+             add a video attribute to the dvd image; nopanscan or noletterbox
+             are allowed with -a 3 (16:9) and crop is allowed with -a 2 (4:3) 
+        -addchapter <time,time,...|step-total|copy>	[DIRECT,MPEG]
+             insert chapters; if the argument is a list t1,t2,t3,... it
+             specifies where to put the chapters, if the argument is the couple
+             of values t1-t2, the chapters are at 0,t1,2*t1,3*t1,...,n*t1 with
+             n*t1 <= t2, if the argument is the word "copy", the chapters are
+             the same as in the source DVD
+        -nochapter 					[DIRECT,MPEG]
+             do not insert chapters
+        -addsub <sid0,sid1,...|copy>			[DIRECT,MPEG]
+             copy the specified subtitle stream(s) or copy all the subtitles 
+             streams if the argument is the word "copy"
+        -addsdx <sid0,sid1,...>				[DIRECT,MPEG]
+             if you copy subtitle 2 and 4 and you want them to have id 0 and 1
+             use -addsub 2,4 -addsdx 0,1
+        -addsla <sla0,sla1,...>				[DIRECT,MPEG]
+             see doc/html/chapters.html
+        -vobsubsrc <vobsub file>			[DIRECT,MPEG]
+             specify the vobsub source file to use together with the option
+             -addsub
+        -txtsub <text subtitle file>
+             add the subtitle to a SVCD/DVD or convert a text subtitle
+        -txtsubopts <opt1:opt2:...>
+             text subtitles options; see doc/html/profile.html (AVI Mode) or
+             doc/html/chapters.html ; for a list of all the default values
+             type -txtsubopts list
+        -dvdsdx <mode,id,mode,id,...+mode,id,...+...>	[DIRECT,MPEG]
+             set the subtitle id for each stream mode, mode can be: normal,
+             widescreen, letterbox or panscan; a + separes each subtitle track
+        -ocr 						[AVI]
+             enable conversion of graphic subtitles to text subtitles
+        -ocropts <opt1:opt2:...>			[AVI]
+             graphic subtitles to text subtitles conversion options, see
+             doc/html/ocr.html
+        -menu 						[DIRECT,MPEG]
+             add menu to VCD/SVCD/DVD
+        -menuopts <opt1:opt2:...>			[DIRECT,MPEG]
+             menu creation options; for a list of all the options and the
+             permitted values type -menuopts list
+        -menuadvopts <opt1:opt2:...>			[DIRECT,MPEG]
+             menu creation advanced options; for a list of all the options and
+             the permitted values type -menuadvopts list
+        -menuextra "txt" [@:op1:..] <file1> [<file2>..]	[DIRECT,MPEG]
+             create an extra menu with picture gallery or slideshow, see
+             doc/html/menu.html
+        -menuthumboffset <time,time,....>		[DIRECT,MPEG]
+             chapter submenu thumbnail offset time
+        -menubg <bgimage> [@:opt]			[DIRECT,MPEG]
+             specify an image for the menu background; opt can be: 0 (default) 
+             [bgimage scaled to fit the screen], 1 [bgimage scaled keeping its
+             aspect ratio]
+        -menuvtsbg <vtsbgimage>				[DIRECT,MPEG]
+             specify an image for the root menu
+        -menuchaptertext "text 1" "text 2" ...		[DIRECT,MPEG]
+             text to insert under each thumbnail in the chapter submenu
+        -menuaudiotext "text 1" "text 2" ...		[DIRECT,MPEG]
+             text to insert in the audio submenu, default is to use the
+             langauges specified with -dvdaudiolang
+        -menusubtext "text 1" "text 2" ...		[DIRECT,MPEG]
+             text to insert in the subtitle submenu, default is to use the
+             langauges specified with -addsla
+        -menufix 					[DIRECT,MPEG]
+             use a workaroung to avoid random ImageMagick errors during
+             chapter's sumbenu creation
+        -cdburndevice <dev>				[DIRECT,MPEG]
+             burn device used by cdrdao, default is 0,0,0
+        -dvdburndevice <dev>				[DIRECT,MPEG]
+             burn device used by growisofs, default is /dev/cdrecorder
+        -cdi <path to CD-i application files> 		[DIRECT,MPEG]
+             add CD-i compatibility for VCD, see the README
+        -avi 						[AVI]
+             this option just set the following: -encode 3:3:2 -vfr 2 -avionly
+        -dvd2dvd 					[MPEG]
+             this option set the following:
+             -dvd -mpeg -encode 0:0:1 -addchapter copy -addsub copy
+        -stdvid <n>					[DIRECT,MPEG]
+             set some proper options in order make a standard VCD/SVCD/DVD
+            	1 - VCD  4 - SVCD  7 - DVD/mp2  10 - DVD/acopy    DIRECT Mode
+             	3 - VCD  6 - SVCD  9 - DVD/mp2  12 - DVD/acopy      MPEG Mode
+        -replex 					[MPEG]
+             in MPEG Mode, if possible, mencoder will create the video and 
+             audio stream and multiplex them in a single step. With -replex,
+             the video and audio stream will be multiplexed with mplex
+        -vcodec <mpeg1|mpeg2|mpeg4|xvid>		[AVI,MPEG]
+             force the selected video codec [VCD:mpeg1,SVCD-DVD:mpeg2,AVI:mpeg4]
+        -qmatrix <kvcd|tmpgenc|default|hi-res>
+             mpeg2enc custom quantization matrices: kvcd produce a smaller
+             output stream, hi-res is good for hi-quality source material
+        -mpeg1vbr 					[DIRECT,MPEG]
+             produce a VCD/MPEG-1 variable bit rate stream, the output stream
+             is smaller and a complete movie could fit in one VCD; check if
+             your hardware player support variable bit rate VCD
+        -cbr
+             force the use of constant bit rate video encoding
+        -mpegmbr <n>					[MPEG]
+             set the maximum video bit rate; the default is the value of vbr;
+             a value of 0 remove the limit
+        -mp1 [mp2enc|encode|copy]			[DIRECT,MPEG]
+             create mp1 audio with with one of mp2enc, encode or copy the 
+             source (mp1) audio stream; see the README
+        -mp2 [mp2enc|toolame|mencoder|copy|musicin|mctoolame]	[DIRECT,MPEG]
+             create mp2 audio with one of mp2enc, toolame, mencoder[libavcodec]
+             musicin, mctoolame or copy the source (mp2) audio stream;
+             for musicin or mctoolame you need to use -mpegchannels <3-6> too;
+             default: mp2enc (ch 1-2), musicin (ch 3-6) 
+        -mp3 [lame|mencoder|copy]			[DIRECT,MPEG]
+             create mp3 audio with lame or mencoder[libavcodec] or copy the
+             source (mp3) audio stream, default lame
+        -ac3 [mencoder|copy]				[DIRECT,MPEG]
+             create ac3 audio with mencoder[libavcodec] or copy the source
+             (ac3) audio stream, default mencoder
+        -dts [copy]					[DIRECT,MPEG]
+             copy the source (dts) audio stream
+        -lpcm 						[DIRECT,MPEG]
+             create an uncompressed lpcm audio stream [48000 or 96000 kHz]
+        -acopy 						[DIRECT,MPEG]
+             copy the source audio streams
+        -mpegchannels <1-6>				[DIRECT,MPEG]
+             number of channels of the MPEG audio stream, 1-6 for ac3 and lpcm;
+             1-2 for mp1, mp2 and mp3; 3-6 for mp2 Multichannel Audio; for the
+             AVI audio stream use MPlayer's option -channels
+        -normalize
+             normalize to the audio stream(s) 
+        -volume <n>
+             change amplitude of the audio stream; less than 1.0 decreases,
+             greater than 1.0 increases (float) 
+        -multiaudio <aid0,aid1,...>
+             put more than one audio stream in the output stream, aid is the
+             number you pass the -aid option of mplayer; AVI stream can have 
+             only MP3 or AC3 (avimerge limitation), SVCD/DVD stream can have 
+             MP1,MP2,MP3,AC3,DTS,LPCM but vcdimager will complain if the SVCD
+             has AC3 or LPCM, VCD can only have 1 audio channel 
+        -noscale 					[DIRECT,MPEG]
+             encode2mpeg automatically scales the video according to the MPEG
+             profile chosen, this option disables this feature; used mainly
+             for debug purposes
+        -monochrome
+             create B/W video or avoid color artifacts in B/W source streams
+        -sync-offset <n>				[DIRECT,MPEG]
+             adjust the audio/video synchronization; see -O in man mplex
+        -auto-sync-offset 				[DIRECT,MPEG]
+             adjust automatically the audio/video synchronization; useful only
+             when using -encode 0:0:1 or -mc 0 and muxing with mplex; tested
+             with TS streams, it may not work properly with other streams
+        -toolopts <yuvdenoise|y4mdenoise|yuvscaler|mpeg2enc|mplex|mplayer|
+                   vcdimager|dvdauthor|cdrdao|growisofs|musicin> <options>
+             all the following options are passed to the specified tool;
+             in DIRECT Mode the denoiser (yuvdenoise/y4mdenoise) is not used by
+             default, to turn it on specify it once as argument of -toolopts
+        -split <n>					[DIRECT,MPEG]
+             split the resulting MPEG stream in <n> MB chunks. [800]
+             this is the default in DIRECT Mode
+        -nosplit 					[DIRECT,MPEG]
+             do not split the resulting MPEG stream; this is the default
+             in MPEG Mode
+        -avisplit <n>					[AVI]
+             split the AVI stream in <n> MB chunks, default is unsplit,
+             it requires -avionly
+        -resume
+             resume a previous incomplete run
+        -keep
+             once an intermediate stream is not necessary any more it is
+             deleted; with this option you keep all of them; AVI and MPEG
+             streams are never deleted
+        -blank 						[DIRECT,MPEG]
+             blank a cd before burning it
+        -nowait 					[DIRECT,MPEG]
+             do not ask for a keypress before starting the burning process
+        -cacheonly
+             do only cache related tasks
+        -avionly 					[AVI]
+             create only the AVI stream
+        -streamonly 					[DIRECT,MPEG]
+             create only the elementary stream (video and audio) 
+        -mpegonly 					[DIRECT,MPEG]
+             create the MPEG stream (and remove the elementary stream) 
+        -imageonly 					[DIRECT,MPEG]
+             create the binary image (S/VCD) or the DVD filesystem
+        -isoonly 					[DIRECT,MPEG]
+             create the DVD iso image; normally it is never created
+        -burniso|-burnudf
+             put the encoded stream in a iso/udf filesystem and burn it to a DVD
+             disk; files already present on the DVD disk are preserved, use
+             -blank to erase them (for a DVD RW) 
+        -verify
+             verify the integrity of the burned media; recomended; it may happen
+             that the DVD burn process shows no errors, but the disk content is
+             not 100% identical to the source due to a bad media
+        -encode <n:m:i> 				[AVI,MPEG] 
+             the parameter n:m:i selects the audio codec, video codec options
+             and number of pass for mencoder, possible values are:
+               n                   m				i
+               0 copy              0 copy			1 
+               1 pcm               1 libavcodec/xvid MPEG	2
+               2 mp3lame/fast      2 as 1 + mbd=2		3
+               3 mp3lame/standard  3 as 1 + compression opts
+               4 libavcodec/mp2    4 as 1 + quality opts
+               5 libavcodec/mp3
+               6 libavcodec/ac3    for m=[2-4] and i>1 turbo is on
+               7 toolame/mp2	    i<=2 for xvid
+               8 libfaac/aac
+        -telecinesrc 					[MPEG]
+             if you use -encode n:0:i in MPEG Mode, encode2mpeg needs to know
+             if the source NTSC MPEG is telecined, otherwise the stream copy may
+             not work properly; normally encode2mpeg is able to detect telecined
+             sources, but, if the source MPEG is mixed, part not telecined and
+             part telecined, encode2mpeg may fail to detect it. In such case,
+             you can use this option to specify a telecined source.
+        -turbo <0-1>					[AVI,MPEG]
+             disable (0) or force (1) turbo mode for the first pass of N pass
+             encoding (N>1) 
+        -hispeed 					[AVI,MPEG]
+             increase the encoding speed of 25-50% (with -encode n:1:1); the
+             output video stream will be bigger and can have poor quality; this
+             option is mainly intented for testing, but it can be used if you
+             want to create more quickly an MPEG-4/AVI or a DVD
+        -bframes <0-4>					[AVI,MPEG]
+             specify the number of B frames; if -encode is n:3:i the default 2,
+             otherwise the default is no B frames; for VCD the default is 2
+        -vcustom <libavcodec options>			[AVI,MPEG]
+             specify a custom set of video options for libavcodec, use with
+             -encode n:1:i
+        -acustom <mp3lame/faac options>			[AVI,MPEG]
+             specify a custom set of lame options (with -encode 2:m:i) or faac
+             options (with -encode 8:m:i
+        -encsid <sid0,sid1,...>
+             dump the DVD vobsub, sid is the number you give the -sid option
+        -encsdx <sid0,sid1,...>
+             if you dump subtitle 2 and 4 and you want them to have id 0 and 1
+             use -encsid 2,4 -encsdx 0,1
+        -encsla <sla0,sla1,...>
+             see doc/html/subtitle.html
+        -usespeed 					[DIRECT,MPEG]
+             do frame rate conversion changing the playback speed; this option
+             can be used if you are converting from NTSC 24fps, with or without
+             telecine, to PAL 25fps and viceversa; during normal frame rate
+             conversion, frames are skipped or duplicated as needed; with this
+             option all the frames are encoded
+        -usesbr [1-6|>100]				[AVI,MPEG]
+             use the suggested video bitrate to set the output stream size
+               1 - for 650MB CD 		4 - for 2 x 650MB CD
+               2 - for 700MB CD (default) 	5 - for 2 x 700MB CD
+               3 - for 800MB CD 		6 - for 2 x 800MB CD
+               n where n > 100 will set the file size to n MB
+             with -multiaudio you must to set the streamsize in MB
+        -setaspect <n>					[AVI,MPEG]
+             scale and encode the video keeping the required aspect ratio,
+             if necessary add black lines to keep the final resolution multiple
+             of 16; n can be:
+                   1 expand        2 shrink        >100 set width to n
+             no black lines are added if n is negative; examples:
+               1   a 720x576 16/9 PAL video is encoded at 1024x576
+               1   a 720x480 16/9 NTSC video is encoded at 864x480 (bl. lines) 
+              -1   a 720x480 16/9 NTSC video is encoded at 854x480
+               2   a 720x480 4/3 NTSC video is encoded at 640x480
+               512 encode the video at 512x384 (4/3) or 512x288 (16/9) 
+             optimal width: 
+                640 512 320, 704 576 448 384 (4/3) 
+                512, 624 368, 654 622 592 542 510 480 398 366 336 (16/9) 
+        -ofps <n>					[AVI]
+             set the video frame per second of the AVI stream, useful if you
+             want an unusual value (for example 15 fps) 
+        -profile <profile name>				[AVI]
+             select a DivX/MPEG-4 profile; run 'encode2mpeg -profile doc' for
+             more informations and the complete list of available profiles
+        -crop <w:h:x:y>					[AVI,MPEG]
+             cropping window. See -vf crop in MPlayer man page.
+        -autocrop 					[AVI,MPEG]
+             autodetect the cropping window; WARNING: it may not work properly.
+        -cpu <n>
+             number of cpu to use, default all the cpu present in the system
+        -interlaced
+             turn on optimization for interlaced source video. 
+        -cartoon [1-2]					[AVI,MPEG]
+             turn on optimization for anime/cartoon source video, the argument 2
+             selects more aggressive options than argument 1 (the default) 
+        -fixavi 					[AVI]
+             use this option if seek or fast forward do not work with your
+             player
+        -fixasync 					[AVI]
+             due to a bug of MEncoder, there could be an a/v sync problem if you
+             create an AVI with vbr mp3 audio (-encode 3:m:i); this option
+             enables a different encoding sequence that should avoid it
+        -title 						[DIRECT,MPEG]
+             the created MPEG will be a title of a multititle DVD
+        -titleset "title 1" "title 2" ...		[DIRECT,MPEG]
+             specify the titles of a multititle DVD
+        -video|-videos 					[DIRECT,MPEG]
+             syntax: -video <source stream> <options>
+             syntax: -videos <video 1> <video 2> ...
+             make the source stream(s) a chapter of the VCD/SVCD/DVD; it creates
+             always a binary image (S/VCD) or a DVD filesystem
+        -cachedvd <dir> <mount point>
+             cache the content of a DVD in <dir>; <mount point> is the directory
+             where the source DVD is mounted
+        -savecache [iso] [raid]
+             burn the content of the cache on a DVD or create only an iso image
+             (two DVD or two iso images for raid; see the html documentation) 
+        -removecache
+             remove the contents of the cache specified with -cachedvd or
+             -dvd-device
+        -audioonly <audio file> [["@:opt:txt"] [bg image]] [--]
+             make a video using <audio file> for the audio stream and a static
+             background for the video stream, opt can be: 0 [bg image scaled to
+             fit the screen], 1 (default) [bg image scaled keeping its aspect
+             ratio]; if provided, the string txt is written on the background
+             image; -- indicates end of options
+        -slidefps <n>
+             fps to use when creating video from pictures, default is 1; if
+             there is an audio file associated with a picture, the duration of
+             the audio file is used
+        -slideaudio <audio file>
+             use the content of <audio file> as audio stream when creating video
+             from pictures; it works correctly only if used with mf://singlepic
+        -norc
+             do not use the settings in the file $HOME/.encode2mpegrc
+        -debug
+             make a more verbose log file and creates a debug file; if you are
+             submitting a bug report, use this option and compress and send the
+             log file and the debug file together with your bugreport
+        -allow-unsupported 
+             do not prompt the user to press return if an unsupported version of
+             MPlayer is detected
+
+					 avionly  encode
+The running Mode is selected by the	    x       x       AVI      Mode
+  presence or the absence of the	                    DIRECT   Mode
+  options -avionly, -encode			    x       MPEG     Mode
+
+Options can be uses for DIRECT, MPEG and AVI Mode as specified,
+if nothing is specified the option is valid for every Mode
+Arguments enclosed in [ ] are optional
+
+Quickstart: encode2mpeg -doc stdvid.html

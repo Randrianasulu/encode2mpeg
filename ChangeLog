@@ -1,0 +1,334 @@
+2007-10-18	0.6.4	added new features to the options -audioonly and -menubg
+			status line during the verify of burned DVD contains estimated finish time
+			when -resume is used each run is better separated in log file
+			the log's identify section for TS streams can contain duplicated lines, fixed
+			fixed a bug with the option -txtsubopts (Mpeg Mode)
+			found a bug when using together the Extra and Chapter menus, fixed
+			better look of the Root and Title menu's buttons
+			the menus are now in 16/9noletterbox format by default
+			added another suboption to -menuopts (4/3 16/9noletterbox 16/9nopanscan)
+			added option -cbr
+			if source audio stream is aac -encode 0:m:i now works (raw aac still fails)
+			added options -dvdvideoattr and -dvdsdx
+			added option -allow-unsupported
+			some code cleanup
+			y4mdenoise can be used in Direct Mode
+			option -abr works now with -encode 2:m:i and -encode 3:m:i
+			options -vbr and -vbitrate are equivalent now
+			Indirect Mode removed
+			-savecache raid was partially broken since 0.6.1, fixed
+			after a run with -o namelong a run with -o name may produce incorrect results, fixed
+			options -crop/-autocrop can be used togheter with -mpegfixaspect in Mpeg Mode
+
+2007-06-01	0.6.3	-- indicates end of arguments for -menuextra, -menuchaptertext, -menuaudiotext, -menusubtext
+			added option -menuextra
+			fixed a bug with -setaspect
+			the menu mpegs contain only one frame now
+			minor bugfixes
+			option -resume works together with option -video
+			-addchapter t1,t2,... is conveterd automatically to -addchapter 0,t1,t2,... if t1 != 0
+			added option -menuthumboffset
+			added another suboption to -menuopts ('play all' button)
+			README update
+			added options -ocr and -ocropts
+			-addsub copy was not working in Direct Mode, fixed
+			support for packman's rpm installation
+			Indirect Mode disabled
+			check for unsupported version of ImageMagick
+			fixed a root menu button bug with ImageMagick 6.x.x
+			fixed a menu color bug with ImageMagick 6.2.6 and later
+			fixed a menu text rendering bug with ImageMagick 6.2.4 and later
+			it is possible to clear the User Operation Flags from a DVD filesystem
+
+2007-01-18	0.6.2	miscellaneus bugfixes
+			dvdauthor fails if the subtitle menu has more than 18 entries, fixed
+			chapters menu or dvd-image without menu failure with dvdauthor 0.6.12, fixed
+			added support for vobcopy 1.0.x
+			added option -cartoon
+			options -crop/-autocrop can be used togheter with -setaspect in Mpeg Mode
+			option -setaspect works in Mpeg Mode
+			option -autopcrop did not work with Mplayer 1.0pre8, fixed
+			fixed a problem with -audioonly due to changes introduced in 0.6.1
+			extended status line information during the verify of burned DVD
+			-resume does not work properly in certain conditions, fixed
+			show the summary of warnings at the end of the run
+			added more profiles
+			added support for xvid encoding (-vcodec xvid)
+			option -keep keeps intermediate streams of a multipass encoding
+			option -endpos works in Direct Mode
+
+2006-11-06	0.6.1	fixed a bug introduced in 0.6.0 that would made a NTSC DVD 24fps non telecined
+			it is possible to create multi-title DVD without menu
+			show a warning if there is an aspect ratio mismatch between the input stream and the VCD/SVCD/DVD
+			option -usesbr was not accurate in 0.6.0, fixed
+			added two more format for the creation of the menu thumbnails: pnm and tga
+			-menuadvopts ::0 was not working as expected with MPlayer 1.0pre8, fixed
+			rendering of text subtitles in the encoded stream works now
+			check if the input stream does not contain audio
+			miscellaneus bugfixes
+
+2006-09-29	0.6.0	miscellaneus minor bugfixes
+			README update
+			enabled film2pal soft telecine (SVCD/DVD)
+			-encode n:m:2 mf://pic is permitted now in Avi Mode
+			options -vfr or -ofps works also with -encode n:0:i in Avi Mode
+			option -ffourcc works with -encode n:0:i too
+			option -mpegfixaspect can give incorrect results with Mplayer 1.0pre8, fixed
+			option -a can give incorrect results with Mplayer 1.0pre8, fixed
+			fixed a menu bug with ImageMagick 6.2.x
+			options -normalize and -volume could sometime not work: fixed
+			removed the limitations due to the pre7 mpeg muxer
+			where possible, using -rawaudio/-rawvideo to create the elementary stream
+			using the new suboption parser syntax (used for -ao pcm suboptions)
+			-encode 7:m:i uses toolame or twolame
+
+2006-06-05	0.5.7	warn if dvdauthor creates a dvd image bigger than 4.5GB
+			fixed a bug that would not permit to process a huge (>5000) number of subtitles
+			README update
+			added option -vobsubsrc
+			-addsub can copy SVCD subtitles
+			-addsub works faster with the patched spuunmux/spumux
+			created a patch for spuunmux/spumux
+
+2006-03-21	0.5.6	fixed a bug with animated chapter submenu
+			-txtsub was working only if the argument was a full pathname, fixed
+			suboption extension: -menuopts :0 (disk with chapters and menu but without the chapter submenu)
+			minor bugfixes
+			when using the option -verify, a temporary file was not removed: fixed
+			included seamonkey in the builtin browsers list
+			check if dts audio support is missing in MPlayer
+			initial support for aac audio encoding
+			enocde2mpeglight included in MPlayer source
+
+2006-01-14	0.5.5	refined the code for split in Mpeg Mode
+			the installation script can, optionally, install the programs present in the directory TOOLS
+			added option -norc and support for the configuration file ~/.encode2mpegrc
+			the CD created with the option -video can also be single-track multi-entry-points now
+			added option -audioonly
+			added options -slidefps and -slideaudio
+			support for mf://pic syntax
+			-gop fully works in Avi Mode
+			-usespeed works in Direct Mode
+			fixed a bug that was slowing the encoding if it was too fast
+
+2005-12-04	0.5.4	warn if the option -titleset creates a dvd image bigger than 4.5GB
+			-txtsub and -txtsubopts work in Avi Mode (text subtitle conversion)
+			added another suboption to -txtsubopts (SVCD/DVD)
+			added option -burnudf
+			added option -profile
+			the functionality of -fixavi has been extended
+			DivX Mode renamed Avi Mode
+			no need to patch MPlayer for Mpeg Multichannel Audio
+			partial change of the usage of the option -setaspect
+			options -overscan and -rotate work in DivX Mode too
+
+2005-11-11	0.5.3	small bigfixes
+			in Mpeg Mode encoding, the avi file is not created anymore
+			several bugfixes for the option -mpegchannels
+			hilight color change for titleset DVD
+			SVCD VBV value fix in Direct Mode
+			SVCD subtitle fix
+			README update
+			Mpeg Multichannel Audio
+
+2005-09-30	0.5.2	code cleanup
+
+2005-09-29	0.5.1	mplayer uses -nocache when probing the input video
+			the log file now shows video properties of mpegs with mpeg4 video
+			miscellaneus minor bugfixes
+			SVCD subtitles fix
+			added option -usespeed
+			added options -txtsub, -txtsubopts
+			fixed a bug with the options '-encode 0:m:i -vcd -mpeg' introduced in 0.5.0
+			installation script search for bash in the PATH
+			added options -res, -gop, -kvcd
+
+2005-09-15	0.5.0	added option -fixasync
+			miscellaneus minor bugfixes
+			README update
+			option -quiet renamed -noshowlog because -quiet is a valid MPlayer option
+			bugfix: -encode n:4:i now do not uses dc=9 for mpeg1 or low vbr
+			added option -burniso
+                        option -encode does not accept anymore a single digit (shortcut)
+			option -cache renamed -cachedvd because -cache is a valid MPlayer option
+			-stdvid can also make dvd now
+			added option -verify
+			-acopy works in Direct Mode
+			-split works in Mpeg Mode
+			it is possible to override the video codec with -vcodec
+			sound normalization is done with MPlayer instead of normalize
+			added option -hispeed
+			option -p works in Mpeg Mode
+			option -fast is now obsolete (always on), added option -replex
+			using MPlayer 1.0pre7 mpeg muxer
+
+2005-08-05	0.4.7	some code cleanup
+			fixed a small bug in menu_make_vts_audio
+			fixed a bug in menu_make_thumb
+			fixed a bug in menu_make_vts_chapter
+			-mpegchannels did not work in Mpeg Mode, fixed
+			miscellaneus minor bugfixes
+
+2005-07-08	0.4.6	added option -auto-sync-delay
+			added online help/doc for an individual option
+                        added option -doc
+			added VCD/SVCD menu
+			uniform layout for NTSC/PAL/DVD/VCD/SVCD menu
+
+2005-06-27	0.4.5	README update
+			added installation script
+			animated menu not working with MPlayer 1.0pre7, fixed
+			added options -rotate, -overscan
+			-menufix code cleanup
+			added options -title, -titleset for multititle DVD
+			added option -videos (similar to -video)
+			fixed a small bug in the date at the beginning of the log file
+
+2005-05-29	0.4.4	README update
+			added option -menufix
+			added options -menubg, -menuvtsbg
+			added options -menuchaptertext, -menuaudiotext, -menusubtext
+			added options -menuopts, -menuadvopts
+			added option -menu
+			resume code cleanup
+
+2005-04-26	0.4.3	fixed a bug with MPlayer 1.0pre7 (deprecated -aofile)
+			the argument of '-o' can contain any character
+			fixed a bug with vcdimager (version/distribution related)
+			fixed a bug with -encode 0:m:i in Mpeg Mode introduced in 0.4.0
+			-debug creates a debug file
+                        check and fix vobsub with a wrong timestamp created with -encsid
+			fixed a bug with -encode n:0:i in DivX Mode introduced in 0.4.1
+
+2005-03-18	0.4.2	all the temporary files with fixed names have finally been removed
+			bugfix for -savecache raid
+			the argument of '-o' can contain any character except spaces
+			fixed a bug of mountdvdraid that did not allow to mount DVD
+
+2005-03-12	0.4.1	added raid support for -savecache
+			default fourcc for DivX Mode is DX50
+			added option -video
+			small code cleanup
+			mencoder option -endpos works now
+			fixed a minor bugfix with divx2pass.log
+
+2005-03-04	0.4.0	enabled option -nochapter (useful together with -stdvid)
+			added option -stdvid
+			README update
+			added -mp1 option
+			resampling is done with mplayer instead of sox
+			added options -savecache and -cacheonly
+			-avisplit splits vobsub subtitles too
+                        implemented some code cleanup suggested by Stephane Chazelas
+			-usesbr was not working with MEncoder 1.0pre6, fixed
+			the file name of the input stream can contain spaces and quotes
+			bugfix: -svcdht works now
+			added option -acopy
+			show the correct asr when copying the input audio stream
+			added -dts option
+			small code cleanup
+			added support for 3 pass encoding with mencoder
+			added option -turbo
+
+2005-01-27	0.3.5	README update
+			added option -isoonly
+			added a check to the argument of the options
+			bugfix: -mpegfixaspect produced incorrect results for -a 1
+			bugfix: changed the code for subtitles scaling, removed subtitles shifting
+			added options -cache and -removecache
+			fixed 2 more bug (-addchapter, -addsub for CD) due to MEncoder 1.0pre6
+			small code cleanup
+			-usesbr is finally accurate in Mpeg Mode
+			added -encode 7:m:i (toolame)
+			argument of -encode is mandatory
+			added options -cdburndevice and -dvdburndevice
+			options check made version indipendent
+
+2005-01-03	0.3.4	changed and documented the libavcodec options for Mpeg Mode
+			video norm is mandatory for VCD/SVCD/DVD
+			-crop now works with or without -setaspect
+			fixed a bug with the position of subtitles (-addsub)
+			removed some limitations of -multiaudio in Mpeg Mode
+			full interlace support
+			-addchapter copy was not working with MEncoder 1.0pre6, fixed
+			in Direct Mode display a warning if ifps != ofps
+			added -autocrop option
+			fixed a bug with -setaspect, it was introduced in 0.3.2
+			small change in the usage of -mpegmbr
+			help and longhelp shows the Mode valid for the options
+			bugfix: using different gop for different vfr
+			bugfix: 2 Bframes for VCD as required by the standard
+
+2004-12-21	0.3.3	added -svcdht option for VCD header trick
+			added more resolutions for SVCD/DVD
+			-wide2std is obsolete, -mpegfixaspect can be used instead
+			added detection of wrong encode2mpeg/mplayer input options
+			-mpegfixaspect uses yuvscaler in Direct/Indirect Mode
+			fixed a small bug with -mpegfixaspect
+
+2004-12-09	0.3.2	fixed a small bug when using vcdxbuild instead of vcdimager
+                        added -addsdx and -addsla
+			fixed a small bug in time conversion functions
+			added -dvd2dvd option
+			added -addsub option for SVCD/DVD
+			added -nowait option
+			added -mpegfixaspect option
+
+2004-11-28	0.3.1	default asr for DVD is 48000
+			small change of the argument's syntax of -multiaudio, -encsid, -encsdx, -encsla
+			fixed a small bug introduced in 0.3.0 with ntsc norm and pulldown
+			improved accuracy of -split option
+			added CD-i compatibility
+			disk space usage is only 2 times the size of the final stream
+			-wide2std works in mpeg mode too
+			added -addchapter option for VCD/SVCD/DVD
+			preferring vcdxbuild to vcdimager
+			-keep and -restore works again, they were broken in 0.3.0
+			bframes are possible for every -encode option
+
+2004-11-03	0.3.0	removed -e option, examples are in the html docs
+			added -dvdaudiolang option
+			added -crop option
+			added cdrdao and growisofs output in the log file
+			README update
+			added html documentation
+			fixed the distortion problem with -srate
+			removed qpel from -encode 3
+			fixed a bug with -setaspect
+			-qmatrix works for DivX too
+			-volume is a general option, before it was limited to sox and normalize
+			added -fixavi option
+			-usesbr works correctly with -multiaudio
+			encoding with mpeg2enc or mencoder for VCD/SVCD/DVD
+			fixed a bug with -nosplit
+			added interlaced support
+			jobtime bugfix
+			added SMP support (no hyperthreading with kernel 2.4.x)
+
+2004-07-29	0.2.0	README update
+			added custom lame option
+			now with -usesbr is possible to set any file size
+			mencoder use -noodml with -multiaudio
+			-usesbr now works with 1 pass encoding
+			added option -vbitrate
+			deprecated 3 pass encoding replaced with 2 pass
+			-encode now has a "BEST QUALITY" option
+			added option -bframes
+
+2004-06-21	0.1.3	fixed a bug with "identify"
+			added custom mpeg4 video libavcodec option
+			show the PSNR in the log
+			elimination of .resume file
+			-ac3channels replaced with more generic -mpegchannels
+			-keep option keep more files
+			README update
+			log shows avisplit output
+			better cleanup
+
+2004-06-14	0.1.2	cosmetic changes
+
+2004-06-13	0.1.1	fixed a bug with -usesbr
+			added option -avisplit
+			cosmetic changes
+
+2004-06-09	0.1.0	First release

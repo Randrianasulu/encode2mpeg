@@ -1,0 +1,78 @@
+--- LOG: divx [2004-11-27 21:33:59]   
+   INFO: [encode2mpeg] version 0.3.1
+   INFO: [encode2mpeg] command line: '-o divx dvd://1 -multiaudio 128,129 -avi -encode 0:4:2 -encsid 0,2,4 -encsdx 0,1,2 -encsla en,fr,es'
+   MPEG: frameformat:VCD split:800 vfr:2 vbr:1152 abr:224 asr:44100 multiaudio:128 129 audioformat:mp2 mp2:mp2enc mpegencoder:mpeg2enc
+    AVI: encode:0:4:2 AUDIOPASS:-oac copy VIDEOPASS:-ovc lavc -lavcopts vcodec=mpeg4:autoaspect:vbitrate=16000:psnr:mbd=2:trell:v4mv:mv0:aic:last_pred=5:precmp=3:cmp=3:subcmp=3 PASS:2 
+   INFO: [input] ID_FILENAME=dvd://1
+   INFO: [input] ID_VIDEO_FORMAT=0x10000002
+   INFO: [input] ID_VIDEO_BITRATE=7000000
+   INFO: [input] ID_VIDEO_WIDTH=720
+   INFO: [input] ID_VIDEO_HEIGHT=480
+   INFO: [input] ID_VIDEO_FPS=29.970
+   INFO: [input] ID_VIDEO_ASPECT=1.7778
+   INFO: [input] ID_AUDIO_CODEC=a52
+   INFO: [input] ID_AUDIO_FORMAT=8192
+   INFO: [input] ID_AUDIO_BITRATE=448000
+   INFO: [input] ID_AUDIO_RATE=48000
+   INFO: [input] ID_AUDIO_NCH=2
+   INFO: [input] ID_LENGTH=4705
+   INFO: [MENCODERARG]  dvd://1   -ofps 24 -noodml
+   INFO: [MPLAYEROPT] divx.avi  -noframedrop -v -osdlevel 0 -vo yuv4mpeg -ao pcm -waveheader
+   INFO: [YUVSCALEROPT] -v 1  -O VCD 
+   INFO: [MPEG2ENCOPT] -f 2 -b 1152 -V 46 -B 463 -v 1 -S 800  -F 2 -o divx.mpv -s -g 6 -G 15 -r 16  -4 2 -2 1
+   INFO: [MPLEXOPT] -f 2 -V -b 46 -r 6400 
+   INFO: [VCDIMAGEROPT] -t vcd2 
+   INFO: [CDRDAOOPT]  --driver generic-mmc --device 0,0,0
+   INFO: [GROWISOFSOPT] -dvd-compat -Z /dev/cdrecorder -dvd-video
+   INFO: [encode2mpeg] dumping vobsub 0
+   INFO: [encode2mpeg] dumping -aid 129
+   INFO: [encode2mpeg] dumping vobsub 2
+   INFO: [encode2mpeg] dumping vobsub 4
+   INFO: [mencoder] MEncoder 1.0pre5-3.3.1 (C) 2000-2004 MPlayer Team
+   INFO: [mencoder] There are 12 titles on this DVD.
+   INFO: [mencoder] There are 27 chapters in this DVD title.
+   INFO: [mencoder] There are 1 angles in this DVD title.
+   INFO: [mencoder] [open] audio stream: 0 audio format: ac3 (5.1) language: en aid: 128
+   INFO: [mencoder] [open] audio stream: 1 audio format: ac3 (5.1) language: fr aid: 129
+   INFO: [mencoder] [open] number of audio channels on disk: 2.
+   INFO: [mencoder] [open] subtitle ( sid ): 0 language: en
+   INFO: [mencoder] [open] subtitle ( sid ): 1 language: fr
+   INFO: [mencoder] [open] subtitle ( sid ): 2 language: es
+   INFO: [mencoder] [open] number of subtitles on disk: 3
+   INFO: [mencoder] ==> Found video stream: 0
+   INFO: [mencoder] ==> Found audio stream: 129
+   INFO: [mencoder] ==> Found audio stream: 128
+   INFO: [mencoder] ==> Found subtitle: 5
+   INFO: [mencoder] ==> Found subtitle: 4
+   INFO: [mencoder] ==> Found subtitle: 3
+   INFO: [mencoder] ==> Found subtitle: 2
+   INFO: [mencoder] ==> Found subtitle: 1
+   INFO: [mencoder] ==> Found subtitle: 0
+   INFO: [mencoder] PSNR: Y:47.07, Cb:48.27, Cr:49.44, All:47.57
+   INFO: [avimerge] merging aid 129
+   INFO: [avimerge] scanning file frameno.avi for video/audio parameter
+   INFO: [avimerge] [avilib] V: 24.000 fps, codec=DIVX, frames=136519, width=720, height=480
+   INFO: [avimerge] [avilib] A: 48000 Hz, format=0x2000, bits=16, channels=2, bitrate=448 kbps,
+   INFO: [avimerge] [avilib]    11377 chunks, 318549504 bytes, CBR
+   INFO: [avimerge] TRACK 0 MP3RATE 448 VBR 0
+   INFO: [avimerge] merging audio divx_1_129.audio track (multiplexing) ...
+   INFO: [avimerge] ... done multiplexing in divx.avi
+   INFO: [vobsub] id: en, index: 0 <- changed to -> id: en, index: 0
+   INFO: [vobsub] id: es, index: 1 <- changed to -> id: fr, index: 1
+   INFO: [vobsub] id: xx, index: 2 <- changed to -> id: es, index: 2
+   INFO: [rar]
+   INFO: [rar] RAR 2.71     Copyright (c) 1993-2000 Eugene Roshal     21 June 2000
+   INFO: [rar] Shareware version         Type rar -? for help
+   INFO: [rar]
+   INFO: [rar] Evaluation copy. Please register.
+   INFO: [rar]
+   INFO: [rar] Creating solid archive divx.rar
+   INFO: [rar]
+   INFO: [rar] Adding    divx.idx
+   INFO: [rar] Adding    divx.sub
+   INFO: [rar] Done
+    AVI: VIDEO:  [DIVX]  720x480  24bpp  24.000 fps  3998.2 kbps (488.1 kbyte/s)
+    AVI: AUDIO[1]: AC3: 5.1 (3f+2r+lfe)  48000 Hz  448.0 kbit/s
+    AVI: AUDIO[2]: AC3: 5.1 (3f+2r+lfe)  48000 Hz  448.0 kbit/s
+    AVI: divx.avi is 3487867680 bytes, 3.2 GB
+ JOBEND: divx [2004-11-28 09:22:52] (11h48m53s)

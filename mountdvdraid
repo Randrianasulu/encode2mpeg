@@ -1,0 +1,95 @@
+#!/bin/bash
+
+# mountdvdraid (C) Giacomo Comes
+# 1.0   2005-03-10
+# 1.0.1 2005-03-15
+# 1.0.2 2006-03-14
+# 1.1.0 2007-02-24
+
+# this script
+# search for md<0-9> and loop<n> in /dev
+# if the devices are in another directory
+# or they have different names
+# the script need to be fixed
+
+[[ $1 = -h || $1 = --help ]] && shift $#
+if (($#==3)); then
+    [[ -e $2 ]] || ! echo "ERROR: $2 does not exist" || exit 1
+    [[ -e $3 ]] || ! echo "ERROR: $3 does not exist" || exit 1
+    [[ -d $1 ]] || ! echo "ERROR: mount point $1 not found" || exit 1
+    [[ $(awk -v mnt="$(echo "$1" | sed 's@\\@\\\\@g')" 'BEGIN{gsub(/\/*$/,"",mnt);gsub(/\\/,"\\134",mnt);gsub(/ /,"\\040",mnt)}$2==mnt{print $1}' \
+      /proc/mounts | tail -1) ]] && echo "++ WARN: mount point $1 already in use, press ^C to abort"
+    [[ ${2:0:1} != / ]] && set -- "$1" "$PWD/$2" "$3"
+    [[ ${3:0:1} != / ]] && set -- "$1" "$2" "$PWD/$3"
+    su -c '
+        type mdadm &>/dev/null || ! echo "**ERROR '\''mdadm'\'' not found, please install it" || exit 1
+        IMG0=$1
+        IMG1=$2
+        MNT=$3
+        shift 3
+        unset LOOP
+        MD=
+        for a ; do
+            losetup $a &>/dev/null || LOOP[${#LOOP[@]}]=$a
+            ((${#LOOP[@]}==2)) && break
+        done
+        for ((a=0;a<10;a++)); do
+            grep -q "^md$a" /proc/mdstat || ! MD=/dev/md$a || break
+        done
+        losetup ${LOOP[0]} "$IMG0"
+        losetup ${LOOP[1]} "$IMG1"
+        mdadm -B $MD -l linear -n 2 ${LOOP[0]} ${LOOP[1]}
+        if mount -o ro $MD "$MNT" ; then
+            echo "mounted $MD on $MNT with:"
+            echo "    $IMG0 (${LOOP[0]})"
+            echo "    $IMG1 (${LOOP[1]})"
+        else
+            echo "ERROR: failed to mount $MD on $MNT (may be the image order is wrong?)"
+            mdadm -S $MD
+            losetup -d ${LOOP[1]}
+            losetup -d ${LOOP[0]}
+        fi
+    ' -l -s "$BASH" -- root bash "$2" "$3" "$1" $(ls -l /dev/loop* | sort -k 6 -n | awk '{print $NF}')
+    ret=$? ; (( ret )) && echo "**ERROR failure detected, exiting" && exit $ret
+elif (($#==1)); then
+    if [[ -b $1 ]]; then
+        grep -q ${1##*/} /proc/mdstat || ! echo "ERROR: device $1 is not an active raid device" || exit 1
+        MD=$1
+        set -- "$(awk -v mnt="$MD" '$1==mnt{print $2}' /proc/mounts)"
+    elif [[ ! -d $1 ]]; then
+        echo "ERROR: mount point $1 not found" && exit 1
+    else
+        MD=$(awk -v mnt="$(echo "$1" | sed 's@\\@\\\\@g')" 'BEGIN{gsub(/\/*$/,"",mnt);gsub(/\\/,"\\134",mnt);gsub(/ /,"\\040",mnt)}$2==mnt{print $1}' \
+          /proc/mounts | tail -1)
+        [[ ! $MD ]] && echo "ERROR: nothing is mounted on $1" && exit 1
+        grep -q "^${MD##*/}" /proc/mdstat || ! echo "ERROR: device $MD (mounted on $1) is not a raid device" || exit 1
+    fi
+    su -c '
+        type mdadm &>/dev/null || ! echo "**ERROR '\''mdadm'\'' not found, please install it" || exit 1
+        unset LOOP
+        for a in $(mdadm -D $1 | tail -2 | awk "{print \$NF}") ; do
+            [[ -b $a ]] && LOOP[${#LOOP[@]}]=$a || ! echo "ERROR: invalid loop device for raid $1" || exit 1
+        done
+        IMG0=$(losetup ${LOOP[0]} | sed "s/[^(]*(//;s/).*//")
+        IMG1=$(losetup ${LOOP[1]} | sed "s/[^(]*(//;s/).*//")
+        echo "found $1 ${2:+mounted on $2 }with:"
+        echo "    $IMG0 (${LOOP[0]})"
+        echo "    $IMG1 (${LOOP[1]})"
+        if [[ $2 ]]; then
+            umount $1 || ! echo "**ERROR during umount of $1" || exit 1
+        fi
+        mdadm -S $1
+        grep -q "^${1##*/}" /proc/mdstat && echo "**ERROR during deactivation of array $1" && exit 1
+        losetup -d ${LOOP[1]} || ! echo "**ERROR detaching ${LOOP[1]}" || exit 1
+        losetup -d ${LOOP[0]} || ! echo "**ERROR detaching ${LOOP[0]}" || exit 1
+    ' -l -s "$BASH" -- root bash $MD "$1"
+    ret=$? ; (( ret )) && echo "**ERROR [${0##*/}] failure detected, exiting" && exit $ret
+    [[ $1 ]] && echo "unmount done" || echo "RAID deactivation done"
+else
+    echo "${0##*/} v1.1.0"
+    echo "Usage (mounting): ${0##*/} <mount point> <image1> <image2>"
+    echo "    (unmounting): ${0##*/} <mount point|raid device>"
+    echo "${0##*/} is used for mounting (read only) or unmounting two disks as a RAID array in Linear Mode"
+    echo "See encode2mpeg's documentation for more information (encode2mpeg -doc cache.html)"
+fi
+

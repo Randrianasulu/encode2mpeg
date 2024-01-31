@@ -1,0 +1,1334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Mpeg</title>
+</head>
+<body>
+<h2>Mpeg Mode 1 pass<br>
+</h2>
+<h4>Source video<br>
+<span style="font-weight: bold;"></span></h4>
+<ul>
+  <li>Video 1<br>
+The video is a 132 minutes 720x576 16/9 PAL dvd movie. It was
+originally encoded with 2 B frames and 7500 kbps video bit rate (the
+average bit rate was 5450). The mpeg2
+video stream plus the ac3 audio stream is 5636 MB long.&nbsp;</li>
+  <li>Video 2<br>
+The video is a 113 minutes 720x576 16/9 PAL dvd movie. It was
+originally encoded with 1.5 B frames and 9000 kbps video bit rate (the
+average bit rate was 6920). The mpeg2
+video stream plus the ac3 audio stream is 5887 MB long.<br>
+  </li>
+</ul>
+The first video was filmed in 2.35:1 scope, therefore the DVD video
+contains horizontal black bars. Because of that, the video compress
+better and requires a lower video bit rate. The second video instead
+has a higher video bit rate requirement.<br>
+<h3>DVD (720x576)<br>
+</h3>
+Video 1<br>
+<table
+ style="width: 100%; height: 56px; text-align: left; margin-left: auto; margin-right: auto;"
+ border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-encode</span><br>
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;"><span
+ style="font-weight: bold;">B frames</span><br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-vbr</span><br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 100px; text-align: center;">size
+(MB)<br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 80px; text-align: center;">job
+time</td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 60px; text-align: center;">PSNR</td>
+      <td
+ style="vertical-align: top; text-align: center; font-weight: bold;">note</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:1:1</td>
+      <td style="vertical-align: top; text-align: center;">(0)<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">7500</td>
+      <td style="vertical-align: top; text-align: center;">5334<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">43m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">(42.79)<br>
+      </td>
+      <td style="vertical-align: top;">-hispeed<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:1:1</td>
+      <td style="vertical-align: top; text-align: center;">0<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">7500</td>
+      <td style="vertical-align: top; text-align: center;">4666<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">1h9m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">47.44<br>
+      </td>
+      <td style="vertical-align: top;">encode2mpeg 0.5.0<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 60px; text-align: center;">0:1:1<br>
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;">0/1/2<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">7500<br>
+      </td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">4678/3894/3636<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">1h31m/1h25m/1h31m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">47.44/47.12/46.94<br>
+      </td>
+      <td style="vertical-align: top; text-align: left;">very fast<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 60px; text-align: center;">0:2:1
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;">0/1/2<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">7500</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">4614/3857/3607<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">2h3m/2h31m/2h16m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">47.62/47.29/47.09<br>
+      </td>
+      <td style="vertical-align: top; text-align: left;">fast<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 60px; text-align: center;">0:3:1
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;">0/1/2<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">7500</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">3673/3178/3010<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">4h15m/3h55m/3h58m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">47.21/46.84/46.63<br>
+      </td>
+      <td style="vertical-align: top; text-align: left;">high
+compression<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 60px; text-align: center;">0:4:1
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;">0/1/2<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">7500</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">4678/4001/3789<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">5h23m/6h24m/6h56m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">47.78/47.15/47.09<br>
+      </td>
+      <td style="vertical-align: top; text-align: left;">high PSNR<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+Video 2<br>
+<table
+ style="width: 100%; height: 56px; text-align: left; margin-left: auto; margin-right: auto;"
+ border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-encode</span><br>
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;"><span
+ style="font-weight: bold;">B frames</span><br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-vbr</span><br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 100px; text-align: center;">size
+(MB)<br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 80px; text-align: center;">job
+time</td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 60px; text-align: center;">PSNR</td>
+      <td
+ style="vertical-align: top; text-align: center; font-weight: bold;">note</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:1:1</td>
+      <td style="vertical-align: top; text-align: center;">(0)</td>
+      <td style="vertical-align: top; text-align: center;">9000</td>
+      <td style="vertical-align: top; text-align: center;">6838<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">42m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">(41.31)<br>
+      </td>
+      <td style="vertical-align: top;">-hispeed</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:1:1</td>
+      <td style="vertical-align: top; text-align: center;">0</td>
+      <td style="vertical-align: top; text-align: center;">9000</td>
+      <td style="vertical-align: top; text-align: center;">4781<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">1h1m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">47.07<br>
+      </td>
+      <td style="vertical-align: top;">encode2mpeg 0.5.0</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:1:1<br>
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;">0/1/2<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">9000<br>
+      </td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">4791/4173/3859<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">1h23m/1h20m/1h23m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">47.07/46.40/46.25<br>
+      </td>
+      <td style="vertical-align: top; text-align: left;">very fast </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:2:1 </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;">0/1/2<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">9000</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">4749/4141/3833<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">1h43m/1h59m/2h2m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">47.13/46.50/46.37<br>
+      </td>
+      <td style="vertical-align: top; text-align: left;">fast </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:3:1 </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;">0/1/2<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">9000</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">4010/3549/3308<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">4h9m/3h58m/4h19m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">46.36/45.76/45.60<br>
+      </td>
+      <td style="vertical-align: top; text-align: left;">high
+compression </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:4:1 </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;">0/1/2<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">9000</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">4747/4225/3970<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">5h15m/6h53m/7h14m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">47.32/46.58/46.40<br>
+      </td>
+      <td style="vertical-align: top; text-align: left;">high PSNR </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+When the video bit rate is high (like for dvd), you can
+assume that:<br>
+-encode n:1:1 is very fast<br>
+-encode n:2:1 is fast and has a good PSNR<br>
+-encode n:3:1 compress better but has a lower PSNR<br>
+-encode n:4:1 has higher PSNR<br>
+With 1 B frame the file size reduces about 11-16%, with 2 B frames the
+reduction is about 16-21%<br>
+<h3>SVCD (480x576)<br>
+</h3>
+Video 1<br>
+<table
+ style="width: 100%; height: 56px; text-align: left; margin-left: auto; margin-right: auto;"
+ border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-encode</span><br>
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;"><span
+ style="font-weight: bold;">B frames</span><br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-vbr</span><br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 100px; text-align: center;">size
+(MB)<br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 80px; text-align: center;">job
+time</td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 60px; text-align: center;">PSNR</td>
+      <td
+ style="vertical-align: top; text-align: center; font-weight: bold;">note</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:1:1</td>
+      <td style="vertical-align: top; text-align: center;">(0)<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">2500</td>
+      <td style="vertical-align: top; text-align: center;">2578<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">41m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">(39.54)<br>
+      </td>
+      <td style="vertical-align: top;">-hispeed</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:1:1</td>
+      <td style="vertical-align: top; text-align: center;">0<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">2500</td>
+      <td style="vertical-align: top; text-align: center;">2142<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">1h0m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">45.46<br>
+      </td>
+      <td style="vertical-align: top;">encode2mpeg 0.5.0</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:1:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">2500</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">2149/1913/1818<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">1h13m/1h15m/1h20m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">45.46/45.43/45.28<br>
+      </td>
+      <td style="vertical-align: top;">faster </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:2:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center;">2500</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">2137/1912/1822<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">1h46m/1h40m/1h44m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">45.56/45.53/45.39<br>
+      </td>
+      <td style="vertical-align: top;">fast </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:3:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center;">2500</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">1840/1690/1625<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">2h37m/2h32m/2h31m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">45.67/45.56/45.41<br>
+      </td>
+      <td style="vertical-align: top;">better compression and PSNR </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:4:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center;">2500</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">2128/1936/1859<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">3h26m/4h35m/4h18m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">45.50/45.01/44.99<br>
+      </td>
+      <td style="vertical-align: top;">do not use<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+Video 2<br>
+<table
+ style="width: 100%; height: 56px; text-align: left; margin-left: auto; margin-right: auto;"
+ border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-encode</span><br>
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;"><span
+ style="font-weight: bold;">B frames</span><br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-vbr</span><br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 100px; text-align: center;">size
+(MB)<br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 80px; text-align: center;">job
+time</td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 60px; text-align: center;">PSNR</td>
+      <td
+ style="vertical-align: top; text-align: center; font-weight: bold;">note</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:1:1</td>
+      <td style="vertical-align: top; text-align: center;">(0)<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">2500</td>
+      <td style="vertical-align: top; text-align: center;">2273<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">36m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">(35.11)<br>
+      </td>
+      <td style="vertical-align: top;">-hispeed</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:1:1</td>
+      <td style="vertical-align: top; text-align: center;">0<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">2500</td>
+      <td style="vertical-align: top; text-align: center;">2124</td>
+      <td style="vertical-align: top; text-align: center;">54m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">43.17<br>
+      </td>
+      <td style="vertical-align: top;">encode2mpeg 0.5.0</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:1:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">2500</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">2127/2040/1973<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">1h21m/1h15m/1h16m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">43.18/42.92/42.58<br>
+      </td>
+      <td style="vertical-align: top;">faster </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:2:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center;">2500</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">2124/2038/1970<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">1h24m/1h33m/1h44m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">43.22/43.03/42.72<br>
+      </td>
+      <td style="vertical-align: top;">fast </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:3:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center;">2500</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">1976/1881/1812<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">2h36m/2h44m/2h47m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">43.64/43.58/43.34<br>
+      </td>
+      <td style="vertical-align: top;">better compression and PSNR </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:4:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center;">2500</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">2116/2045/1985<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">3h7m/4h7m/4h25m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">43.26/42.74/42.43<br>
+      </td>
+      <td style="vertical-align: top;">do not use </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+In case of SVCD the standard vbr (2500) is close to the average vbr
+required to compress the video. As you can see:<br>
+-encode n:1:1 is still faster<br>
+-encode n:2:1 is fast<br>
+-encode n:3:1 compress better AND has a higher PSNR<br>
+-encode n:4:1 does not show any advantage<br>
+<h3>VCD (352x288)<br>
+</h3>
+Video 1<br>
+<table
+ style="width: 100%; height: 56px; text-align: left; margin-left: auto; margin-right: auto;"
+ border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-encode</span><br>
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;"><span
+ style="font-weight: bold;">B frames</span><br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-vbr</span><br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 100px; text-align: center;">size
+(MB)<br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 80px; text-align: center;">job
+time</td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 60px; text-align: center;">PSNR</td>
+      <td
+ style="vertical-align: top; text-align: center; font-weight: bold;">note</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:1:1</td>
+      <td style="vertical-align: top; text-align: center;">(0)</td>
+      <td style="vertical-align: top; text-align: center;">1152</td>
+      <td style="vertical-align: top; text-align: center;">1328<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">33m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">(38.34)<br>
+      </td>
+      <td style="vertical-align: top;">-hispeed</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:1:1</td>
+      <td style="vertical-align: top; text-align: center;">0</td>
+      <td style="vertical-align: top; text-align: center;">1152</td>
+      <td style="vertical-align: top; text-align: center;">1322<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">37m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">45.12<br>
+      </td>
+      <td style="vertical-align: top;">encode2mpeg 0.5.0</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:1:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">1152</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">1320/1320/1320
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">0h42m/0h43m/0h52m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">44.93/45.17/44.90<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:2:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">1152</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">1320/1320/1320
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">0h48m/0h52m/0h53m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">45.00/45.24/44.98<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:3:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">1152</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">1320/1320/1320
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">1h16m/1h16m/1h16m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">44.98/45.23/45.01<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:4:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">1152</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">1320/1320/1320
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">1h27m/1h52m/1h55m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">45.06/45.09/44.82<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<span style="font-weight: bold;"><br>
+</span>Video 2<br>
+<table
+ style="width: 100%; height: 56px; text-align: left; margin-left: auto; margin-right: auto;"
+ border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-encode</span><br>
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;"><span
+ style="font-weight: bold;">B frames</span><br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-vbr</span><br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 100px; text-align: center;">size
+(MB)<br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 80px; text-align: center;">job
+time</td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 60px; text-align: center;">PSNR</td>
+      <td
+ style="vertical-align: top; text-align: center; font-weight: bold;">note</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:1:1</td>
+      <td style="vertical-align: top; text-align: center;">(0)</td>
+      <td style="vertical-align: top; text-align: center;">1152</td>
+      <td style="vertical-align: top; text-align: center;">1130<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">29m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">(34.81)<br>
+      </td>
+      <td style="vertical-align: top;">-hispeed</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:1:1</td>
+      <td style="vertical-align: top; text-align: center;">0</td>
+      <td style="vertical-align: top; text-align: center;">1152</td>
+      <td style="vertical-align: top; text-align: center;">1128<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">33m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">43.45<br>
+      </td>
+      <td style="vertical-align: top;">encode2mpeg 0.5.0</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:1:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">1152</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">1127/1127/1127</td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">0h40m/0h40m/0h40m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">43.15/43.46/43.21<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:2:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">1152</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">1127/1127/1127</td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">0h48m/0h48m/0h50m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">43.19/43.53/43.31<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:3:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">1152</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">1127/1127/1127</td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">1h16m/1h33m/2h5m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">43.26/43.46/43.29<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:4:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">1152</td>
+      <td style="vertical-align: top; width: 100px; text-align: center;">1127/1127/1127</td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">2h7m/2h46m/2h49m<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">43.23/43.36/43.11<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<span style="font-weight: bold;"><br>
+</span>VCD has constant video bit rate. The file size will be always
+the
+same, it doesn't matter which option you use.<br>
+-encode n:2:1 and -encode n:3:1 give the better PSNR and there is no
+big
+difference between them.<br>
+<br>
+<h3>VCD (352x288) variable bit rate</h3>
+Video 1<br>
+<table
+ style="width: 100%; height: 56px; text-align: left; margin-left: auto; margin-right: auto;"
+ border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-encode</span><br>
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;"><span
+ style="font-weight: bold;"></span><span style="font-weight: bold;"></span><span
+ style="font-weight: bold;">B frames</span><br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;"><span
+ style="font-weight: bold;">-vbr</span><br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; text-align: center; width: 100px;">size
+(MB)<br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; text-align: center; width: 80px;">job
+time</td>
+      <td
+ style="vertical-align: top; font-weight: bold; text-align: center; width: 60px;">PSNR</td>
+      <td
+ style="vertical-align: top; text-align: center; font-weight: bold;">note</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:1:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">1152</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">999/911/876<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">0h43m/0h44m/0h45m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">44.93/44.82/44.55<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:2:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">1152</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">995/914/881<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">0h50m/0h51m/0h50m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">45.00/44.90/44.64<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:3:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">1152</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">902/841/815<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">1h11m/1h10m/1h11m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">45.06/44.91/44.58<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:4:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">1152</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">989/918/891<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">1h25m/1h42m/1h49m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">45.03/44.72/44.46<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+Video 2<br>
+<table
+ style="width: 100%; height: 56px; text-align: left; margin-left: auto; margin-right: auto;"
+ border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-encode</span><br>
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;"><span
+ style="font-weight: bold;">B frames</span><br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;"><span
+ style="font-weight: bold;">-vbr</span><br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; text-align: center; width: 100px;">size
+(MB)<br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; text-align: center; width: 80px;">job
+time</td>
+      <td
+ style="vertical-align: top; font-weight: bold; text-align: center; width: 60px;">PSNR</td>
+      <td
+ style="vertical-align: top; text-align: center; font-weight: bold;">note</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:1:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">1152</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">1032/967/934<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">1h5m/1h5m/1h6m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">43.08/42.96/42.52<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:2:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">1152</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">1030/969/936<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">1h14m/1h14m/1h21m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">43.12/43.04/42.65<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:3:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">1152</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">949/891/859<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">1h16m/1h18m/1h20m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">43.28/43.21/42.91<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:4:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">1152</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">1027/969/940<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">1h26m/1h47m/1h55m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">43.16/42.81/42.42<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+In case your hardware player can play VCD with variable video bit rate
+add the option -mpeg1vbr.<br>
+-encode n:3:1 compress better AND has a higher PSNR<br>
+-encode n:2:1 is faster<br>
+<h3>SVCD (352x288)<br>
+</h3>
+Video 1<br>
+<table
+ style="width: 100%; height: 56px; text-align: left; margin-left: auto; margin-right: auto;"
+ border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-encode</span><br>
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;"><span
+ style="font-weight: bold;"></span><span style="font-weight: bold;"></span><span
+ style="font-weight: bold;">B frames</span><br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;"><span
+ style="font-weight: bold;">-vbr</span><br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; text-align: center; width: 100px;">size
+(MB)<br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; text-align: center; width: 80px;">job
+time</td>
+      <td
+ style="vertical-align: top; font-weight: bold; text-align: center; width: 60px;">PSNR</td>
+      <td
+ style="vertical-align: top; text-align: center; font-weight: bold;">note</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:1:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">1152</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">1066/968/929<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">0h46m/0h45m/0h44m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">44.83/44.85/44.66<br>
+      </td>
+      <td style="vertical-align: top;">-svcd 2<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:2:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">1152</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">1062/969/932<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">0h51m/0h54m/0h54m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">44.91/44.94/44.76<br>
+      </td>
+      <td style="vertical-align: top;">-svcd 2 </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:3:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">1152</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">963/901/874<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">1h19m/1h15m/1h15m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">45.11/45.06/44.76<br>
+      </td>
+      <td style="vertical-align: top;">-svcd 2 </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:4:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">1152</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">1055/977/945<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">1h32m/1h50m/1h57m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">44.94/44.77/44.56<br>
+      </td>
+      <td style="vertical-align: top;">-svcd 2 </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+Video 2<br>
+<table
+ style="width: 100%; height: 56px; text-align: left; margin-left: auto; margin-right: auto;"
+ border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-encode</span><br>
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;"><span
+ style="font-weight: bold;">B frames</span><br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;"><span
+ style="font-weight: bold;">-vbr</span><br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; text-align: center; width: 100px;">size
+(MB)<br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; text-align: center; width: 80px;">job
+time</td>
+      <td
+ style="vertical-align: top; font-weight: bold; text-align: center; width: 60px;">PSNR</td>
+      <td
+ style="vertical-align: top; text-align: center; font-weight: bold;">note</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:1:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">1152</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">1082/1029/994<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">0h42m/0h42m/0h42m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">42.90/43.01/42.76<br>
+      </td>
+      <td style="vertical-align: top;">-svcd 2 </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:2:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">1152</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">1080/1029/994<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">0h46m/0h50m/0h52m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">42.95/43.10/42.89<br>
+      </td>
+      <td style="vertical-align: top;">-svcd 2 </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:3:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">1152</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">1005/960/929<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">1h20m/1h16m/1h15m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">43.47/43.65/43.48<br>
+      </td>
+      <td style="vertical-align: top;">-svcd 2 </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">4:4:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">1152</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">1077/1032/999<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">1h26m/1h48m/1h58m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">43.00/42.89/42.67<br>
+      </td>
+      <td style="vertical-align: top;">-svcd 2 </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+Instead of a VCD you can create a SVCD with VCD resolution.<br>
+It is very similar to a VCD with variable video bit rate, but mpeg2
+should give better quality.<br>
+<br>
+<h3>DVD (720x576)<br>
+</h3>
+Video 1<br>
+<table
+ style="width: 100%; height: 56px; text-align: left; margin-left: auto; margin-right: auto;"
+ border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-encode</span><br>
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;"><span
+ style="font-weight: bold;">B frames</span><br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-vbr</span><br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; text-align: center; width: 100px;">size
+(MB)<br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; text-align: center; width: 80px;">job
+time</td>
+      <td
+ style="vertical-align: top; font-weight: bold; text-align: center; width: 60px;">PSNR</td>
+      <td
+ style="vertical-align: top; text-align: center; font-weight: bold;">note</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 60px; text-align: center;">0:1:1<br>
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;">0/1/2<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">7500<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">3674/3183/3012<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">1h47m/1h45m/1h40m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">45.39/45.07/44.94<br>
+      </td>
+      <td style="vertical-align: top; text-align: left;">-usesbr
+3673/3178/3010<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 60px; text-align: center;">0:2:1
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;">0/1/2<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">7500</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">3674/3184/3013
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">2h7m/2h23m/2h20m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">45.54/45.17/45.02<br>
+      </td>
+      <td style="vertical-align: top; text-align: left;">-usesbr
+3673/3178/3010 </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 60px; text-align: center;">0:3:1
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;">0/1/2<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">7500</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">3673/3178/3010<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">4h15m/3h55m/3h58m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">47.21/46.84/46.63<br>
+      </td>
+      <td style="vertical-align: top; text-align: left;">&nbsp;<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 60px; text-align: center;">0:4:1
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;">0/1/2<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">7500</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">3688/3196/3026<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">5h5m/6h11m/6h27m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">45.48/44.76/44.40<br>
+      </td>
+      <td style="vertical-align: top; text-align: left;">-usesbr
+3673/3178/3010 </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:3:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center;">7500</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">3412/2980/2801<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">3h32m/3h18m/3h16m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">46.83/46.48/46.59<br>
+      </td>
+      <td style="vertical-align: top;">-qmatrix tmpgenc</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:3:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center;">7500</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">3411/2983/2802<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">4h10m/3h53m/3h48m
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">45.84/45.42/45.39<br>
+      </td>
+      <td style="vertical-align: top;">-usesbr
+3412/2980/2801</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:3:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center;">7500</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">3158/2784/2619<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">3h26m/3h14m/3h12m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">46.24/45.92/45.97<br>
+      </td>
+      <td style="vertical-align: top;">-qmatrix kvcd<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:3:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center;">7500</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">3159/2788/2620<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 80px;">4h26m/4h4m/3h52m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">45.29/44.89/44.83<br>
+      </td>
+      <td style="vertical-align: top;">-usesbr
+3158/2784/2619<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+Video 2<br>
+<table
+ style="width: 100%; height: 56px; text-align: left; margin-left: auto; margin-right: auto;"
+ border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-encode</span><br>
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;"><span
+ style="font-weight: bold;">B frames</span><br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;"><span
+ style="font-weight: bold;">-vbr</span><br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; text-align: center; width: 100px;">size
+(MB)<br>
+      </td>
+      <td
+ style="vertical-align: top; font-weight: bold; width: 80px; text-align: center;">job
+time</td>
+      <td
+ style="vertical-align: top; font-weight: bold; text-align: center; width: 60px;">PSNR</td>
+      <td
+ style="vertical-align: top; text-align: center; font-weight: bold;">note</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:1:1<br>
+      </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;">0/1/2<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">9000<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">3998/3540/3297<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">1h41m/1h43m/1h30m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">45.49/44.88/44.72<br>
+      </td>
+      <td style="vertical-align: top; text-align: left;"> -usesbr
+4010/3549/3308</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:2:1 </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;">0/1/2<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">9000</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">3998/3540/3297
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">1h50m/2h15m/2h18m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">45.59/45.01/44.85<br>
+      </td>
+      <td style="vertical-align: top; text-align: left;"> -usesbr
+4010/3549/3308</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:3:1 </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;">0/1/2<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">9000</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">4010/3549/3308<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">4h9m/3h58m/4h19m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">46.36/45.76/45.60<br>
+      </td>
+      <td style="vertical-align: top; text-align: left;"> <br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:4:1 </td>
+      <td style="vertical-align: top; width: 70px; text-align: center;">0/1/2<br>
+      </td>
+      <td style="vertical-align: top; width: 60px; text-align: center;">9000</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">3999/3542/3300<br>
+      </td>
+      <td style="vertical-align: top; width: 80px; text-align: center;">5h16m/6h36m/6h59m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">45.73/44.91/44.55<br>
+      </td>
+      <td style="vertical-align: top; text-align: left;"> -usesbr
+4010/3549/3308</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:3:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center;">9000</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">3618/3234/3003<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">3h47m/4h9m/3h40m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">45.75/45.17/45.05<br>
+      </td>
+      <td style="vertical-align: top;">-qmatrix tmpgenc<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:3:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center;">9000</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">3606/3225/2993<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">3h54m/3h45m/3h51m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">45.34/44.77/44.61<br>
+      </td>
+      <td style="vertical-align: top;">-usesbr
+3618/3234/3003 </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:3:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center;">9000</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">3298/2962/2750<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">3h18m/3h12m/3h14m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">44.83/44.30/44.17<br>
+      </td>
+      <td style="vertical-align: top;">-qmatrix kvcd</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">0:3:1</td>
+      <td style="vertical-align: top; text-align: center;">0/1/2</td>
+      <td style="vertical-align: top; text-align: center;">9000</td>
+      <td style="vertical-align: top; text-align: center; width: 100px;">3287/2953/2740<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">3h58m/4h4m/4h4m<br>
+      </td>
+      <td style="vertical-align: top; text-align: center; width: 60px;">44.62/44.10/43.91<br>
+      </td>
+      <td style="vertical-align: top;">-usesbr
+3298/2962/2750</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+If you need to reduce the size of the mpeg video always use -encode
+n:3:i or B frames. In order to reduce further the file size use
+-qmatrix tmpgenc or kvcd.<br>
+The usage of -usesbr (and therefore a lower vbr) always has a bad
+impact on the PSNR.<br>
+With 1 PASS encoding, the final file size is not exactly the one
+specified with -usesbr. For better accuracy you need 2 PASS encoding.<br>
+<br>
+<br>
+<br>
+</body>
+</html>

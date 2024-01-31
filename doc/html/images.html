@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Multiple image files</title>
+</head>
+<body>
+<h2 class="title" style="clear: both; text-align: center;">Encoding
+from multiple input image files</h2>
+Since encode2mpeg 0.5.5 there is support for encoding from multiple
+image files. The following MEncoder syntax is supported:<br>
+<div style="margin-left: 40px;"><span style="font-family: monospace;">mf://file.ext</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">mf://file*.ext</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">mf://filea.ext,fileb.ext,...</span><span
+ style="font-family: monospace;"></span><br>
+</div>
+The input images will be scaled and expanded as needed in order to fit
+the selected profile. The same amount of scaling and expansion will be
+used for all the images. This will produce incorrect results if the
+images have different resolutions or they are of different formats
+(JPEG,
+PNG, TGA, SGI). However it is possible to avoid this limitation of
+MEncoder:
+see below. Every picture will display for 1 second in the encoded
+video. You can use the option -slidefps to change the duration. Example:<br>
+<pre>encode2mpeg -o VIDEO -mpeg -encode 4:1:1 -mpegonly -n p -svcd mf://photo_0095.jpg,photo_0096.jpg -slidefps 4 -mpegfixaspect<br></pre>
+will make a PAL SVCD mpeg displaying every picture for four seconds.
+The option -mpegfixaspect is necessary if the pictures do not have 4/3
+aspect ratio. A simpler command line very similar to the previous one
+would be:<br>
+<pre>encode2mpeg -o VIDEO -mpegonly -n p -stdvid 6 mf://photo_009[56].jpg -slidefps 4<br></pre>
+<h2>mfcmdline<br>
+</h2>
+Let us consider now the following situation: you have a directory full
+of pictures taken with your camera. The directory contains also some
+short videos and some audio clips because your camera let you take them
+too. The pictures have different resolutions, some of them have
+landscape orientation, some need to be rotated clockwise, some others
+need to be rotated counterclockwise. One video needs to be rotated too.
+The audio clips have been recorded when the corresponding picture have
+been taken and you would like to hear that audio when the image is
+shown and you want to make a DVD with many but not all the
+pictures/videos
+contained in the directory. It sounds a difficult task, but it is quite
+easy to do it using encode2mpeg together with the option <a
+ href="videos.html">-video</a>. Example:<br>
+<pre>encode2mpeg &lt;common options&gt; -video mf://p8191.jpg,p8192.jpg -video p8193.mov -video mf://p819[5-7].jpg -rotate 2 -video p8263.mov -rotate 1 -video mf://p5927.jpg -slideaudio p5927.wav</pre>
+The problem with the previous example is that it is quite tedious to
+construct the command line with all the -video options. It is
+however possible to avoid the issue. In the TOOLS directory of
+encode2mpeg
+distribution, there is a program called <span
+ style="font-weight: bold;">mfcmdline</span>. With its help you can
+easily build the command line necessary for encode2mpeg. Run the
+command like this:<br>
+<pre>mfcmdline &lt;files&gt;<br></pre>
+The program will parse all the input files: for every input file, if
+the file is a picture, it will display it at lower resolution for one
+second; if it is a movie or a sound it will play it with MPlayer (press
+q in order to stop MPlayer). After that it will wait for user input:<br>
+<ul>
+  <li><span style="font-weight: bold;">arrow up</span> will accept the
+file<br>
+  </li>
+  <li><span style="font-weight: bold;">arrow left</span> will accept
+the file rotated counterclockwise</li>
+  <li><span style="font-weight: bold;">arrow right</span> will accept
+the file rotated clockwise</li>
+  <li><span style="font-weight: bold;">arrow down</span> will discard
+the file<br>
+  </li>
+  <li><span style="font-weight: bold;">Home</span> will display/play
+again the file<br>
+  </li>
+</ul>
+After processing all the input files or if you press the <span
+ style="font-weight: bold;">End</span> key, the program will exit and
+will print the command line options for encode2mpeg. Cut and Paste
+them.
+Example output:<br>
+<br>
+<span style="font-family: monospace;">100olymp/p3270910.mov ok</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">100olymp/p3270911.mov skip</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">100olymp/p3270915.jpg ok</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">100olymp/p3270922.jpg rotate 2</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">100olymp/p3270923.jpg rotate 2</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">100olymp/p3270924.jpg ok</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">100olymp/p3270925.jpg rotate 1</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">100olymp/p3270926.jpg rotate 1</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">100olymp/p5260927.jpg ok</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">100olymp/p5260927.wav ok</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">100olymp/p5260931.jpg ok</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">100olymp/p5260932.jpg abort</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">-video '100olymp/p3270910.mov'
+-video 'mf://100olymp/p3270915.jpg'
+-video 'mf://100olymp/p3270922.jpg,100olymp/p3270923.jpg' -rotate 2
+-video 'mf://100olymp/p3270924.jpg' -video
+'mf://100olymp/p3270925.jpg,100olymp/p3270926.jpg' -rotate 1 -video
+'mf://100olymp/p5260927.jpg' -slideaudio '100olymp/p5260927.wav' -video
+'mf://100olymp/p5260931.jpg'</span><br style="font-family: monospace;">
+<br>
+It is also possible to avoid "Cut and Paste". Run mfcmdline in this way:<br>
+<pre>mfcmdline &lt;set 1 of files&gt; | tee list1<br>mfcmdline &lt;set 2 of files&gt; | tee list2<br></pre>
+and then encode2mpeg in this way (it is necessary to use <span
+ style="font-weight: bold;">eval</span> because the file names are
+quoted):<br>
+<pre>eval encode2mpeg &lt;common options&gt; $(cat list1 list2) <br></pre>
+<span style="font-weight: bold;"></span>At present, mfcmdline is not
+very sophisticated. It recognise the file type only by its extension
+and not by its real content, and only these extensions are recognised:
+jpeg, jpg, png, tga, sgi, avi, mpeg, mpg, mov, wav, mp2 and mp3. If
+this is
+not enough, please write your needs to the mailing list.<br>
+<h3>Bugs</h3>
+There could be problems when you try to encode from images with
+portrait orientation. If the images are jpeg, it may help to use the
+option <span style="font-family: monospace;">-vc ijpg</span> . If it
+does not help, try to convert first the pictures to PNG or, even
+better, to
+TGA, then use encode2mpeg.<br>
+<br>
+<a href="../encode2mpeg.html">Top</a><br>
+</body>
+</html>

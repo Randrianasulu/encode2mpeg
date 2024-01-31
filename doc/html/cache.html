@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Cache</title>
+</head>
+<body>
+<h2 style="text-align: center;">Using a cache with a DVD<br>
+</h2>
+Usually encode2mpeg needs to read several times the source video:<br>
+<div style="margin-left: 40px;">
+<ul>
+  <li>multipass video access</li>
+  <li>multiaudio audio access</li>
+  <li>chapters reading</li>
+  <li>subtitles reading</li>
+</ul>
+</div>
+If the source video is on a DVD disk, encode2mpeg requires a
+significative amount of
+time just for disk access.<br>
+<br>
+For example a transfer of a DVD to a DVD with chapters, video copy, 2
+audio channels copy and 1 subtitles like:<br>
+<pre>encode2mpeg -o NOCACHE -dvd dvd://1 -mpeg -encode 0:0:1 -multiaudio 128,129 -addchapter copy -addsub 0 -imageonly<br></pre>
+requires about 1h56m.<br>
+<br>
+The same transfer with cache support:<br>
+<pre>encode2mpeg -o ADDCACHE -dvd dvd://1 -mpeg -encode 0:0:1 -multiaudio 128,129 -addchapter copy -addsub 0 -imageonly -cachedvd /var/tmp/cache /media/cdrecorder<br></pre>
+takes instead 1h23m. There is a 25% time reduction. The time gain is
+not always the same, it depends of the options. Under certain
+conditions, you could increase the time required instead of reducing it.<br>
+<br>
+However the <span style="font-weight: bold;">BIG</span> advantage is
+in successive transfers. Once the DVD is
+cached, a new transfer will proceed as fast as possible:<br>
+<pre>encode2mpeg -o USECACHE -dvd dvd://1 -mpeg -encode 0:0:1 -multiaudio 128,129 -addchapter copy -addsub 0 -imageonly -dvd-device /var/tmp/cache/&lt;TITLE&gt;<br></pre>
+takes now 0h51m. The time reduction now is 55%. Again, with certain
+options, the time gain could be irrelevant.<br>
+<h3>Cache options</h3>
+To cache a DVD on the hard disk add:<br>
+<pre>-cachedvd &lt;cache dir&gt; &lt;dvd mount point&gt;<br></pre>
+Once you have cached the dvd on the disk, you can use the cache content
+for succesive run adding the option:<br>
+<pre>-dvd-device &lt;cache dir&gt;/&lt;DVDTITLE&gt;<br></pre>
+You can save the content of the cache to a DVD disk with:<br>
+<pre>-savecache<br></pre>
+or,
+if you want to create only an iso image, use:<br>
+<pre>-savecache iso<br></pre>
+In order to remove the cache content from the disk at the end of a run,
+add,
+together with -cache or -dvd-device, the option:<br>
+<pre>-removecache<br></pre>
+If you want to execute only cache operations (create/save/remove cache)
+add:<br>
+<pre>-cacheonly <br></pre>
+<h3>Example</h3>
+<pre>encode2mpeg -o DISK -cachedvd /var/tmp/cache /media/cdrecorder -savecache -removecache -cacheonly<br></pre>
+will do only a verbatim copy of a DVD<br>
+<h3>Raid DVD</h3>
+<p>Most DVD movies are on a DVD9, their size is bigger than 4.38GB so
+they will not fit on a single layer DVD. It it possible however to
+store a DVD9
+on two single layer DVD and watch (on a pc) the movie as if it was
+stored on a single disk.<br>
+Add to encode2mpeg the option:<br>
+</p>
+<pre>-savecache raid<br></pre>
+or,
+if you want to create only the iso images, use:<br>
+<pre>-savecache raid iso<br></pre>
+When using -savecache raid, encode2mpeg needs root access in order to
+use <span style="font-weight: bold;">loosetup</span> and <span
+ style="font-weight: bold;">mdadm</span> and will ask for the root
+password.<br>
+<br>
+Once you have the two DVD, or the two iso images, you need to mount
+them. Together with encode2mpeg you will find the script <span
+ style="font-weight: bold;">mountdvdraid</span> that is able to mount
+two disks together:<br>
+<pre>mountdvdraid /media/dvd /dev/sr0 /dev/sr1<br></pre>
+<p>will execute something like:<br>
+</p>
+<dl>
+  <dd>losetup /dev/sr0 /dev/loop0<br>
+losetup /dev/sr1 /dev/loop1<br>
+mdadm -B /dev/md0 -l linear -n 2 /dev/loop0 /dev/loop1<br>
+mount -o ro /dev/md0 /media/dvd</dd>
+  <br>
+and
+</dl>
+<pre>mountdvdraid /media/dvd<br></pre>
+will do the reverse operation.<br>
+After the mount operation, the full content of the original DVD is
+available in /media/dvd and you can watch it with your favorite player.<br>
+For practical reasons, you need to have two dvd drives in your pc, but
+also with only one drive you can mount the two disks. Just dump one dvd
+on the hard disk (<span style="font-family: monospace;">dd if=/dev/dvd
+of=image</span>) and later mount the disk
+image and the second dvd (<span style="font-family: monospace;">mountdvdraid
+/media/dvd image /dev/dvd</span>).<br>
+<span style="font-weight: bold;"><br>
+IMPORTANT:</span><br>
+<ul>
+  <li>mountdvdraid requires root privileges and it will ask you the
+root
+password.</li>
+  <li>The order of the two disk images is important: if you swap the
+first
+and the second image, mounting will not work.</li>
+  <li>encode2mpeg assumes that the raid devices md<span
+ style="font-weight: bold;">n</span> and the loop devices loop<span
+ style="font-weight: bold;">n</span> are in /dev. If your system put
+them in some subdirectories or uses different names for them, please
+let me know and I will fix the program <br>
+  </li>
+  <li>You need mdadm installed. If your distribution does not provide
+it,
+look at http://www.cse.unsw.edu.au/~neilb/source/mdadm/<br>
+  </li>
+  <li>You could be able to watch the first disk on a standalone DVD
+player,
+but at same point the player will stop because it will not find part of
+the movie. The second disk does not work at all on a standalone DVD
+player.</li>
+</ul>
+<a href="../encode2mpeg.html">Top</a><br>
+</body>
+</html>

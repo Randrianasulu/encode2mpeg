@@ -1,0 +1,78 @@
+#!/bin/bash
+
+# qtsub2srt
+# v. 1.0   2007-03-15   Giacomo Comes
+
+if (($(echo -ne '\0\01' | od -t u2 -A none -j 0 -N 2)==256)); then
+    read2 () {
+        local n
+        n=$(od -t u2 -A none -j $1 -N 2 "$2")
+        echo $((((n&0xFF00)/256)+((n&0xFF)*256)))
+    }
+else
+    read2 () { echo $(od -t u2 -A none -j $1 -N 2 "$2") ; }
+fi
+sec2time () { #### convert s[.ms] to h:m:s[.ms]
+    local a b c d
+    [[ ${1%.*} = $1 ]] && a=$1 || d=${1#*.} a=${1%.*}
+    a=$((10#$a+0))
+    if ((a>59)); then
+        b=$((a/60))
+        a=$(printf "%02d" $((a%60)))
+        ((b>59)) && c=$((b/60)) b=$(printf "%02d" $((b%60)))
+    fi
+    echo ${c:+$c:}${b:+$b:}$a${d:+.$d}
+}
+sec2fulltime () { #### convert s[.ms] to hh:mm:ss,ms
+    sec2time ${1%.*}.$(($([[ ${1#*.} = $1 ]];echo $?)?10#${1#*.}+0:0)) | \
+      awk -F'[:.]' '{for(a=1;a<=4-NF;a++)printf("00:");for(a=1;a<=NF-1;a++){printf("%s%02d",s,$a);s=":"};printf(",%02d",$NF)}' 
+}
+
+((!$#)) && echo "Usage: ${0##*/} <file.mov> [track]" >&2 && exit
+[[ -f $1 ]] || ! echo "**ERROR: file '$1' not found" >&2 || exit 1
+
+track=( $(mplayer "$1" -v -frames 0 2>/dev/null | sed '/^MOV: Track #/,/^MOV track #/!d' | \
+  awk '$0~/^MOV: Track #/{gsub(/[^0-9]*/,"",$3);n=$3}/Apple Text Media Handler/{print n}') )
+((${#track[*]})) || ! echo "**ERROR: no track with 'Apple Text Media Handler' atom found in $1" >&2 || exit 1
+
+if ((${#track[*]}>1)); then
+    if [[ $2 ]]; then
+        t=
+        for ((a=0;a<${#track[*]};a++)); do
+            ((track[a]==$2)) && t=$a && break
+        done
+        [[ $t ]] && track[0]=${track[t]} || ! echo "**ERROR: the selected track does not exist" >&2 || exit 1
+    else
+        { echo "Found more tracks with 'Apple Text Media Handler', select one:"
+          echo -n "    "
+          for ((a=0;a<${#track[*]};a++)); do
+              echo -n "${track[a]} "
+          done
+          echo
+        } >&2
+        exit 1
+    fi
+fi
+
+PTS=$(mplayer "$1" -v -frames 0 2>/dev/null | sed '/^MOV track #'${track[0]}'/,/^pts=/!d' | tail -1)
+eval $(echo "$PTS" | awk '{print $1}') #pts
+eval $(echo "$PTS" | awk '{print $2}') #scale
+
+m=0
+
+mver=$(mplayer 2>/dev/null | awk '$1=="MPlayer"{print $2;exit}')
+a=( $(mplayer "$1" -v -v -frames 0 2>/dev/null | sed '/^MOV track #'${track[0]}'/,/^EL#/!d;/^Sample/!d' | \
+  awk -F= '{gsub(/[^0-9]*/,"",$2);sub(/ .*/,"",$3);print $2,strtonum($3)}') )
+[[ ${mver:0:7} == 1.0pre[67] ]] && rm -f t$(printf "%02d" ${track[0]})-s*.dump
+a[${#a[*]}]=$pts
+echo "   INFO: processing track ${track[0]} of '$1'" >&2
+for ((i=0;i<${#a[*]}-2;i+=2)); do
+    n=$(read2 ${a[i+1]} "$1")
+    if ((n>1)); then
+        s=$(sec2fulltime $(awk -v n=${a[i]} -v m=$scale 'BEGIN{printf("%.2f",n/m)}'))
+        e=$(sec2fulltime $(awk -v n=$((a[i+2]-1)) -v m=$scale 'BEGIN{printf("%.2f",n/m)}'))
+        echo $((++m))
+        echo "$s --> $e"
+        { dd if="$1" bs=1 count=$n skip=$((a[i+1]+2)) 2>/dev/null | tr '\015' '\012' | iconv -f MAC -t ISO8859-1 ; echo ; echo ; } | cat -s
+    fi
+done

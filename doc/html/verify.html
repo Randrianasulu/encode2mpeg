@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Verify</title>
+</head>
+<body>
+<h2 style="text-align: center;">Verify the content of a burned disk<br>
+</h2>
+Normally encode2mpeg creates an mpeg stream, then a binary image
+and finally burns
+the image on the selectred support (CD or DVD). The burn process may
+not be error free. A DVD burner may burn a disks with corrupted data
+due to a bad media; the burn process shows no errors,
+but the disk content is not 100% identical to the source image. In
+order to compare the image of the burned media with the one present on
+the hard disk, add the option -verify to your command line. Example:<br>
+<pre>encode2mpeg -o TITLE -n p source.avi -stdvid 9 -verify</pre>
+If any file on the burned disk is different from the correspondent file
+present on the hard disk, there will be an error message in the log
+file. I recomend to use -verify all the times you burn disks with
+encode2mpeg.<br>
+<h2 style="text-align: center;">Save the encoded stream on a ISO/UDF
+dvd
+disk<br>
+</h2>
+There exist many hardware DVD players able to play DivX and MPEG-4
+streams
+and VCD/SVCD mpeg streams burned with a ISO/UDF filesystem on the DVD
+media. With encode2mpeg it is possible to burn such streams with the
+option -burniso or -burnudf. The stream just encoded, avi or mpeg, will
+be burned
+on the DVD disk preserving any other streams already present. If the
+media is DVD RW, you can erase any previous file already on the disk
+adding the option -blank. The option -burnudf creates a disk image
+bigger than the one created
+with -burniso, therefore -burniso should be preferred except if the
+file to burn is bigger than 2GB, in such case only -burnudf can be
+used. The options -burniso and -burnudf are valid
+only if
+you are
+not burning a standard VCD/SVCD/DVD. It means that one of: -avionly,
+-mpegonly, -imageonly, -isoonly, must be present together with
+-burniso/-burnudf.<br>
+<br>
+Example:<br>
+<pre>encode2mpeg -o TITLE dvd://1 -avionly -encode 3:2:2 -burniso -verify</pre>
+It is, of course, possible to combine -verify with -burniso/-burnudf.<br>
+<br>
+<a href="../encode2mpeg.html">Top</a><br>
+</body>
+</html>

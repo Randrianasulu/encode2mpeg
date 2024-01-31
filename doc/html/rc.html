@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>rc file</title>
+</head>
+<body>
+<h2 style="text-align: center;">Configuration file<br>
+</h2>
+You can put in the configuration file <span style="font-weight: bold;">$HOME/.encode2mpegrc</span>
+the options which will be used every time encode2mpeg is run. The
+syntax of the configuration files is identical to the command line
+options: put in a single line the options that you would type during a
+run. There is however a limitation: in the configuration file are not
+permitted arguments containing spaces or quotes. Example .encode2mpegrc
+content:<br>
+<pre>-mpegfixaspect -cdburndevice /dev/cdrecorder</pre>
+If you have a configuration file but you do not want to use it during a
+run, add the options <span style="font-family: monospace;">-norc</span>
+to your command line. Options in the configuration file are processed
+before the options on the command line, therefore the command line
+options override the configuration file options.<br>
+<br>
+There is no explicit support for the usage of an alternate
+configuration file, but it is easy to emulate it:<br>
+<pre>encode2mpeg -norc $(&lt;myrcfile) &lt;options&gt;<br></pre>
+just put your rc file (myrcfile in the previous example) before the
+other options and do not forget to use <span
+ style="font-family: monospace;">-norc</span> otherwise the standard rc
+file will be used too. If your shell do not support the syntax <span
+ style="font-family: monospace;">$(&lt;myrcfile)</span> use <span
+ style="font-family: monospace;">`cat myrcfile`</span> instead.<br>
+<br>
+<a href="../encode2mpeg.html">Top</a><br>
+<br>
+</body>
+</html>

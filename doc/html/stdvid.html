@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Easy VCD/SVCD</title>
+</head>
+<body>
+<h2 style="text-align: center;">Simple command line to create
+VCD/SVCD/DVD<br>
+</h2>
+encode2mpeg has many options. In can be difficult, sometime, to find
+the
+correct set of options necessary to create a standard VCD, SVCD or DVD.
+Since 0.5.0 a simple command line should be enough:<br>
+<pre>encode2mpeg -o &lt;TITLE&gt; -n &lt;NORM&gt; &lt;SOURCEVIDEO&gt; -stdvid &lt;n&gt;<br></pre>
+where n can be:<br>
+<ol>
+  <li>VCD Direct Mode</li>
+  <li><span style="font-family: monospace;">disabled</span><br>
+  </li>
+  <li>VCD Mpeg Mode</li>
+  <li>SVCD Direct Mode</li>
+  <li><span style="font-family: monospace;">disabled</span></li>
+  <li>SVCD Mpeg Mode</li>
+  <li>DVD Direct Mode (mp2 audio)</li>
+  <li><span style="font-family: monospace;">disabled</span></li>
+  <li>DVD Mpeg Mode (mp2 audio)</li>
+  <li>DVD Direct Mode (copy of input audio)</li>
+  <li><span style="font-family: monospace;">disabled</span></li>
+  <li>DVD Mpeg Mode (copy of input audio)</li>
+</ol>
+You only need to specify the
+TITLE of
+the output mpeg stream, the video norm (PAL/NTSC), the video source
+(anything MPlayer can understand) and what kind of Mode for your
+VCD/SVCD/DVD do you want.<br>
+<br>
+These are my recomendations about the different Modes:<br>
+<ul>
+  <li>Mpeg Mode is fast and it has good quality, so it is the mode
+to prefer. For VCD/SVCD, it is possible to split the final mpeg
+stream over several CD, but the split may not be very accurate.</li>
+  <li>Direct Mode is slower than Mpeg Mode, it splits the final
+mpeg
+stream over several CD accurately, but it could have problems with A/V
+sync when
+the input and output video fps are different.<br>
+  </li>
+</ul>
+So, what the -stdvid option does? It set the Mode and other options
+<span style="font-weight: bold;">equivalent</span> to these: -asr
+44100 (48000 for DVD), -mp2 toolame, -a 2, -mpegfixaspect,
+-addchapter copy. The log file will show the options actually used. Of
+course, you can add all the other supported options if you need them.
+For example, for a DVD you may want to add -a 3.<br>
+<br>
+<a href="../encode2mpeg.html">Top</a><br>
+</body>
+</html>

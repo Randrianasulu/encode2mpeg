@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Telecine</title>
+</head>
+<body>
+<h2 style="text-align: center;">Telecine usage<br>
+</h2>
+Telecine is a multiplexing technique that allow to play on ordinary TV
+set (25fps PAL, 30000/1001fps NTSC) an mpeg movie that have been
+encoded at 24 or 24000/1001 fps. encode2mpeg can decide automatically
+when to use telecine during the encode process, but you can ovverride
+encode2mpeg decision.<br>
+<br>
+<table
+ style="text-align: left; width: 100px; margin-left: auto; margin-right: auto;"
+ border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="text-align: center;">explicit options<br>
+      </td>
+      <td
+ style="vertical-align: top; text-align: center; white-space: nowrap;">implicit
+options<br>
+      </td>
+      <td style="text-align: center;">fps<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">-n p<br>
+      </td>
+      <td
+ style="vertical-align: top; white-space: nowrap; text-align: center;">-vfr
+3<br>
+      </td>
+      <td style="text-align: center;">25<br>
+      </td>
+    </tr>
+    <tr>
+      <td
+ style="vertical-align: top; white-space: nowrap; text-align: center;">-n
+n -vcd<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">-vfr 4<br>
+      </td>
+      <td style="text-align: center;">30000/1001</td>
+    </tr>
+    <tr>
+      <td
+ style="vertical-align: top; text-align: center; white-space: nowrap;">-n
+n -svcd<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;">-vfr 1 -p<br>
+      </td>
+      <td style="text-align: center;">30000/1001</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">-n n -dvd</td>
+      <td style="vertical-align: top; text-align: center;">-vfr 1 -p</td>
+      <td style="text-align: center;">30000/1001</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">-vfr 1 -p -n
+n<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;"><br>
+      </td>
+      <td style="text-align: center;">30000/1001</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; text-align: center;">-vfr 2 -p -n
+n<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;"><br>
+      </td>
+      <td style="text-align: center;">30<br>
+      </td>
+    </tr>
+    <tr>
+      <td
+ style="vertical-align: top; white-space: nowrap; text-align: center;">-vfr
+1/2 -p -n p<br>
+      </td>
+      <td style="vertical-align: top; text-align: center;"><br>
+      </td>
+      <td style="text-align: center;">25<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<ul>
+  <li>If you do not specify a video frame rate (-vfr) and the vido norm
+is PAL (-n p) then a 25fps frame rate is used (-vfr 3).</li>
+</ul>
+<ul>
+  <li>If you do not specify a video frame rate (-vfr) and the vido norm
+is NTSC (-n n) then a 30000/1001fps frame rate (-vfr 4) is used for VCD
+or a 24000/1001fps telecined frame rate (-vfr 1 -p) is used for
+SVCD/DVD.</li>
+</ul>
+<ul>
+  <li>If you specify a frame rate of 24000/1001fps or 24fps (-vfr 1 or
+-vfr 2) with telecine (-p) then for NTSC the mpeg will have
+30000/1001fps or 30fps, for PAL the mpeg will have 25fps.<br>
+  </li>
+</ul>
+A PAL telecined mpeg is only possible in Mpeg Mode, not in Direct Mode.<br>
+<br>
+<a href="../encode2mpeg.html">Top</a><br>
+</body>
+</html>

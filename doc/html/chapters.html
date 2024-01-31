@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Chapters and Subtitles</title>
+</head>
+<body>
+<h2 style="text-align: center;">Chapters for VCD/SVCD/DVD<br>
+</h2>
+Since version 0.3.1 of encode2mpeg it is possible to add chapters to
+VCD/SVCD/DVD with
+the option -addchapter. There are three possible usages.<br>
+<br>
+You can give the chapter list on the command line. For example:<br>
+<pre>-addchapter 0,15:00,30:00,1:10:00</pre>
+will add four chapters at 0, 15 minutes, 30 minutes, 1 hour 10 minutes.
+The first chapter will always start at time 0.<br>
+<br>
+<br>
+You can give a step and max_chapter. For example:<br>
+<pre>-addchapter 15:00-1:40:00</pre>
+will add seven chapters at 0,15,30,45,60,75,90 minutes. The next one,
+at 105 minutes, is discarded because it is bigger than 1:40:00<br>
+<br>
+<br>
+You can copy the chapter structure from a DVD with<br>
+<pre>-addchapter copy<br></pre>
+In this case the DVD is scanned to retreive the chapters timing and
+then the same timing is used for the encoded VCD/SVCD/DVD.<br>
+<h2 style="text-align: center;">Subtitles for SVCD/DVD</h2>
+Since version 0.3.2 of encode2mpeg it is possible to copy
+SPU subtitles to SVCD/DVD with
+the option -addsub. There are two possible usages.<br>
+<br>
+You can copy all the subtitles with:<br>
+<pre>-addsub copy<br></pre>
+All the subtitles are demuxed from the original SVCD/DVD and then
+remuxed in
+the new mpeg stream.<br>
+<br>
+<br>
+You can give the subtitle(s) list on the command line. For example:<br>
+<pre>-addsub 0,2</pre>
+will add subtitles 0 and 2 to the mpeg stream. They will have the same
+id of the source subtitles. In order to change the id use the command:<br>
+<pre>-addsub 0,2 -addsdx 0,1<br></pre>
+now the subtitles will have id 0 and 1 in the mpeg stream. In the DVD
+you can associate a language id to the subtitle too. encode2mpeg try to
+preserve the correct language id, but it can fail. You can anyway set
+the language id with:<br>
+<pre>-addsub 0,2 -addsdx 0,1 -addsla en,fr<br></pre>
+<br>
+Only for DVD you can set the subtitle id for each stream mode with:<br>
+<pre>-addsub 0,1,2,3 -addsla en,fr -dvdsdx widescreen,0,letterbox,1+widescreen,2,letterbox,3</pre>
+The dvd subtitle with id 0 will use the subtitle stream 0 for
+widescreen display or the subtitle stream 1 for letterbox display. The
+dvd subtitle with id 1 will use the subtitle stream 2 for widescreen
+display or the subtitle stream 3 for letterbox display. The possible
+stream mode are: normal, widescreen, letterbox and panscan. There are
+restrictions on the mode you can set due to the aspect ratio of the
+mpeg video stream and the argument of the option -dvdvideoattr.<br>
+<h4>Dvdauthor's subtitle patch<br>
+</h4>
+In encode2mpeg's source tarball is included a patch for dvdauthor. The
+patch fix some bugs and add some new features to spuunmux/spumux that
+makes encode2mpeg run faster when the option <span
+ style="font-family: monospace;">-addsub</span> is used. If you do not
+apply the patch you can
+still run encode2mpeg, but if you use often
+the option -addsub, you should patch dvdauthor. Detailed instructions
+about the patch are included in the <a href="../README">README</a>. In
+case you are copying subtitles from a SVCD, it is mandatory to patch
+dvdauthor and, in order to use the option <span
+ style="font-family: monospace;">-addsub copy</span>, to apply the
+patch mplayer_svcdsubsinfo.<br>
+<br>
+<h2 style="text-align: center;">Adding Vobsub subtitles to SVCD/DVD<br>
+</h2>
+Since version 0.5.7 of encode2mpeg it is possible to add SPU subtitles
+to SVCD/DVD using Vobsub subtitles as source. In order to do so, you
+need to use the option <span style="font-family: monospace;">-vobsubsrc
+&lt;vobsub path&gt;</span> together with <span
+ style="font-family: monospace;">-addsub</span> and eventually <span
+ style="font-family: monospace;">-addsdx</span> and <span
+ style="font-family: monospace;">-addsla</span>. &lt;vobsub path&gt;
+has to be the vobsub's pathname without extension, i.e. without the <span
+ style="font-weight: bold;">.idx</span> or <span
+ style="font-weight: bold;">.sub</span>. If the vobsub is compressed in
+a rar archive, you need extract
+it from the archive first.<br>
+Example:<span style="font-family: monospace;"></span><br>
+<pre>-vobsubsrc titlevob -addsub copy<br></pre>
+the previous options will use the files <span
+ style="font-weight: bold;">titlevob.idx</span> and <span
+ style="font-weight: bold;">titlevob.sub</span> and copy all the
+subtitles present in the Vobsub.<span
+ style="text-decoration: underline;"></span><br>
+<h2 style="text-align: center;">Adding text subtitles to SVCD/DVD</h2>
+Since version 0.5.1 of encode2mpeg it is possible to add SPU subtitles
+to SVCD/DVD using text subtitles as source. Many popular formats are
+supported: MicroDVD, SubRip, SubViewer, Sami, VPlayer, RT, SSA,
+AQTitle, JACOsub, PJS and MPsub. In order to use this feature, you must
+have the True Type font arial.ttf in
+$HOME/.spumux. Probably
+you already have this font installed in your computer, look in
+/usr/X11R6/lib/X11/fonts/truetype or, if you have windows installed, in
+windows/Fonts or WINNT/Fonts. If you cannot find arial.ttf, look at
+http://corefonts.sourceforge.net/. You need to download the file
+arial32.exe and use
+cabextract to extract the file you need. Once you have arial.ttf,
+copy it in $HOME/.spumux.<br>
+<br>
+To add a text subtitle to your SVCD/DVD use:<br>
+<pre>-txtsub &lt;subtitle file&gt;</pre>
+The text subtitle will be converted in SPU stream and added to your
+encoded mpeg stream. It is possible to control some parameters of the
+subtitle with the option -txtsubopts. For example the option:<br>
+<pre>-txtsubopts en:10:times.ttf:20:10:ISO8859-2:2:25<br></pre>
+will set english id for the subtitle in the DVD, add a delay of 10
+seconds to the displayed subtitle, use the font Times, use a font size
+of 20, use a bottom margin of 10, use ISO8859-2 characterset for the
+text subtitle, use a subtitle frame 2 pixel smaller (man spumux) and
+use 25 as subtitle fps.
+The default values of -txtsubopts are
+nolang:0:arial.ttf:28:30:ISO8859-1:0:default. You can omit the default
+values
+from the argument of -txtsubopts. For example:<br>
+<pre>-txtsubopts en:5::30<br></pre>
+will set english as subtitle Id, add a delay of 5 seconds and use a
+font size of 30. The other parameters will keep their default values.
+If you specify a font different than arial.ttf, remember to copy that
+font in $HOME/.spumux too. The option -txtsubopts apply to a previous
+-txtsub option. You can have
+more than one subtitle, each one with a different set of parameters
+like:<br>
+<pre>-txtsub &lt;subfile1&gt; -txtsubopts en:2 -txtsub &lt;subfile2&gt; -txtsubopts fr<br></pre>
+It is possible to add SPU or Vobsub subtitles and text subtitles using
+both the
+options -addsub and -txtsub. The subtitle(s) specifyed with -addsub
+will
+be processed first, then the subtitle(s) specifyed with -txtsub<br>
+<br>
+<a href="../encode2mpeg.html">Top</a><br>
+<br>
+</body>
+</html>

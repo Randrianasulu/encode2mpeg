@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Ocr engine</title>
+</head>
+<body>
+<h2 style="text-align: center;">SPU and Vobsub subtitles conversion<br>
+</h2>
+Since release 0.6.3 encode2mpeg supports the conversion of graphic
+subtitles (SPU streams and Vobsub) to text subtitles (SubViewer). In
+order to
+achive
+this goal, encode2mpeg needs a good ocr engine. Currently the following
+ocr engines are supported: <a
+ href="http://code.google.com/p/tesseract-ocr/">tesseract</a>, <a
+ href="http://jocr.sourceforge.net/">gocr</a> and <a
+ href="http://www.gnu.org/software/ocrad/ocrad.html">ocrad</a>. Each of
+them has its strongness and weakness and none of them can, at the
+moment, totally
+replace the others.<br>
+Subtitles conversion is enabled with the option <span
+ style="font-family: monospace;">-ocr</span> and the list of subtitles
+to convert is selected with the option <span
+ style="font-family: monospace;">-addsub</span>. For SPU subtitles
+specify the source stream (DVD, SVCD, mpeg)<span
+ style="font-family: monospace;"></span>,
+for vobsub subtitles use the option <span
+ style="font-family: monospace;">-vobsubsrc</span>. With the option <span
+ style="font-family: monospace;">-addsla</span> you can override the
+automatic detection of the language id. Subtitle conversion is possible
+only in Avi
+Mode, therefore the encode2mpeg command line must include the option
+<span style="font-family: monospace;">-avionly</span>. <span
+ style="font-family: monospace;"></span><span
+ style="font-family: monospace;"></span><br>
+<span style="font-weight: bold;"></span><br>
+Example:<br>
+<pre>encode2mpeg -o movie dvd://1 -avionly -ocr -addsub 0,1</pre>
+This will create the files <span style="font-family: monospace;">movie.tesseract_0_en.srt</span>
+and <span style="font-family: monospace;">movie.tesseract_1_de.srt</span>
+assuming that tesseract was used and the language id of the two
+subtitles were english and german.<br>
+<br>
+The following options can be used for subtitle conversion:<br>
+<pre>-ocropts I:II:III:IV:V:VI:VII:VIII:IX</pre>
+I - select the ocr engine: auto (default), tesseract, gocr, ocrad,
+ocradi (ocrad with inverted image levels)<br>
+II - text to append to the name specifyed with
+-o, the default is <span style="font-family: monospace;">%o_%i_%l </span>(see
+below)<br>
+III - format of the subtitle file created: unix (default), dos<br>
+IV - add <span style="font-weight: bold;">;1</span><span
+ style="font-family: monospace; font-weight: bold;"></span> at the end
+of the subtitle file name: off (default), on<br>
+V - extension of the subtitle file name, the default is <span
+ style="font-family: monospace;">srt</span><br>
+VI - edit each subtitle that the ocr engine has converted: off
+(default), on<br>
+VII - terminal used for subtitle editing: auto (default), urxvt
+(rxvt-unicode), rxvt, Eterm, aterm, konsole, gnome-terminal<br>
+VIII - preferred size and position for the terminal used for subtitle
+editing, the default is <span style="font-family: monospace;">do not
+set a preferred size and position</span><br>
+IX - trim the source subtitle image: off
+(default), on<br>
+<br>
+If the first suboption is auto, encode2mpeg
+will look for a supported ocr engine in the following order:
+tesseract, gocr, ocrad, and will use the first one he founds (ocradi is
+never selected automatically). Ocradi is ocrad with inverted image
+levels. It appears that
+most of the times this option is required for ocrad in order to work
+properly. <br>
+The second suboption define a text string to be added to the subtitle
+file name before the suffix. In the text string some combination of
+text characters are expanded as following:<br>
+<ul>
+  <li><span style="font-weight: bold;">%o</span> is replaced with the
+name of the ocr engine used</li>
+  <li><span style="font-weight: bold;">%i</span> is replaced with the
+index of the subtitle converted: first subtitle is 0,
+second is 1 and so on</li>
+  <li><span style="font-weight: bold;">%l</span> is replaced with the
+iso 639 language code as automatically detected by
+encode2mpeg or selected with -addsla</li>
+  <li><span style="font-weight: bold;">%%</span> is replaced with a
+single % character</li>
+  <li>all the other characters are left unchanged<br>
+  </li>
+</ul>
+Because the ocr engine is not 100% error free, you may want to check
+and/or edit each subtitle just converted before the final subtitle file
+is created. Use the sixth suboption in order to activate subtitle
+editing. During subtitle editing a new terminal window running <span
+ style="font-weight: bold;">vi</span> will
+be opened. In the terminal window you will have on top the text file
+created by
+the ocr engine ready to be edited with vi, below there will be the
+graphic subtitle image used by the ocr engine for the conversion as a
+reference for you. See an example <a href="../images/ocrterm.png">here</a>.
+When finished, exit vi
+with the usual commands: <span style="font-weight: bold;">:wq</span>
+or <span style="font-weight: bold;">ZZ</span>. If the seventh
+suboption is auto, encode2mpeg will look for a terminal compiled with
+support for backgroundPixmap in the following order: urxvt, rxvt,
+Eterm, aterm, konsole, gnome-terminal and will use the first one he
+founds. During subtitle
+editing, the terminal that is opened is placed in a place choosen by
+the window manager. You may override that and also specify a different
+size providing a geometry argument as eighth suboption. If the spu
+subtitles are encoded in full size (720x576) the graphic text in the
+terminal window may be outside the window boundaries, instead of
+resizing the window use the nineth suboption to make the text visible.<br>
+<br>
+You
+can omit the default
+values
+from the argument of <span style="font-family: monospace;">-ocropts</span>.
+For example:<br>
+<pre>-ocropts ocrad::dos:on<br></pre>
+will use ocrad as ocr engine, terminate the lines with cr/lf
+and end the file name with ;1. The other parameters will keep their
+default values. <br>
+<h3>OCR engines<br>
+</h3>
+By the time encode2mpeg 0.6.3 has been released, the status of the
+supported ocr engines was the following:<br>
+<ul>
+  <li>tessercat usually recognises 97% or more of the
+input, undestands italics text, but only
+supports ASCII characters (it should change quite soon).</li>
+  <li>gocr has an higher error rate, understands italics and non ASCII
+text.<br>
+  </li>
+  <li>ocrad has an high error rate, understands non ASCII text but it
+has more trouble with italics. </li>
+</ul>
+My recomendation is to use tesseract unless you need support for non
+ASCII text.<br>
+If tesseract does not seem to work, use <span
+ style="font-family: monospace;">./configure --with-libtiff=no</span>
+during tessercact's compilation/installation process.<br>
+<br>
+<a href="../encode2mpeg.html">Top</a><br>
+</body>
+</html>

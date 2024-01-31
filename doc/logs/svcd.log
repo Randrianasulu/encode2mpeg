@@ -1,0 +1,211 @@
+--- LOG: svcd [2004-11-28 13:33:48]   
+   INFO: [encode2mpeg] version 0.3.1
+   INFO: [encode2mpeg] command line: 'dvd://1 -aid 128 -o svcd -n p -mp3 -svcd -a 3 -imageonly -addchapter copy'
+   MPEG: frameformat:SVCD split:800 vfr:3 vbr:2500 abr:128 asr:44100 audioformat:mp3 mp3:lame mpegencoder:mpeg2enc aspect:16/9
+   INFO: [input] ID_FILENAME=dvd://1
+   INFO: [input] ID_VIDEO_FORMAT=0x10000002
+   INFO: [input] ID_VIDEO_BITRATE=9000000
+   INFO: [input] ID_VIDEO_WIDTH=720
+   INFO: [input] ID_VIDEO_HEIGHT=576
+   INFO: [input] ID_VIDEO_FPS=25.000
+   INFO: [input] ID_VIDEO_ASPECT=1.7778
+   INFO: [input] ID_AUDIO_CODEC=a52
+   INFO: [input] ID_AUDIO_FORMAT=8192
+   INFO: [input] ID_AUDIO_BITRATE=224000
+   INFO: [input] ID_AUDIO_RATE=48000
+   INFO: [input] ID_AUDIO_NCH=2
+   INFO: [input] ID_LENGTH=5589
+   INFO: [MPLAYEROPT]  dvd://1 -aid 128   -noframedrop -v -osdlevel 0 -vo yuv4mpeg -ao pcm -waveheader
+   INFO: [YUVSCALEROPT] -v 1 -n p -O SVCD 
+   INFO: [MPEG2ENCOPT] -f 5 -b 2500 -V 230 -B 164 -v 1 -S 800 -n p -F 3 -o svcd.mpv -s -g 6 -G 15 -r 16  -a 3 -4 2 -2 1
+   INFO: [MPLEXOPT] -f 5 -V -b 230 -r 10512 
+   INFO: [VCDIMAGEROPT] -t svcd 
+   INFO: [CDRDAOOPT]  --driver generic-mmc --device 0,0,0
+   INFO: [GROWISOFSOPT] -dvd-compat -Z /dev/cdrecorder -dvd-video
+   INFO: [mplayer] MPlayer 1.0pre5-3.3.1 (C) 2000-2004 MPlayer Team
+   INFO: [mplayer] There are 4 titles on this DVD.
+   INFO: [mplayer] There are 21 chapters in this DVD title.
+   INFO: [mplayer] There are 1 angles in this DVD title.
+   INFO: [mplayer] [open] audio stream: 0 audio format: ac3 (5.1) language: it aid: 128
+   INFO: [mplayer] [open] audio stream: 1 audio format: ac3 (stereo) language: it aid: 129
+   INFO: [mplayer] [open] number of audio channels on disk: 2.
+   INFO: [mplayer] [open] subtitle ( sid ): 0 language: it
+   INFO: [mplayer] [open] number of subtitles on disk: 1
+   INFO: [mplayer] ==> Found video stream: 0
+   INFO: [mplayer] ==> Found subtitle: 0
+   INFO: [mplayer] ==> Found audio stream: 128
+   INFO: [mplayer] ==> Found audio stream: 129
+   INFO: [yuvscaler] yuvscaler 1.6.2 (31-12-2003) is a general scaling utility for yuv frames
+   INFO: [yuvscaler] (C) 2001-2003 Xavier Biquard <xbiquard@free.fr>, yuvscaler -h for help, or man yuvscaler
+   INFO: [yuvscaler] SVCD output format requested in PAL/SECAM norm
+   INFO: [yuvscaler] input:   frame size:  720x576 pixels (622080 bytes)
+   INFO: [yuvscaler] input:   frame rate:  25/1 fps (~25.000000)
+   INFO: [yuvscaler] input:    interlace:  none/progressive
+   INFO: [yuvscaler] input: sample aspect ratio:  ?:?
+   INFO: [yuvscaler] from 720x576, take 720x576+0+0, NOT_INTERLACED/PROGRESSIVE
+   INFO: [yuvscaler] scale to 480x576, 480x576 being displayed
+   INFO: [yuvscaler] Scaling uses the RESAMPLE algorithm, 
+   INFO: [yuvscaler] frame rate: 25.000 fps
+   INFO: [yuvscaler] Scaling ratio for width is 3 to 2
+   INFO: [yuvscaler] and is 1 to 1 for height
+   INFO: [yuvscaler] Specific downscaling routing number 6
+   INFO: [yuvscaler] output:   frame size:  480x576 pixels (414720 bytes)
+   INFO: [yuvscaler] output:   frame rate:  25/1 fps (~25.000000)
+   INFO: [yuvscaler] output:    interlace:  none/progressive
+   INFO: [yuvscaler] output: sample aspect ratio:  ?:?
+   INFO: [yuvscaler] Frame number 0
+   INFO: [mpeg2enc] SETTING EXTENDED MMX for MOTION!
+   INFO: [mpeg2enc] SETTING MMX for TRANSFORM!
+   INFO: [mpeg2enc] SETTING EXTENDED MMX for PREDICTION!
+   INFO: [mpeg2enc] Selecting SVCD output profile
+   INFO: [mpeg2enc] Progressive input - selecting progressive encoding.
+++ WARN: [mpeg2enc] Generating dummy SVCD scan-data offsets to be filled in by "vcdimager"
+++ WARN: [mpeg2enc] If you're not using vcdimager you may wish to turn this off using -d
+   INFO: [mpeg2enc] Encoding MPEG-2 video to svcd.mpv
+   INFO: [mpeg2enc] Horizontal size: 480 pel
+   INFO: [mpeg2enc] Vertical size: 576 pel
+   INFO: [mpeg2enc] Aspect ratio code: 3 = 16:9 display
+   INFO: [mpeg2enc] Frame rate code:   3 = 25.0 (PAL/SECAM VIDEO / converted FILM)
+   INFO: [mpeg2enc] Bitrate: 2500 KBit/s
+   INFO: [mpeg2enc] Quality factor: 8 (Quantisation = 9) (1=best, 31=worst)
+   INFO: [mpeg2enc] Field order for input: none/progressive
+   INFO: [mpeg2enc] New Sequence every 800 Mbytes
+   INFO: [mpeg2enc] Assuming non-video stream of 164 Kbps
+   INFO: [mpeg2enc] Search radius: 16
+   INFO: [mpeg2enc] GOP SIZE RANGE 6 TO 15 
+   INFO: [mpeg2enc] Setting colour/gamma parameters to "PAL B/G"
+   INFO: [mpeg2enc] Progressive format frames = 1
+   INFO: [mpeg2enc] Using default unmodified quantization matrices
+   INFO: [mpeg2enc] Buffering 33 frames
+   INFO: [mpeg2enc] SETTING SSE and EXTENDED MMX for QUANTIZER!
+   INFO: [mpeg2enc] GOP start (15 frames)
+   INFO: [encode2mpeg] encoding to mp3 audio with lame
+   INFO: [lame] LAME version 3.96 MMX  (http://www.mp3dev.org/)
+   INFO: [lame] CPU features: MMX (ASM used), SSE, SSE2
+   INFO: [lame] Resampling:  input 48 kHz  output 44.1 kHz
+   INFO: [lame] Using polyphase lowpass filter, transition band: 17249 Hz - 17782 Hz
+   INFO: [lame] Encoding <stdin> to svcd.mpa
+   INFO: [lame] Encoding as 44.1 kHz 128 kbps j-stereo MPEG-1 Layer III (11x) qval=3
+   INFO: [mplex] mplex version 1.6.2 (2.2.3 $Date: 2004/01/13 20:45:26 $)
+   INFO: [mplex] File svcd.mpv looks like an MPEG Video stream.
+   INFO: [mplex] File svcd.mpa looks like an MPEG Audio stream.
+   INFO: [mplex] Found 1 audio streams and 1 video streams
+   INFO: [mplex] Selecting SVCD output profile
+   INFO: [mplex] Multiplexing video program stream!
+   INFO: [mplex] Scanning for header info: Video stream e0 (svcd.mpv) 
+   INFO: [mplex] VIDEO STREAM: e0
+   INFO: [mplex] Frame width     : 480
+   INFO: [mplex] Frame height    : 576
+   INFO: [mplex] Aspect ratio    : 16:9 display
+   INFO: [mplex] Picture rate    : 25.000 frames/sec
+   INFO: [mplex] Bit rate        : 2500000 bits/sec
+   INFO: [mplex] Vbv buffer size : 229376 bytes
+   INFO: [mplex] CSPF            : 0
+   INFO: [mplex] Scanning for header info: Audio stream c0 (svcd.mpa)
+   INFO: [mplex] MPEG AUDIO STREAM: c0
+   INFO: [mplex] Audio version  : 1.0
+   INFO: [mplex] Layer          :        3
+   INFO: [mplex] CRC checksums  :       no
+   INFO: [mplex] Bit rate       :    16384 bytes/sec (128 kbit/sec)
+   INFO: [mplex] Frequency      :     44100 Hz
+   INFO: [mplex] Mode           :        1 joint stereo
+   INFO: [mplex] Mode extension :        2
+   INFO: [mplex] Copyright bit  :        0 no copyright
+   INFO: [mplex] Original/Copy  :        1 original
+   INFO: [mplex] Emphasis       :        0 none
+   INFO: [mplex] SYSTEMS/PROGRAM stream:
+   INFO: [mplex] rough-guess multiplexed stream data rate    : 2686248
+   INFO: [mplex] target data-rate specified               : 10512000
+   INFO: [mplex] Setting specified specified data rate: 10512000
+   INFO: [mplex] Run-in Sectors = 78 Video delay = 12415 Audio delay = 16015
+   INFO: [mplex] New sequence commences...
+   INFO: [mplex] Video e0: buf= 235520 frame=000000 sector=00000000
+   INFO: [mplex] Audio c0: buf=   4096 frame=000000 sector=00000000
+   INFO: [mplex] Scanned to end AU 78824
+   INFO: [mplex] Running out...
+   INFO: [mplex] Video e0: buf=  37665 frame=078824 sector=00339521
+   INFO: [mplex] Audio c0: buf=   1535 frame=120667 sector=00021966
+   INFO: [mplex] New sequence commences...
+   INFO: [mplex] Video e0: buf= 188965 frame=078824 sector=00339525
+   INFO: [mplex] Audio c0: buf=    297 frame=120700 sector=00021972
+   INFO: [mplex] Scanned to end AU 153458
+   INFO: [mplex] Running out...
+   INFO: [mplex] Video e0: buf=  34432 frame=153458 sector=00340819
+   INFO: [mplex] Audio c0: buf=   1180 frame=234950 sector=00020798
+   INFO: [mplex] New sequence commences...
+   INFO: [mplex] Video e0: buf= 205472 frame=153458 sector=00340821
+   INFO: [mplex] Audio c0: buf=    361 frame=234983 sector=00020804
+   INFO: [mplex] Scanned to end AU 169837
+   INFO: [mplex] STREAM e0 completed @ frame 169837.
+   INFO: [mplex] STREAM c0 completed @ frame 260067.
+   INFO: [mplex] Multiplex completion at SCR=58978663.
+   INFO: [mplex] Video e0: buf= 235520 frame=169837 sector=00075246
+   INFO: [mplex] Audio c0: buf=   2006 frame=260067 sector=00004567
+   INFO: [mplex] VIDEO_STATISTICS: e0
+   INFO: [mplex] Video Stream length:  1723707840 bytes
+   INFO: [mplex] Sequence headers:    11461
+   INFO: [mplex] Sequence ends   :        3
+   INFO: [mplex] No. Pictures    :   169837
+   INFO: [mplex] No. Groups      :    11461
+   INFO: [mplex] No. I Frames    :    11461 avg. size 31984 bytes
+   INFO: [mplex] No. P Frames    :   158379 avg. size  8568 bytes
+   INFO: [mplex] No. B Frames    :        0 avg. size     0 bytes
+   INFO: [mplex] Average bit-rate :  2029600 bits/sec
+   INFO: [mplex] Peak bit-rate    :  3017200  bits/sec
+   INFO: [mplex] BUFFERING min 15 Buf max 221795
+   INFO: [mplex] AUDIO_STATISTICS: c0
+   INFO: [mplex] Audio stream length 108697808 bytes.
+   INFO: [mplex] Syncwords      :   260068
+   INFO: [mplex] Frames         :    10616 padded
+   INFO: [mplex] Frames         :   249452 unpadded
+   INFO: [mplex] BUFFERING min 15 Buf max 432
+   INFO: [mplex] MUX STATUS: no under-runs detected.
+   INFO: [chapters] 1-21 TIME=0,13.360,232.120,484.520,641.280,672.360,774.360,1064.200,1689.200,1811.720,2153.120,2312.040,2727.560,3362.840,3700.560,4133.800,4682.440,5235.320,5612.680,5773.360,6394.720 (from DVD)
+++ WARN: [vcdxbuild] initializing libvcd 0.7.14 [linux/i686]
+++ WARN: [vcdxbuild]  
+++ WARN: [vcdxbuild]  this is the UNSTABLE development branch!
+++ WARN: [vcdxbuild]  use only if you know what you are doing
+++ WARN: [vcdxbuild]  see http://www.hvrlab.org/~hvr/vcdimager/ for more information
+++ WARN: [vcdxbuild]  
+   INFO: [vcdxbuild] scanning mpeg sequence item #0 for scanpoints...
+++ WARN: [vcdxbuild] audio stream #0 is not layer II
+++ WARN: [vcdxbuild] generated image (362099 sectors [80:27.74]) may not fit on 74min CDRs (333000 sectors)
+++ WARN: [vcdxbuild] string 'svcd' fails d-character constraint (pos = 0)
+++ WARN: [vcdxbuild] sequence 'sequence-01' is not reachable by PBC
+   INFO: [vcdxbuild] writing track 1 (ISO9660)...
+   INFO: [vcdxbuild] writing track 2, MPEG2, PAL 2/3 D1 (480x576/25fps), audio[0]: l3/44.1kHz/128kbps/jstereo ...
+   INFO: [vcdxbuild] finished ok, image created with 362099 sectors [80:27.74]
+++ WARN: [vcdxbuild] initializing libvcd 0.7.14 [linux/i686]
+++ WARN: [vcdxbuild]  
+++ WARN: [vcdxbuild]  this is the UNSTABLE development branch!
+++ WARN: [vcdxbuild]  use only if you know what you are doing
+++ WARN: [vcdxbuild]  see http://www.hvrlab.org/~hvr/vcdimager/ for more information
+++ WARN: [vcdxbuild]  
+   INFO: [vcdxbuild] scanning mpeg sequence item #0 for scanpoints...
+++ WARN: [vcdxbuild] audio stream #0 has sampling frequency 0 Hz (should be 44100 Hz)
+++ WARN: [vcdxbuild] audio stream #0 is not layer II
+++ WARN: [vcdxbuild] generated image (362227 sectors [80:29.52]) may not fit on 74min CDRs (333000 sectors)
+++ WARN: [vcdxbuild] string 'svcd' fails d-character constraint (pos = 0)
+++ WARN: [vcdxbuild] sequence 'sequence-01' is not reachable by PBC
+   INFO: [vcdxbuild] writing track 1 (ISO9660)...
+   INFO: [vcdxbuild] writing track 2, MPEG2, PAL 2/3 D1 (480x576/25fps), audio[0]: l1/0.0kHz/96kbps/jstereo ...
+   INFO: [vcdxbuild] finished ok, image created with 362227 sectors [80:29.52]
+++ WARN: [vcdxbuild] initializing libvcd 0.7.14 [linux/i686]
+++ WARN: [vcdxbuild]  
+++ WARN: [vcdxbuild]  this is the UNSTABLE development branch!
+++ WARN: [vcdxbuild]  use only if you know what you are doing
+++ WARN: [vcdxbuild]  see http://www.hvrlab.org/~hvr/vcdimager/ for more information
+++ WARN: [vcdxbuild]  
+   INFO: [vcdxbuild] scanning mpeg sequence item #0 for scanpoints...
+++ WARN: [vcdxbuild] audio stream #0 is not layer II
+++ WARN: [vcdxbuild] string 'svcd' fails d-character constraint (pos = 0)
+++ WARN: [vcdxbuild] sequence 'sequence-01' is not reachable by PBC
+   INFO: [vcdxbuild] writing track 1 (ISO9660)...
+   INFO: [vcdxbuild] writing track 2, MPEG2, PAL 2/3 D1 (480x576/25fps), audio[0]: l3/44.1kHz/128kbps/jstereo ...
+   INFO: [vcdxbuild] finished ok, image created with 80415 sectors [17:52.15]
+   MPEG: VIDEO:  MPEG2  480x576  (aspect 3)  25.000 fps  2500.0 kbps (312.5 kbyte/s)
+   MPEG: AUDIO[0]: MPEG 1.0, Layer III, 44100 Hz 128 kbit Joint-Stereo, BPF: 417
+   MPEG: svcd01.mpg is 840123676 bytes, 801.2 MB
+   MPEG: svcd02.mpg is 840421148 bytes, 801.5 MB
+   MPEG: svcd03.mpg is 185490060 bytes, 176.9 MB
+ JOBEND: svcd [2004-11-28 16:25:13] (2h51m25s)

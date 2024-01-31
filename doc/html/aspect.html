@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Mpeg Aspect Ratio</title>
+</head>
+<body>
+<h2 style="text-align: center;">Aspect ratio for VCD/SVCD/DVD<br>
+</h2>
+There are four aspect ratios defined for the mpeg standard<br>
+<ol>
+  <li>1:1</li>
+  <li>4:3</li>
+  <li>16:9</li>
+  <li>2.21:1<br>
+  </li>
+</ol>
+If you want to create a VCD/SVCD/DVD and the aspect ratio of the
+source video is not one of the four values permitted, you need to
+change the aspect ratio of the source video otherwise the encoded video
+will
+be distorted.<br>
+There are two ways to change the aspect ratio of a movie: pad or
+crop.<br>
+Imagine your source video is 576x288 (aspect ratio 2:1) and you want to
+create a 16/9 NTSC DVD (720x480).<br>
+If you are padding the video you have to add 36 horizontal black
+lines (576x324 aspect 16:9) and scale to 720x480.<br>
+If you are cropping the video you have to cut 64 vertical lines
+(512x288 aspect 16:9) and scale to 720x480.<br>
+If you pad the video, all the original video will be visible on the
+screen, but part of the screen will be black.<br>
+If you crop the video, the complete screen will be used for the video,
+but you will loose the borders of the original video.<br>
+In encode2mpeg add:<br>
+<pre style="margin-left: 40px;">-mpegfixaspect pad<br></pre>
+if you intend to pad the source video, or add<br>
+<pre style="margin-left: 40px;">-mpegfixaspect crop</pre>
+<span style="font-family: monospace;"></span>if you intend to crop the
+source video.<br>
+<h2 style="text-align: center;">Image rotation</h2>
+In order to rotate the image of the final mpeg stream add the option <br>
+<pre>-rotate 0-3<br></pre>
+to the command line. The different values of the argument do the
+following:<br>
+<div style="margin-left: 40px;">0 rotate clockwise and flip<br>
+1 rotate clockwise<br>
+2 rotate counterclockwise<br>
+3 rotate counterclockwise and flip<br>
+</div>
+this option will set automatically <span style="font-weight: bold;">-mpegfixaspect
+pad</span> because the
+aspect
+ratio of a rotated image usually changes (4/3 -&gt; 3/4). You can
+specify crop adding <span style="font-weight: bold;">-mpegfixaspect
+crop</span>. The option -rotate works only in Avi Mode and Mpeg Mode.<br>
+<h2 style="text-align: center;">TV overscan zone</h2>
+On a TV, 5-10% of the edges of the image are not visible. If your movie
+has some items close to the borders (subtitles, etc.), probably you
+will not see them on a TV. The option <br>
+<pre>-overscan n</pre>
+will shrink the
+encoded image of n%. A value between 5 and 10 will let you see on a
+TV the complete video image. This option will set <span
+ style="font-weight: bold;">-mpegfixaspect pad</span>.<br>
+It is also possible the give a negative argument to -overscan. The
+effect is a magnification of the video image (the content close to the
+borders will be removed). In this case the option <span
+ style="font-weight: bold;">-mpegfixaspect crop</span>
+will be set.<br>
+<br>
+<a href="../encode2mpeg.html">Top</a><br>
+</body>
+</html>

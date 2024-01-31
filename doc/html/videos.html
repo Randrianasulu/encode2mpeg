@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>different videos on a single disk</title>
+</head>
+<body>
+<h2 style="text-align: center;">Different source videos on a single
+VCD/SVCD/DVD<br>
+</h2>
+Sometimes you would like to put on a single disk videos from different
+source streams. Since 0.4.1 encode2mpeg support this feature.<br>
+<br>
+For each source stream add the option -video followed by the
+argument(s) necessary to completely identify the video stream. Example:<br>
+<pre>encode2mpeg -o &lt;NAME&gt; &lt;common options&gt; -video video1.avi -video video2.ogm -ss 60 -frames 2500 -video dvd://1 -chapter 3-4</pre>
+encode2mpeg will create a mpeg for each source video and then the
+binary image or the DVD filesystem. There will be as many chapters as
+the number of source videos. The DVD created in this way is
+single-title multi-chapters (for a multi-title DVD see <a
+ href="menu.html">here</a>). The
+VCD/SVCD is multi-tracks (with the disadvantage
+that it does not play seamless between tracks). Since 0.5.5 it is
+possible to make a single-track
+multi-entry-points VCD/SVCD, but with the following limitations: only
+single audio streams without subtitles are permitted (therefore this
+limitations apply only to SVCD). In order to use this feature, add the
+option <span style="font-family: monospace;">-addchapter&nbsp;copy</span>
+to your command line before the first <span
+ style="font-family: monospace;">-video</span> option. In case you use
+the option <span style="font-family: monospace;">-stdvid</span>, the
+option <span style="font-family: monospace;">-addchapter&nbsp;copy</span>
+is automatically enabled; in order to disable it (and make multi-tracks
+VCD/SVCD) add the option <span style="font-family: monospace;">-nochapter</span>
+after the option <span style="font-family: monospace;">-stdvid</span>.<br>
+<br>
+If you have many source videos (10, 20, 50 or even more), you can
+use an alternate syntax:<br>
+<pre>encode2mpeg -o &lt;NAME&gt; &lt;common options&gt; -videos video1.avi video2.ogm movie*.mpg</pre>
+The source videos must be present on the disk and each video will be
+fully converted (it is not possible to select a part of the video with
+-ss, -frames, -endpos etc.).<br>
+<br>
+<a href="../encode2mpeg.html">Top</a><br>
+<br>
+</body>
+</html>

@@ -1,0 +1,113 @@
+#!/bin/sh
+
+# installation script for encode2mpeg
+# v. 1.0   2005-06-25   Giacomo Comes
+# v. 1.0.1 2005-07-06   check for the variable BROWSER
+# v. 1.1   2005-09-16   generic bourne script, search for bash in the PATH
+# v. 1.2   2006-01-04   added --tools
+# v. 1.2.1 2007-03-03   
+
+
+DIR=/usr/local
+SH=
+TOOLS=
+
+if [ ! -f /bin/bash ]; then
+    if bash -c '' ; then
+        SH=$(bash -c 'type -p bash')
+    else
+        echo "WARNING: encode2mpeg requires bash, but it seems that bash is not installed on this system"
+    fi
+fi
+
+[ "$1" = "--tools" ] && TOOLS=1 && shift
+case "$1" in
+    --prefix=*)
+        DIR=$(echo "$1" | sed 's/^--prefix=//')
+        if [ -n "$2" ]; then
+            if [ "$2" = "--tools" ]; then
+                TOOLS=1
+            else
+                echo "**ERROR [install] unknown option $2, aborting"
+                ${0} --help
+                exit
+            fi
+        fi
+        ;;
+    --prefix)
+        [ -n "$2" ] && DIR=$2 && [ "$3" = "--tools" ] && TOOLS=1
+        ;;
+    --help|-help|-h)
+        echo "Installation script for encode2mpeg."
+        echo
+        echo "Usage: ${0} [--prefix=PREFIX] [--tools]"
+        echo
+        echo "By default, '$0' will install all the files in"
+        echo "'$DIR/bin', '$DIR/share/doc' etc.  You can specify"
+        echo "an installation prefix other than '$DIR' using '--prefix',"
+        echo "for example '--prefix=\$HOME'."
+        echo "Add the option --tools in order to install also the programs"
+        echo "present in the TOOLS directory"
+        echo
+        echo "If you set the variable BROWSER during the installation process,"
+        echo "encode2mpeg will use his value as default browser"
+        exit
+        ;;
+    '')
+        :
+        ;;
+    *)
+        echo "**ERROR [install] unknown option $1, aborting"
+        ${0} --help
+        exit
+        ;;
+esac
+
+newversion=$(awk '$2=="Version:"{print $3;exit}' encode2mpeg)
+if [ -f "$DIR/bin/encode2mpeg" ]; then
+    oldversion=$(awk '$2=="Version:"{print $3;exit}' "$DIR/bin/encode2mpeg")
+    [ "$newversion" != "$oldversion" ] && oldversion=" [replacing $oldversion]" || oldversion=
+else
+    oldversion=
+fi
+[ -n "$TOOLS" ] && TOOLS="(+TOOLS) "
+echo
+echo "Installation of encode2mpeg $TOOLS$newversion in $DIR$oldversion"
+echo
+
+for a in bin share/doc ; do
+    [ -d "$DIR/$a" ] || mkdir -p "$DIR/$a"
+done
+
+[ ! -w "$DIR/bin" ] && echo "**ERROR [install] you do not have write permission in $DIR/bin" && exit 1
+
+
+echo "Installing...   "
+[ -n "$SH" ] && echo "   INFO: [install] bash shell found in '$SH'"
+LISTBIN="encode2mpeg mountdvdraid"
+LISTTOOLS="mfcmdline qtsub2srt"
+for a in $LISTBIN $LISTTOOLS ; do
+    [ -f "$DIR/bin/$a" ] && rm -f "$DIR/bin/$a"
+done
+[ -n "$TOOLS" ] && TOOLS="$LISTTOOLS"
+for a in $LISTBIN $TOOLS ; do
+    [ -f TOOLS/$a ] && prefix="TOOLS" || prefix="."
+    if [ "$a" = encode2mpeg -a -n "$BROWSER" ]; then
+        sed 's/^BROWSER=$/&'$BROWSER'/' $a >"$DIR/bin/$a" && echo "   INFO: [install] setting $BROWSER as default browser"
+    else
+        cp $prefix/$a "$DIR/bin"
+    fi
+    if [ -n "$SH" ]; then
+        echo "#!$SH" >"$DIR/bin/$a".tmp && tail +2 "$DIR/bin/$a" >>"$DIR/bin/$a".tmp && mv "$DIR/bin/$a".tmp "$DIR/bin/$a"
+    fi
+    if [ ! -f "$DIR/bin/$a" ]; then
+        echo "**ERROR: [install] unable to install binary '$a'"
+    else
+        touch -r $prefix/$a "$DIR/bin/$a" && chmod 0755 "$DIR/bin/$a"
+    fi
+done
+DOC="$DIR/share/doc/encode2mpeg"
+[ -d "$DOC" ] && chmod -R u+w "$DOC" && rm -rf "$DOC"
+cp -rp doc "$DOC" || echo "**ERROR: [install] unable to install the documentation in '$DOC'"
+
+echo Done

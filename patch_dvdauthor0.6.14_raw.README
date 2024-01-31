@@ -1,0 +1,21 @@
+Changes/features that the patch introduces:
+
+spuunmux:
+    1) svcd subtitle demuxing
+    2) raw subtitle extraction (option -r)
+    3) access to the control sequences using the offset, allowing parsing of
+         subtitles with more than 2 control sequences (if such subtitles exist)
+    4) if cmd: changing color/contrast is detected tell the user to contact the mailing list
+    5) resize of subtitles to full NTSC size [720x480] (option -n)
+    6) pseudo resize of subtitles in raw mode (options -r -f or -r -n, see README.rawsubtitles)
+
+spumux:
+    7) multiplexing of raw subtitles (option -r)
+    8) do not force a Stop Display command if the End attribute is missing (option -d)
+         (in my opinion this should be the default behavior, but I have added this
+         option in order to keep backward compatibility)
+
+Instructions on how to use raw subtitle extraction are included in the patch itself
+(file README.rawsubtitles)
+
+To contact me write to encode2mpeg at users.sourceforge.net

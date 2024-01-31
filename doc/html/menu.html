@@ -1,0 +1,290 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Menu</title>
+</head>
+<body>
+<h2 style="text-align: center;">Menu for VCD/SVCD/DVD<br>
+</h2>
+In order to add a menu just add the option <span
+ style="font-family: monospace;">-menu</span>. It is possible to use
+more menu specific options, but the defaults should be good
+enough.<br>
+<h3>DVD<br>
+</h3>
+There can be up to four different menu pages on a DVD<br>
+<ul>
+  <li><a href="../images/menu01.jpg">Root Menu</a></li>
+  <ul>
+    <li>From the Root Menu you can start the movie playback or select
+other submenues<br>
+    </li>
+  </ul>
+  <li><a href="../images/menu02.jpg">Chapter Menu</a></li>
+  <ul>
+    <li>This menu is available if you use the option -addchapter (but
+it is possible to have chapters and not to have a chapter menu, see
+-menuopts later)</li>
+    <li>From a set of thumbnails you can jump to a specific chapter
+in the movie<br>
+    </li>
+    <li>The thumbnails can be static images or <a
+ href="../movie/menu.avi">animations</a>
+(see
+-menuopts later)<br>
+    </li>
+    <li>You can put text under each thumbnail with the option <span
+ style="font-family: monospace;">-menuchaptertext</span></li>
+  </ul>
+  <li><a href="../images/menu03.jpg">Audio Menu</a></li>
+  <ul>
+    <li>This menu is available if you use the option -multiaudio</li>
+    <li>You can specify the text displayed for each audio channel
+(see -dvdaudiolang and <span style="font-family: monospace;">-menuaudiotext</span>
+options)<br>
+    </li>
+  </ul>
+  <li><a href="../images/menu04.jpg">Subtitle Menu</a></li>
+  <ul>
+    <li>This menu is available if you use the option -addsub or -txtsub<br>
+    </li>
+    <li>You can specify the text displayed for each subtitle (see
+-addsla, -txtsubopts
+and <span style="font-family: monospace;">-menusubtext</span> options)</li>
+  </ul>
+</ul>
+&nbsp;A multi-title DVD contains an additional menu: the Title Menu.
+From this
+menu you can navigate through the DVD titles. It is also possible to
+have a DVD with an extra menu containing picture galleries and/or
+slideshow. How to make a multi-title
+DVD and how to add the extra menu is described below.
+<h3>VCD/SVCD</h3>
+A CD menu looks very similar to a DVD menu. The bigger difference is
+that on
+a CD the Audio Menu and Subtitle Menu are not interactive: they only
+show you what kind of audio and subtitle tracks are present on the CD,
+but you cannot select the track from the menu.<br>
+<h3>Options</h3>
+You can specify a background image for the menu with:<br>
+<pre>-menubg image.jpg<br></pre>
+If&nbsp; you do not use the option -menubg, a default background is
+automatically created.<br>
+It is possible to specify a thumbnail in the Root Menu with:<br>
+<pre>-menuvtsbg pic.jpg<br></pre>
+There a four possible kind of thumnails. See -menuadvopts X later.<br>
+<br>
+Is it possible to fine trigger the menu creation with several options.
+Some of them can be selected with:<br>
+<pre>-menuopts I:II:III:IV:V:VI:VII<br></pre>
+I - write the title on the background Main Menu: 1 [write (default)], 0
+[do not write], add 2 to write the title on the titlebar<br>
+II - thumbnails per row in the chapter submenu: 0, 1, 2 (default), 3,
+4, 5 (0 is a special case, it means do not create the chapter submenu
+although the disk contains chapters)<br>
+III - the thumbnails can be: 0 [static images (default)], 1 [animations
+(DVD menu only)]<br>
+IV - number of text lines under the thumbnails: 1, 2 (default), 3, 4<br>
+V - the player will: 0 [show the menu (default)], 1 [play the first
+title]<br>
+VI - with the option -titleset create a <span
+ style="font-family: monospace;">play all</span> button: 0 [no
+(default)], 1 [yes], 2 [yes repeat]<br>
+VII - menu aspect ratio: 0 [4/3], 1 [16/9noletterbox (default)], 2
+[16/9nopanscan]<br>
+<br>
+Other advanced options, more technical and probably not needed by the
+average
+user, can be selected with:<br>
+<pre>-menuadvopts I:II:III:IV:V:VI:VII:VIII:IX:X:XI:XII<br></pre>
+I - select the format used for the creation of the thumbnails: jpg
+[faster but lower quality], png (default), pnm, tga<br>
+&nbsp;&nbsp;&nbsp; For the creations of the thumbnails it is possible
+to take the first frame at the beginning of each chapter, but this can
+result in a dark image due to the fade in. Another option is to scan
+few seconds at the beginning of the chapter and use as thumbnail the
+picture that has the bigger file size. During the scanning process, it
+is
+possible to render all the frames (slower) or only the Intra Keyframes.
+With the option <span style="font-family: monospace;">-menuthumboffset</span>
+you can start the scan at a certain offset instead of the beginning of
+each chapter. <br>
+II - thumbnail selection: 0 [bigger file (default)], 1 [first frame], 2
+[last frame]<br>
+III - thumbnail rendering: 0 [Intra Keyframes (default)], 1 [all frames]<br>
+IV - thumbnail scan time (seconds): 1, 2, 3, 4, 5 (default), 6, 7, 8,
+10, 12, 14, 16, 20, 30<br>
+V - font size of the text under the thumbnails: 1 (smaller, default),
+2, 3, 4, 5 (bigger)<br>
+VI - background style of the text under the thumbnails: 0, 1 (default)<br>
+&nbsp;&nbsp;&nbsp; When the thumbnails are not static images (-menuopts
+::1), it is possible to select how many parts to extract from the
+chapter and how long each part is.<br>
+VII - thumbnail's animation parts (DVD menu only): 1, 2, 3, 4
+(default), 5, 6, 7, 8, 9<br>
+VIII - length (seconds) of each part (DVD menu only): 5, 10, 15
+(default), 20, 25, 30,
+35, 40, 45, 50, 55, 60<br>
+&nbsp;&nbsp;&nbsp; The TV normally cuts the external edges of the
+video. It is
+advisable not to put any text or buttons closed to the borders.<br>
+IX - use TV overscan area for menu: 0 (default), 1<br>
+X - Root Menu thumbnail: 0 [empty image (default)], 1 [menubg
+charcoal], 2 [first chapter thumbnail], 3 [menuvtsbg pic]<br>
+XI - add navigation buttons in the Title Menu (DVD menu only): 1 [with
+more than 4
+titles (default)], 0 [always]<br>
+XII - with the option -title create the DVD filesystem too (DVD menu
+only): 1
+(default), 0<br>
+<br>
+If you want to specify only some suboptions, you do not need to
+specify all the others, just put enough colons to assign the specific
+suboptions. Suppose that you want to specify only the third suboption.
+The following examples are all equivalent:<br>
+<pre>-menuopts ::1<br>-menuopts ::1::<br>-menuopts 1::1<br>-menuopts :2:1:<br></pre>
+<br>
+The options -menuchaptertext, -menuaudiotext, -menusubtext accept a
+variable number of arguments (text strings). If the argument's text
+contains a space you need to enclose the argument in double quotes. If
+you want to omit an argument, you must supply the null string (""). The
+argument -- indicates that the previous one was the last argument for
+that option.
+Example:<br>
+<pre>-menuchaptertext "Start of the video" "" "" End -- source.avi<br></pre>
+In the previous example, the text <span style="font-weight: bold;">Start
+of the video</span> will be placed under the first thumbnail. The
+second and third thumbnail will not have any text, the fourth thumbnail
+will show the text <span style="font-weight: bold;">End</span>. If
+there are more thumbnails no text will be added to them.<br>
+If you have many chapters, you may need to type a lot of
+text as arguments of -menuchaptertext making the command line
+ugly. In order to avoid it, the options -menuchaptertext,
+-menuaudiotext,
+-menusubtext can be followed by -readfile &lt;filename&gt;. In this
+case each line of the file &lt;filename&gt; will be used as argument of
+the option.<br>
+<br>
+The format of the argument of the option -menuthumboffset is:
+offset1,offset2,... If an offset is repeated several times you can
+specify it only the first time. Examples:<br>
+<span style="font-family: monospace;">-menuthumboffset 10,20,,,15,,</span>
+is the same as <span style="font-family: monospace;">-menuthumboffset
+10,20,20,20,15,15,15,0,0...</span><br>
+<span style="font-family: monospace;">-menuthumboffset ,,1:00,,15</span>
+is the same as <span style="font-family: monospace;">-menuthumboffset
+0,0,1:00,1:00,15,0,0...</span><br>
+The option <span style="font-family: monospace;">-menuthumboffset</span>
+only works with static (not animated) chapter submenu and with DVD menu
+(not VCD/SVCD).<br>
+<h3>Suggestions</h3>
+During the creation of a menu, it is better to check the final result
+before you burn the disk. Here is my recommended way to proceed (the
+example refers to a DVD, but it applies to VCD/SVCD as well).<br>
+Create your DVD without menu:<br>
+<pre>encode2mpeg -o mydvd -dvd &lt;options&gt; -imageonly<br></pre>
+Check (for example with xine) that the mpegs are fine (chapters, audio
+channels, subtitles etc.). If everything is ok, add the menu:<br>
+<pre>encode2mpeg -o mydvd -dvd &lt;options&gt; -imageonly -resume clear img -menu<br></pre>
+Is is important to add the option <span style="font-weight: bold;">-resume
+clear img</span>. If you do not add the option -resume, encode2mpeg
+will restart the process from the beginning recreating again the mpeg
+stream. If you only add the option
+-resume without arguments, nothing will be done because the mpeg stream
+and the DVD filesystem have been already created.<br>
+Check now the default menu in the dvd image. If it is ok, you can
+burn the DVD, otherwise runs the previous command with different menu
+options:<br>
+<pre>encode2mpeg -o mydvd -dvd &lt;options&gt; -imageonly -resume clear img -menu -menuopts ::1 -menubg mypic.jpg</pre>
+You can iterate the previous step until you are satisfied with the
+menu. When everything is fine, you can burn the DVD:<br>
+<pre>encode2mpeg -o mydvd -dvd &lt;options&gt;            -resume           -menu -menuopts ::1 -menubg mypic.jpg</pre>
+<h3>Bugs</h3>
+I have noticed that during the creation of the animated thumbnails,
+ImageMagick sometime fails during the rendering of some frames. The
+errors are random: different runs will show errors during the rendering
+of different frames and from different points in the program. I have
+not figured out why ImageMagick fails, but if you see these
+messages in the log file:<br>
+<pre>**ERROR: failure during menu creation (FUNCTION: menu_draw_text LINE: nnnn)<br>**ERROR: failure during menu creation (FUNCTION: menu_draw_rect LINE: mmmm)<br>**ERROR: failure during menu creation (FUNCTION: menu_make_vts_chapter LINE: oooo)<br></pre>
+or similar ones, then it is an ImageMagick problem. I have
+implemented a workaround that should be able to take care of these
+errors. To enable the workaround add the option -menufix. If an error
+occurs and -menufix is able to recover it, you will see in the log file:<br>
+<pre>++ WARN: [menufix] menu_runfunc_pic: success at line nnnn after m try<br>++ WARN: [menufix] menu_runfunc_pic: function &lt;name&gt; line nnnn: saved backup pic after m try<br></pre>
+If -menufix is not able to recover it, the message will be:<br>
+<pre>**ERROR: [menufix] menu_runfunc_pic: too many failures for function &lt;name&gt; line nnnn<br>**ERROR: [menufix] menu_runfunc_pic: source pic for function &lt;name&gt; line nnnn already corrupted<br></pre>
+Keep in mind that if you use -menufix you could still see (although it
+never happen to me) the error message:<br>
+<pre>**ERROR: failure during menu creation (FUNCTION: xxxx LINE: nnnn)</pre>
+because -menufix can only fix errors that happen during the creation of
+the chapter submenu. If you use -menufix and see the previous error,
+consider submit a bugreport.<br>
+<h3>Multi-title DVD</h3>
+In order to put more than one title on a DVD you must follow these
+guidelines:<br>
+<ul>
+  <li>encode separately with menu each single title as usual, but add
+the option
+-title (you may want to use the option <span
+ style="font-family: monospace;">-menuadvopts :::::::::::0</span>)<br>
+  </li>
+</ul>
+<pre style="margin-left: 40px;">encode2mpeg -o title1 -dvd &lt;options for title 1&gt; -imageonly -menu -title<br>encode2mpeg -o title2 -dvd &lt;options for title 2&gt; -imageonly -menu -title<br></pre>
+<ul>
+  <li>put together all the titles with the option -titleset</li>
+  <pre>encode2mpeg -o dvdtitle -titleset title1 title2 -imageonly -n &lt;norm&gt;</pre>
+</ul>
+<ul>
+  <li>alternatively put together all the titles and make a dvd image
+without menu (do not specify a video norm)<br>
+  </li>
+  <pre>encode2mpeg -o dvdtitle -titleset title1 title2 -imageonly</pre>
+</ul>
+<h3>Picture gallery and/or Slideshow</h3>
+The feature explained here allows you to have another menu, <span
+ style="font-weight: bold;">the extra menu</span>, from which you can
+access and watch in sequence e set of pictures one by one (gallery) or
+as a continous video (slideshow). The extra menu is created when you
+use one or more <span style="font-weight: bold;">-menuextra</span>
+option. Also an "extra" button will be available in the root menu that
+allow you to access the extra menu. The option:<br>
+<pre>-menuextra "sequence 1" [@:I] image1 image2 image3 ....<br></pre>
+will create an entry in the extra menu with title <span
+ style="font-weight: bold;">sequence 1</span> that, once selected, will
+show in order all the pictures supplied as argument to the <span
+ style="font-family: monospace;">-menuextra</span> option. The images
+can be in any format and any resolution. If no suboption or the
+suboption @:1 is given, the images will be scaled to DVD resolution and
+black borders will eventually be added in order to preserve their
+aspect ratio. If the suboption @:0 is given, the images will be scaled
+to fit the screen. Instead of image1 image2 ... you can use -readfile
+&lt;file&gt; with &lt;file&gt; containing in each line the name of the
+images arguments of -menuextra. The option:<br>
+<pre>-menuextra "sequence 2" [@:I:II:III] mf://file*.png</pre>
+will create an entry in the extra menu with title <span
+ style="font-weight: bold;">sequence 2</span> that, once selected, will
+show a video made with all the pictures supplied with the mf://
+argument. The images of the mf:// argument must be of the same
+supported format, <a href="images.html">JPG PNG TGA SGI</a>, and must
+have the same resolution.<span style="font-family: monospace;"></span>
+The suboptions can be:<br>
+I - 1[ keep aspect ratio (default)] 0 [fit the screen]<br>
+II - n [number of seconds each image is showen in the video (default 4
+seconds)]<br>
+III - video codec MPlayer must use to decode the images. Use <span
+ style="font-weight: bold;">ijpg</span> if you have troubles with big
+or portrait jpeg pictures.<br>
+The option:<br>
+<pre>-menuextra "sequence 3" video.mpg</pre>
+will create an entry in the extra menu with title <span
+ style="font-weight: bold;">sequence 3</span> that, once selected, will
+show the video supplied as argument. Such video must already be in a
+valid dvd format.<br>
+<br>
+<a href="../encode2mpeg.html">Top</a><br>
+<br>
+</body>
+</html>
