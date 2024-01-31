@@ -7395,10 +7395,10 @@ if status_bit mpa ; then
                                     esac
                                     ;;
                             esac
-                            for ((n=0;n<${mpegchannels:-2};n++)) ; do
-                                mplayer "$output".wav $SRATE ${mpegchannels:+-channels $mpegchannels} -af channels=1:1:$n:0 -nocache \
-                                  -ao pcm:nowaveheader:fast:file=%$((${#output}+5+${#CHANLIST[n]}))%"$output"_${CHANLIST[n]}.pcm
-                            done
+#                            for ((n=0;n<${mpegchannels:-2};n++)) ; do
+#                                mplayer "$output".wav $SRATE ${mpegchannels:+-channels $mpegchannels} -af channels=1:1:$n:0 -nocache \
+#                                  -ao pcm:nowaveheader:fast:file=%$((${#output}+5+${#CHANLIST[n]}))%"$output"_${CHANLIST[n]}.pcm
+#                            done
                         fi
                         case ${mpegchannels:-2} in
                             6)  CHANLIST=(l r ls rs c lfe) ; CHANSWAP=(l r lfe ls c rs) ; chconf="-L" ;;
@@ -7429,7 +7429,8 @@ if status_bit mpa ; then
                                 ;;
                         esac
                         swap_pcm_channels
-                        pcm2aiff "$output" -c$((${mpegchannels:-2}-1)) -r$((asr/4000%5-1)) # 32000=2,44100=0,48000=1
+###                        pcm2aiff "$output" -c$((${mpegchannels:-2}-1)) -r$((asr/4000%5-1)) # 32000=2,44100=0,48000=1
+			sox "$output".wav -c$((${mpegchannels:-2})) -b 16 -r"$asr" -e signed  "$output".aiff
                         unset_clean_pcm
                         CLEAN[${#CLEAN[*]}]="$output".aiff
                         [[ $mp2 = musicin ]] && set_mpegtables musicin tablesmc
