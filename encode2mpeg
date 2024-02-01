@@ -7433,12 +7433,12 @@ if status_bit mpa ; then
 #			sox "$output".wav -c$((${mpegchannels:-2})) -b 16 -r"$asr" -e signed  "$output".aiff
 			
 			FULLSOXLINE=""
-			SOXPARAMS=" -L -b 16 -e signed -c 1 -r 441000 -t raw "
+			SOXPARAMS=" -L -b 16 -e signed -c 1 -r 44100 -t raw "
 			for ((n=0;n<${mpegchannels:-2};n++)) ; do
                                   FULLSOXLINE+="$SOXPARAMS""$output"_${CHANLIST[n]}.pcm
                             done
-			echo ${FULLSOXLINE}
-			sox -m ${FULLSOXLINE} -c$((${mpegchannels:-2})) -b 16 -r"$asr" -e signed  "$output".aiff
+#			echo ${FULLSOXLINE}
+			sox  ${FULLSOXLINE} -c$((${mpegchannels:-2})) -b 16 -r"$asr" -e signed -M  "$output".aiff
                         unset_clean_pcm
                         CLEAN[${#CLEAN[*]}]="$output".aiff
                         [[ $mp2 = musicin ]] && set_mpegtables musicin tablesmc
