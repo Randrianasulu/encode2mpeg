@@ -6131,7 +6131,7 @@ fi
 ###############################################################################
 #### warn for old/svn version
 ###############################################################################
-WTEXT="you need MPlayer 1.0rc1 or a later stable relase, $PROGNAME can fail\\nPress return to proceed"
+WTEXT="you need MPlayer 1.0rc1 or a later stable release, $PROGNAME can fail\\nPress return to proceed"
 if [[ ${mver:0:5} = 1.0rc ]] ; then
     [[ ${mver:5:1} -ge 1 ]] || ! echo -en "WARNING $WTEXT" || read
 else
